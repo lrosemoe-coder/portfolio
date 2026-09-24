@@ -146,7 +146,7 @@
 .data-science .plant {
   width: 330px;
   --x: 0px;
-  --y: 0px;
+  --y: -50px;
 }
 
 /* RESEARCH */
@@ -212,9 +212,14 @@
        HOVER EFFECT
        ========================= */
 
-    .category:hover .plant {
-      transform: translateY(-12px) scale(1.07);
-    }
+  .category:hover .plant {
+  transform:
+    translate(
+      var(--x),
+      calc(var(--y) - 12px)
+    )
+    scale(1.07);
+}
 
     .category:hover .label {
       transform: translateY(-3px);
@@ -225,9 +230,14 @@
        CLICK EFFECT
        ========================= */
 
-    .category:active .plant {
-      transform: translateY(-6px) scale(1.03);
-    }
+.category:active .plant {
+  transform:
+    translate(
+      var(--x),
+      calc(var(--y) - 6px)
+    )
+    scale(1.03);
+}
 
 
     /* =========================
