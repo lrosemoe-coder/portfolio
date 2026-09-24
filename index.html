@@ -76,25 +76,20 @@
        MAIN HOMEPAGE
        ========================================= */
 
+
     .homepage {
-      width: 100%;
-      height: 100vh;
+  width: 100%;
+  height: 100vh;
 
-      display: flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-      align-items: center;
-      justify-content: center;
+  padding: 20px 3vw 80px;
 
-      /*
-        Extra padding on the bottom nudges the
-        entire composition slightly upward.
-      */
-
-      padding:
-        20px
-        3vw
-        80px;
-    }
+  /* moves the entire collection upward */
+  transform: translateY(-45px);
+}
 
 
 
@@ -345,32 +340,34 @@
 
 
 
-    /* =========================================
-       HOVER — ORGANIC SEAWEED MOVEMENT
-       ========================================= */
+/* =========================================
+   HOVER — ORGANIC SEAWEED MOVEMENT
+   ========================================= */
 
-    .category:hover .plant {
+.category:hover .plant,
+.plant-container:hover .plant {
 
-      transform:
+  transform:
+    translate(
+      var(--x, 0px),
+      calc(var(--y, 0px) - 22px)
+    )
 
-        translate(
-          var(--x, 0px),
-          calc(
-            var(--y, 0px) - 22px
-          )
-        )
+    scale(
+      calc(var(--scale, 1) * 1.08)
+    )
 
-        scale(
-          calc(
-            var(--scale, 1) * 1.08
-          )
-        )
+    rotate(
+      var(--tilt, 0deg)
+    );
+}
 
-        rotate(
-          var(--tilt, 0deg)
-        );
-    }
 
+/* move label when hovering anywhere over category */
+
+.category:hover .label {
+  transform: translateY(-5px);
+}
 
 
     /* LABEL MOVES SLIGHTLY TOO */
