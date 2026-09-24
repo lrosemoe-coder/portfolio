@@ -95,7 +95,7 @@
 
         float distanceFromMouse = length(delta);
 
-        float radius = 0.22;
+        float radius = 0.32;
 
         float influence =
           smoothstep(radius, 0.0, distanceFromMouse);
@@ -125,7 +125,7 @@
         /* subtle RGB separation */
 
         float separation =
-          influence * abs(u_strength) * 0.0025;
+          influence * abs(u_strength) * 0.008;
 
         vec4 red =
           texture2D(
@@ -469,8 +469,8 @@
 
         targetStrength =
           Math.min(
-            speed * 35,
-            2.5
+            speed * 90,
+            6.5
           );
 
 
