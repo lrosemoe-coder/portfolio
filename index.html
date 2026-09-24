@@ -2,15 +2,21 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Linnea RM</title>
+
 
   <style>
 
     /* =========================================
-       PAGE
+       PAGE SETUP
        ========================================= */
 
     * {
@@ -21,6 +27,7 @@
     body {
       margin: 0;
       padding: 0;
+
       width: 100%;
       min-height: 100%;
     }
@@ -28,8 +35,10 @@
     body {
       background-color: #0757e8;
       color: white;
+
       overflow-x: hidden;
     }
+
 
 
     /* =========================================
@@ -38,37 +47,55 @@
 
     .name {
       position: absolute;
+
       top: 20px;
       left: 45px;
 
       margin: 0;
 
-      font-family: Impact, "Arial Narrow", sans-serif;
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
       font-size: 38px;
       font-weight: 500;
+
       letter-spacing: 2px;
 
       color: white;
+
       text-transform: uppercase;
 
       z-index: 10;
     }
 
 
+
     /* =========================================
-       HOMEPAGE
+       MAIN HOMEPAGE
        ========================================= */
 
     .homepage {
       width: 100%;
-      min-height: 100vh;
+      height: 100vh;
 
       display: flex;
+
       align-items: center;
       justify-content: center;
 
-      padding: 85px 3vw 45px;
+      /*
+        Extra padding on the bottom nudges the
+        entire composition slightly upward.
+      */
+
+      padding:
+        20px
+        3vw
+        80px;
     }
+
 
 
     /* =========================================
@@ -95,23 +122,28 @@
     }
 
 
+
     /* =========================================
        INDIVIDUAL CATEGORY
        ========================================= */
 
     .category {
       display: flex;
+
       flex-direction: column;
+
       align-items: center;
       justify-content: flex-end;
 
       min-width: 0;
 
       color: white;
+
       text-decoration: none;
 
       cursor: pointer;
     }
+
 
 
     /* =========================================
@@ -120,12 +152,15 @@
 
     .plant-container {
       width: 100%;
+
       height: 62vh;
 
       display: flex;
+
       justify-content: center;
       align-items: flex-end;
     }
+
 
 
     /* =========================================
@@ -140,18 +175,34 @@
 
       object-fit: contain;
 
+      /*
+        These variables allow every seaweed
+        to have its own size and position.
+      */
+
       transform:
         translate(
           var(--x, 0px),
           var(--y, 0px)
         )
-        scale(var(--scale, 1));
+        scale(var(--scale, 1))
+        rotate(0deg);
+
+      /*
+        Makes the plant feel like it is
+        growing/swaying from its base.
+      */
 
       transform-origin: bottom center;
 
       transition:
-        transform 0.4s cubic-bezier(.2, .8, .2, 1);
+        transform
+        0.55s
+        cubic-bezier(.2, .8, .2, 1);
+
+      will-change: transform;
     }
+
 
 
     /* =========================================
@@ -159,70 +210,100 @@
        ========================================= */
 
 
-    /* DATA SCIENCE */
+    /* DATA ANALYTICS */
 
     .data-science .plant {
+
       width: 100%;
 
-      --scale: 1.08;
+      --scale: 1.03;
+
       --x: 0px;
       --y: 0px;
+
+      --tilt: -2deg;
     }
+
 
 
     /* RESEARCH */
 
     .research .plant {
+
       width: 100%;
 
-      --scale: 1.05;
+      --scale: 1.00;
+
       --x: 0px;
       --y: 0px;
+
+      --tilt: 1.5deg;
     }
+
 
 
     /* FILM / PHOTO */
 
     .film-photo .plant {
+
       width: 100%;
 
-      --scale: 1.12;
+      --scale: 1.07;
+
       --x: 0px;
       --y: 0px;
+
+      --tilt: -1.5deg;
     }
+
 
 
     /* PRODUCT DESIGN */
 
     .product-design .plant {
+
       width: 100%;
 
-      --scale: 1.07;
+      --scale: 1.02;
+
       --x: 0px;
       --y: 0px;
+
+      --tilt: 1.5deg;
     }
+
 
 
     /* FASHION */
 
     .fashion .plant {
+
       width: 100%;
 
-      --scale: 1.08;
+      --scale: 1.03;
+
       --x: 0px;
       --y: 0px;
+
+      --tilt: -1.5deg;
     }
+
 
 
     /* ART */
 
     .art .plant {
+
       width: 100%;
 
-      --scale: 1.05;
+      --scale: 1.00;
+
       --x: 0px;
       --y: 0px;
+
+      --tilt: 2deg;
     }
+
 
 
     /* =========================================
@@ -236,9 +317,17 @@
 
       text-align: center;
 
-      font-family: Georgia, "Times New Roman", serif;
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
 
-      font-size: clamp(19px, 1.65vw, 31px);
+      font-size:
+        clamp(
+          19px,
+          1.65vw,
+          31px
+        );
 
       font-weight: 400;
 
@@ -248,27 +337,50 @@
 
       white-space: nowrap;
 
-      transition: transform 0.35s ease;
+      transition:
+        transform
+        0.4s
+        ease;
     }
+
 
 
     /* =========================================
-       HOVER
+       HOVER — ORGANIC SEAWEED MOVEMENT
        ========================================= */
 
     .category:hover .plant {
+
       transform:
+
         translate(
           var(--x, 0px),
-          calc(var(--y, 0px) - 14px)
+          calc(
+            var(--y, 0px) - 22px
+          )
         )
-        scale(calc(var(--scale, 1) * 1.05));
+
+        scale(
+          calc(
+            var(--scale, 1) * 1.08
+          )
+        )
+
+        rotate(
+          var(--tilt, 0deg)
+        );
     }
 
+
+
+    /* LABEL MOVES SLIGHTLY TOO */
 
     .category:hover .label {
-      transform: translateY(-3px);
+
+      transform:
+        translateY(-5px);
     }
+
 
 
     /* =========================================
@@ -276,13 +388,29 @@
        ========================================= */
 
     .category:active .plant {
+
       transform:
+
         translate(
           var(--x, 0px),
-          calc(var(--y, 0px) - 6px)
+          calc(
+            var(--y, 0px) - 10px
+          )
         )
-        scale(calc(var(--scale, 1) * 1.02));
+
+        scale(
+          calc(
+            var(--scale, 1) * 1.04
+          )
+        )
+
+        rotate(
+          calc(
+            var(--tilt, 0deg) * 0.5
+          )
+        );
     }
+
 
 
     /* =========================================
@@ -292,26 +420,43 @@
     @media (max-width: 1000px) {
 
       .homepage {
-        padding: 110px 45px 70px;
+
+        height: auto;
+
+        min-height: 100vh;
+
+        padding:
+          110px
+          45px
+          70px;
       }
 
+
       .categories {
-        grid-template-columns: repeat(2, 1fr);
+
+        grid-template-columns:
+          repeat(2, 1fr);
 
         column-gap: 50px;
         row-gap: 80px;
       }
 
+
       .plant-container {
+
         height: 45vh;
+
         min-height: 300px;
       }
 
+
       .label {
+
         font-size: 26px;
       }
 
     }
+
 
 
     /* =========================================
@@ -321,69 +466,98 @@
     @media (max-width: 600px) {
 
       .name {
+
         top: 20px;
         left: 25px;
 
         font-size: 28px;
       }
 
+
       .homepage {
-        padding: 100px 35px 60px;
+
+        height: auto;
+
+        padding:
+          100px
+          35px
+          60px;
       }
 
+
       .categories {
+
         grid-template-columns: 1fr;
 
         row-gap: 80px;
       }
 
+
       .plant-container {
+
         height: 55vh;
+
         min-height: 320px;
       }
 
+
       .label {
+
         font-size: 27px;
       }
 
     }
 
+
   </style>
+
 </head>
+
 
 
 <body>
 
 
-  <!-- NAME -->
+  <!-- =======================================
+       NAME
+       ======================================= -->
 
   <h1 class="name">
     LINNEA RM
   </h1>
 
 
-  <!-- HOMEPAGE -->
+
+  <!-- =======================================
+       HOMEPAGE
+       ======================================= -->
 
   <main class="homepage">
+
 
     <div class="categories">
 
 
-      <!-- DATA SCIENCE -->
 
-      <a href="#" class="category data-science">
+      <!-- DATA ANALYTICS -->
+
+      <a
+        href="#"
+        class="category data-science"
+      >
 
         <div class="plant-container">
 
           <img
             src="data-science.png"
             class="plant"
-            alt="Data Science">
+            alt="Data Analytics"
+          >
 
         </div>
 
         <div class="label">
-          data science
+          data analytics
         </div>
 
       </a>
@@ -392,14 +566,18 @@
 
       <!-- RESEARCH -->
 
-      <a href="#" class="category research">
+      <a
+        href="#"
+        class="category research"
+      >
 
         <div class="plant-container">
 
           <img
             src="research.png"
             class="plant"
-            alt="Research">
+            alt="Research"
+          >
 
         </div>
 
@@ -413,14 +591,18 @@
 
       <!-- FILM / PHOTO -->
 
-      <a href="#" class="category film-photo">
+      <a
+        href="#"
+        class="category film-photo"
+      >
 
         <div class="plant-container">
 
           <img
             src="film-photo.png"
             class="plant"
-            alt="Film and Photo">
+            alt="Film and Photo"
+          >
 
         </div>
 
@@ -434,14 +616,18 @@
 
       <!-- PRODUCT DESIGN -->
 
-      <a href="#" class="category product-design">
+      <a
+        href="#"
+        class="category product-design"
+      >
 
         <div class="plant-container">
 
           <img
             src="product-design.png"
             class="plant"
-            alt="Product Design">
+            alt="Product Design"
+          >
 
         </div>
 
@@ -455,14 +641,18 @@
 
       <!-- FASHION -->
 
-      <a href="#" class="category fashion">
+      <a
+        href="#"
+        class="category fashion"
+      >
 
         <div class="plant-container">
 
           <img
             src="fashion.png"
             class="plant"
-            alt="Fashion">
+            alt="Fashion"
+          >
 
         </div>
 
@@ -476,14 +666,18 @@
 
       <!-- ART -->
 
-      <a href="#" class="category art">
+      <a
+        href="#"
+        class="category art"
+      >
 
         <div class="plant-container">
 
           <img
             src="art.png"
             class="plant"
-            alt="Art">
+            alt="Art"
+          >
 
         </div>
 
@@ -495,6 +689,7 @@
 
 
     </div>
+
 
   </main>
 
