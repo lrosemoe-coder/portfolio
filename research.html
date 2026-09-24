@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Research — Linnea RM</title>
+
+
+  <style>
+
+    /* =========================================
+       PAGE SETUP
+       ========================================= */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    body {
+      background: #e7e7e7;
+      color: #071a18;
+    }
+
+
+
+    /* =========================================
+       HEADER
+       ========================================= */
+
+    .header {
+      height: 78px;
+
+      display: flex;
+      align-items: center;
+
+      padding: 0 28px;
+
+      background: #e7e7e7;
+    }
+
+
+    .name {
+      margin: 0;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 38px;
+      font-weight: 500;
+
+      letter-spacing: 2px;
+
+      color: #071a18;
+
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+
+
+    /* =========================================
+       HERO
+       ========================================= */
+
+    .hero {
+      position: relative;
+
+      width: calc(100% - 56px);
+      height: 62vh;
+      min-height: 480px;
+
+      margin: 0 28px;
+
+      overflow: hidden;
+
+      background: #071a18;
+    }
+
+
+
+    /* =========================================
+       WEBGL IMAGE
+       ========================================= */
+
+    #twistCanvas {
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      z-index: 1;
+    }
+
+
+
+    /* =========================================
+       RESEARCH TITLE
+       ========================================= */
+
+    .hero-title {
+      position: absolute;
+
+      top: 50%;
+      left: 50%;
+
+      transform: translate(-50%, -50%);
+
+      margin: 0;
+
+      z-index: 2;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: clamp(90px, 14vw, 240px);
+      font-weight: 500;
+
+      line-height: 0.8;
+
+      letter-spacing: 5px;
+
+      color: white;
+
+      text-transform: uppercase;
+
+      pointer-events: none;
+    }
+
+
+
+    /* =========================================
+       CONTENT BELOW HERO
+       ========================================= */
+
+    .research-content {
+      width: 100%;
+
+      padding:
+        120px
+        7vw
+        160px;
+
+      background: #e7e7e7;
+    }
+
+
+    .intro {
+      max-width: 900px;
+
+      margin-bottom: 120px;
+    }
+
+
+    .section-label {
+      margin:
+        0
+        0
+        22px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 18px;
+
+      letter-spacing: 2px;
+
+      text-transform: uppercase;
+    }
+
+
+    .intro-text {
+      margin: 0;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size:
+        clamp(
+          28px,
+          3.3vw,
+          54px
+        );
+
+      line-height: 1.15;
+      font-weight: 400;
+    }
+
+
+
+    /* =========================================
+       PROJECT
+       ========================================= */
+
+    .project {
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        1fr;
+
+      gap: 70px;
+
+      padding:
+        70px
+        0;
+
+      border-top:
+        1px
+        solid
+        rgba(7, 26, 24, 0.35);
+    }
+
+
+    .project-number {
+      margin:
+        0
+        0
+        20px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 17px;
+
+      letter-spacing: 2px;
+    }
+
+
+    .project-title {
+      margin:
+        0
+        0
+        25px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size:
+        clamp(
+          40px,
+          5vw,
+          78px
+        );
+
+      font-weight: 500;
+
+      line-height: 0.95;
+
+      text-transform: uppercase;
+    }
+
+
+    .project-description {
+      max-width: 650px;
+
+      margin: 0;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 20px;
+
+      line-height: 1.55;
+    }
+
+
+    .project-placeholder {
+      min-height: 430px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border:
+        1px
+        solid
+        rgba(7, 26, 24, 0.35);
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 17px;
+
+      font-style: italic;
+    }
+
+
+
+    /* =========================================
+       MOBILE
+       ========================================= */
+
+    @media (max-width: 800px) {
+
+      .header {
+        height: 68px;
+
+        padding:
+          0
+          18px;
+      }
+
+
+      .name {
+        font-size: 28px;
+      }
+
+
+      .hero {
+        width:
+          calc(
+            100% - 36px
+          );
+
+        height: 55vh;
+        min-height: 400px;
+
+        margin:
+          0
+          18px;
+      }
+
+
+      .hero-title {
+        font-size: 19vw;
+      }
+
+
+      .research-content {
+        padding:
+          80px
+          28px
+          120px;
+      }
+
+
+      .project {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+      }
+
+    }
+
+
+  </style>
+
+</head>
+
+
+
+<body>
+
+
+  <!-- =======================================
+       HEADER
+       ======================================= -->
+
+  <header class="header">
+
+    <a
+      href="index.html"
+      class="name"
+    >
+      LINNEA RM
+    </a>
+
+  </header>
+
+
+
+  <!-- =======================================
+       INTERACTIVE HERO
+       ======================================= -->
+
+  <section class="hero">
+
+    <canvas id="twistCanvas"></canvas>
+
+    <h1 class="hero-title">
+      RESEARCH
+    </h1>
+
+  </section>
+
+
+
+  <!-- =======================================
+       RESEARCH CONTENT
+       ======================================= -->
+
+  <main class="research-content">
+
+
+    <section class="intro">
+
+      <p class="section-label">
+        Research
+      </p>
+
+      <p class="intro-text">
+        Exploring biological systems through
+        fieldwork, experimentation, data, and
+        curiosity.
+      </p>
+
+    </section>
+
+
+
+    <!-- PROJECT 01 -->
+
+    <section class="project">
+
+      <div>
+
+        <p class="project-number">
+          01
+        </p>
+
+        <h2 class="project-title">
+          Marine Fungi
+          & Algal
+          Decomposition
+        </h2>
+
+        <p class="project-description">
+          Research conducted in Mo'orea,
+          French Polynesia examining marine
+          fungi associated with algae and
+          their potential role in
+          decomposition.
+        </p>
+
+      </div>
+
+
+      <div class="project-placeholder">
+        project image / graph / specimen
+      </div>
+
+    </section>
+
+
+
+    <!-- PROJECT 02 -->
+
+    <section class="project">
+
+      <div>
+
+        <p class="project-number">
+          02
+        </p>
+
+        <h2 class="project-title">
+          Next Research
+          Project
+        </h2>
+
+        <p class="project-description">
+          This space can hold another research
+          project, field study, dataset, or
+          scientific exploration.
+        </p>
+
+      </div>
+
+
+      <div class="project-placeholder">
+        project image / graph / specimen
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+
+  <script>
+
+    /* =========================================
+       WEBGL SETUP
+       ========================================= */
+
+    const canvas =
+      document.getElementById("twistCanvas");
+
+    const gl =
+      canvas.getContext("webgl");
+
+
+    if (!gl) {
+
+      alert(
+        "WebGL is not supported in this browser."
+      );
+
+    }
+
+
+
+    /* =========================================
+       SHADERS
+       ========================================= */
+
+    const vertexShaderSource = `
+
+      attribute vec2 a_position;
+      attribute vec2 a_texCoord;
+
+      varying vec2 v_texCoord;
+
+      void main() {
+
+        gl_Position =
+          vec4(
+            a_position,
+            0.0,
+            1.0
+          );
+
+        v_texCoord =
+          a_texCoord;
+
+      }
+
+    `;
+
+
+
+    const fragmentShaderSource = `
+
+      precision mediump float;
+
+      uniform sampler2D u_image;
+
+      uniform vec2 u_mouse;
+
+      uniform float u_strength;
+
+      uniform float u_aspect;
+
+      varying vec2 v_texCoord;
+
+
+      void main() {
+
+        vec2 uv =
+          v_texCoord;
+
+
+        vec2 delta =
+          uv -
+          u_mouse;
+
+
+        delta.x *=
+          u_aspect;
+
+
+        float distanceFromMouse =
+          length(delta);
+
+
+        /*
+          SIZE OF THE SWIRL
+
+          Increase this number if you want
+          the affected area to be larger.
+        */
+
+        float radius =
+          0.32;
+
+
+        float influence =
+          smoothstep(
+            radius,
+            0.0,
+            distanceFromMouse
+          );
+
+
+        float angle =
+          influence *
+          u_strength;
+
+
+        float s =
+          sin(angle);
+
+        float c =
+          cos(angle);
+
+
+        vec2 rotated;
+
+
+        rotated.x =
+          delta.x * c -
+          delta.y * s;
+
+
+        rotated.y =
+          delta.x * s +
+          delta.y * c;
+
+
+        rotated.x /=
+          u_aspect;
+
+
+        vec2 distortedUV =
+          u_mouse +
+          rotated;
+
+
+
+        /*
+          COLOR SEPARATION
+        */
+
+        float separation =
+
+          influence *
+
+          abs(u_strength) *
+
+          0.008;
+
+
+
+        vec4 red =
+
+          texture2D(
+
+            u_image,
+
+            distortedUV +
+
+            vec2(
+              separation,
+              0.0
+            )
+
+          );
+
+
+
+        vec4 green =
+
+          texture2D(
+
+            u_image,
+
+            distortedUV
+
+          );
+
+
+
+        vec4 blue =
+
+          texture2D(
+
+            u_image,
+
+            distortedUV -
+
+            vec2(
+              separation,
+              0.0
+            )
+
+          );
+
+
+
+        gl_FragColor =
+
+          vec4(
+
+            red.r,
+            green.g,
+            blue.b,
+            1.0
+
+          );
+
+      }
+
+    `;
+
+
+
+    /* =========================================
+       CREATE SHADER
+       ========================================= */
+
+    function createShader(
+      type,
+      source
+    ) {
+
+      const shader =
+        gl.createShader(type);
+
+
+      gl.shaderSource(
+        shader,
+        source
+      );
+
+
+      gl.compileShader(
+        shader
+      );
+
+
+      if (
+
+        !gl.getShaderParameter(
+
+          shader,
+
+          gl.COMPILE_STATUS
+
+        )
+
+      ) {
+
+        console.error(
+
+          gl.getShaderInfoLog(
+            shader
+          )
+
+        );
+
+      }
+
+
+      return shader;
+
+    }
+
+
+
+    const vertexShader =
+
+      createShader(
+
+        gl.VERTEX_SHADER,
+
+        vertexShaderSource
+
+      );
+
+
+
+    const fragmentShader =
+
+      createShader(
+
+        gl.FRAGMENT_SHADER,
+
+        fragmentShaderSource
+
+      );
+
+
+
+    /* =========================================
+       PROGRAM
+       ========================================= */
+
+    const program =
+      gl.createProgram();
+
+
+    gl.attachShader(
+      program,
+      vertexShader
+    );
+
+
+    gl.attachShader(
+      program,
+      fragmentShader
+    );
+
+
+    gl.linkProgram(
+      program
+    );
+
+
+    gl.useProgram(
+      program
+    );
+
+
+
+    /* =========================================
+       RECTANGLE
+       ========================================= */
+
+    const positions =
+
+      new Float32Array([
+
+        -1, -1,
+         1, -1,
+        -1,  1,
+
+        -1,  1,
+         1, -1,
+         1,  1
+
+      ]);
+
+
+
+    const texCoords =
+
+      new Float32Array([
+
+        0, 1,
+        1, 1,
+        0, 0,
+
+        0, 0,
+        1, 1,
+        1, 0
+
+      ]);
+
+
+
+    const positionBuffer =
+      gl.createBuffer();
+
+
+    gl.bindBuffer(
+
+      gl.ARRAY_BUFFER,
+
+      positionBuffer
+
+    );
+
+
+    gl.bufferData(
+
+      gl.ARRAY_BUFFER,
+
+      positions,
+
+      gl.STATIC_DRAW
+
+    );
+
+
+
+    const positionLocation =
+
+      gl.getAttribLocation(
+
+        program,
+
+        "a_position"
+
+      );
+
+
+
+    gl.enableVertexAttribArray(
+
+      positionLocation
+
+    );
+
+
+    gl.vertexAttribPointer(
+
+      positionLocation,
+
+      2,
+
+      gl.FLOAT,
+
+      false,
+
+      0,
+
+      0
+
+    );
+
+
+
+    const texCoordBuffer =
+      gl.createBuffer();
+
+
+    gl.bindBuffer(
+
+      gl.ARRAY_BUFFER,
+
+      texCoordBuffer
+
+    );
+
+
+    gl.bufferData(
+
+      gl.ARRAY_BUFFER,
+
+      texCoords,
+
+      gl.STATIC_DRAW
+
+    );
+
+
+
+    const texCoordLocation =
+
+      gl.getAttribLocation(
+
+        program,
+
+        "a_texCoord"
+
+      );
+
+
+
+    gl.enableVertexAttribArray(
+
+      texCoordLocation
+
+    );
+
+
+    gl.vertexAttribPointer(
+
+      texCoordLocation,
+
+      2,
+
+      gl.FLOAT,
+
+      false,
+
+      0,
+
+      0
+
+    );
+
+
+
+    /* =========================================
+       UNIFORMS
+       ========================================= */
+
+    const mouseLocation =
+
+      gl.getUniformLocation(
+
+        program,
+
+        "u_mouse"
+
+      );
+
+
+    const strengthLocation =
+
+      gl.getUniformLocation(
+
+        program,
+
+        "u_strength"
+
+      );
+
+
+    const aspectLocation =
+
+      gl.getUniformLocation(
+
+        program,
+
+        "u_aspect"
+
+      );
+
+
+
+    /* =========================================
+       IMAGE
+       ========================================= */
+
+    const texture =
+      gl.createTexture();
+
+
+    gl.bindTexture(
+
+      gl.TEXTURE_2D,
+
+      texture
+
+    );
+
+
+    gl.texParameteri(
+
+      gl.TEXTURE_2D,
+
+      gl.TEXTURE_WRAP_S,
+
+      gl.CLAMP_TO_EDGE
+
+    );
+
+
+    gl.texParameteri(
+
+      gl.TEXTURE_2D,
+
+      gl.TEXTURE_WRAP_T,
+
+      gl.CLAMP_TO_EDGE
+
+    );
+
+
+    gl.texParameteri(
+
+      gl.TEXTURE_2D,
+
+      gl.TEXTURE_MIN_FILTER,
+
+      gl.LINEAR
+
+    );
+
+
+    gl.texParameteri(
+
+      gl.TEXTURE_2D,
+
+      gl.TEXTURE_MAG_FILTER,
+
+      gl.LINEAR
+
+    );
+
+
+
+    const image =
+      new Image();
+
+
+    /*
+      IMPORTANT:
+      This must match the filename
+      in your GitHub repository EXACTLY.
+    */
+
+    image.src =
+      "./reserach-twist.jpeg";
+
+
+    let imageLoaded =
+      false;
+
+
+
+    image.onload =
+      () => {
+
+
+        gl.bindTexture(
+
+          gl.TEXTURE_2D,
+
+          texture
+
+        );
+
+
+        gl.pixelStorei(
+
+          gl.UNPACK_FLIP_Y_WEBGL,
+
+          false
+
+        );
+
+
+        gl.texImage2D(
+
+          gl.TEXTURE_2D,
+
+          0,
+
+          gl.RGBA,
+
+          gl.RGBA,
+
+          gl.UNSIGNED_BYTE,
+
+          image
+
+        );
+
+
+        imageLoaded =
+          true;
+
+
+        resize();
+
+      };
+
+
+
+    /* =========================================
+       MOUSE + LIQUID MOMENTUM
+       ========================================= */
+
+    let mouseX =
+      0.5;
+
+    let mouseY =
+      0.5;
+
+
+    let targetX =
+      0.5;
+
+    let targetY =
+      0.5;
+
+
+    let previousX =
+      0.5;
+
+    let previousY =
+      0.5;
+
+
+    let strength =
+      0;
+
+    let targetStrength =
+      0;
+
+
+    let inside =
+      false;
+
+
+
+    canvas.addEventListener(
+
+      "mousemove",
+
+      (event) => {
+
+
+        const rect =
+
+          canvas.getBoundingClientRect();
+
+
+
+        targetX =
+
+          (
+            event.clientX -
+            rect.left
+          )
+
+          /
+
+          rect.width;
+
+
+
+        targetY =
+
+          (
+            event.clientY -
+            rect.top
+          )
+
+          /
+
+          rect.height;
+
+
+
+        const dx =
+
+          targetX -
+          previousX;
+
+
+        const dy =
+
+          targetY -
+          previousY;
+
+
+
+        const speed =
+
+          Math.sqrt(
+
+            dx * dx +
+
+            dy * dy
+
+          );
+
+
+
+        /*
+          DRAMATIC SWIRL STRENGTH
+        */
+
+        targetStrength =
+
+          Math.min(
+
+            speed * 90,
+
+            6.0
+
+          );
+
+
+
+        previousX =
+          targetX;
+
+
+        previousY =
+          targetY;
+
+
+        inside =
+          true;
+
+      }
+
+    );
+
+
+
+    canvas.addEventListener(
+
+      "mouseenter",
+
+      () => {
+
+        inside =
+          true;
+
+      }
+
+    );
+
+
+
+    canvas.addEventListener(
+
+      "mouseleave",
+
+      () => {
+
+        inside =
+          false;
+
+      }
+
+    );
+
+
+
+    /* =========================================
+       RESIZE
+       ========================================= */
+
+    function resize() {
+
+
+      const rect =
+
+        canvas.getBoundingClientRect();
+
+
+      const pixelRatio =
+
+        Math.min(
+
+          window.devicePixelRatio,
+
+          2
+
+        );
+
+
+      canvas.width =
+
+        rect.width *
+
+        pixelRatio;
+
+
+      canvas.height =
+
+        rect.height *
+
+        pixelRatio;
+
+
+      gl.viewport(
+
+        0,
+
+        0,
+
+        canvas.width,
+
+        canvas.height
+
+      );
+
+    }
+
+
+
+    window.addEventListener(
+
+      "resize",
+
+      resize
+
+    );
+
+
+
+    /* =========================================
+       ANIMATION
+       ========================================= */
+
+    function animate() {
+
+
+      requestAnimationFrame(
+
+        animate
+
+      );
+
+
+      if (!imageLoaded) {
+
+        return;
+
+      }
+
+
+
+      /*
+        Cursor position follows slightly
+        behind the actual mouse.
+      */
+
+      mouseX +=
+
+        (
+          targetX -
+          mouseX
+        )
+
+        *
+
+        0.065;
+
+
+
+      mouseY +=
+
+        (
+          targetY -
+          mouseY
+        )
+
+        *
+
+        0.065;
+
+
+
+      /*
+        Build distortion smoothly.
+      */
+
+      strength +=
+
+        (
+          targetStrength -
+          strength
+        )
+
+        *
+
+        0.075;
+
+
+
+      /*
+        Slowly lose energy.
+
+        Closer to 1 =
+        longer-lasting movement.
+      */
+
+      targetStrength *=
+        0.965;
+
+
+
+      /*
+        Continue settling after
+        cursor leaves image.
+      */
+
+      if (!inside) {
+
+        targetStrength *=
+          0.94;
+
+        strength *=
+          0.985;
+
+      }
+
+
+
+      gl.uniform2f(
+
+        mouseLocation,
+
+        mouseX,
+
+        mouseY
+
+      );
+
+
+
+      gl.uniform1f(
+
+        strengthLocation,
+
+        strength
+
+      );
+
+
+
+      gl.uniform1f(
+
+        aspectLocation,
+
+        canvas.width /
+
+        canvas.height
+
+      );
+
+
+
+      gl.drawArrays(
+
+        gl.TRIANGLES,
+
+        0,
+
+        6
+
+      );
+
+    }
+
+
+
+    animate();
+
+
+  </script>
+
+
+</body>
+
+</html>
