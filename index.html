@@ -138,35 +138,57 @@
     }
 
 
-    /* =========================
-       INDIVIDUAL PLANT SIZES
-       ========================= */
+ /* =========================
+   INDIVIDUAL PLANT CONTROLS
+   ========================= */
 
-    .data-science .plant {
-      width: 260px;
-    }
+/* DATA SCIENCE */
+.data-science .plant {
+  width: 330px;
+  --x: 0px;
+  --y: 0px;
+}
 
-    .research .plant {
-      width: 175px;
-    }
+/* RESEARCH */
+.research .plant {
+  width: 350px;
+  --x: 0px;
+  --y: 0px;
+}
 
-    .film-photo .plant {
-      width: 270px;
-    }
+/* FILM / PHOTO */
+.film-photo .plant {
+  width: 330px;
+  --x: 0px;
+  --y: 0px;
+}
 
-    .product-design .plant {
-      width: 210px;
-    }
+/* PRODUCT DESIGN */
+.product-design .plant {
+  width: 340px;
+  --x: 0px;
+  --y: 0px;
+}
 
-    .fashion .plant {
-      width: 225px;
-    }
+/* FASHION */
+.fashion .plant {
+  width: 340px;
+  --x: 0px;
+  --y: 0px;
+}
 
-    .art .plant {
-      width: 185px;
-    }
+/* ART */
+.art .plant {
+  width: 350px;
+  --x: 0px;
+  --y: 0px;
+}
 
+.plant {
+  transform: translate(var(--x), var(--y));
+}
 
+  
     /* =========================
        CATEGORY LABELS
        ========================= */
