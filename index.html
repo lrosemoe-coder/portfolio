@@ -340,46 +340,29 @@
 
 
 
+
+
 /* =========================================
-   HOVER — ORGANIC SEAWEED MOVEMENT
+   HOVER EFFECT
    ========================================= */
 
-.category:hover .plant,
-.plant-container:hover .plant {
+.category .plant {
+  transition: transform 0.35s ease;
+}
 
+.category:hover .plant {
   transform:
     translate(
       var(--x, 0px),
-      calc(var(--y, 0px) - 22px)
+      calc(var(--y, 0px) - 25px)
     )
-
-    scale(
-      calc(var(--scale, 1) * 1.08)
-    )
-
-    rotate(
-      var(--tilt, 0deg)
-    );
+    scale(calc(var(--scale, 1) * 1.08))
+    rotate(var(--tilt, 0deg));
 }
-
-
-/* move label when hovering anywhere over category */
 
 .category:hover .label {
   transform: translateY(-5px);
 }
-
-
-    /* LABEL MOVES SLIGHTLY TOO */
-
-    .category:hover .label {
-
-      transform:
-        translateY(-5px);
-    }
-
-
-
 
 
     /* =========================================
