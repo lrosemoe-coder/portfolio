@@ -151,27 +151,35 @@
        the empty blue space.
        ========================================= */
 
-    .hover-group {
-      width: 100%;
 
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+.plant,
+.label {
+  transition:
+    transform
+    0.45s
+    cubic-bezier(.2, .8, .2, 1);
+}
 
-      pointer-events: auto;
 
-      cursor: pointer;
+/* SEAWEED:
+   bigger movement + gentle underwater tilt */
 
-      color: white;
-      text-decoration: none;
+.hover-group:hover .plant {
+  transform:
+    translateY(-22px)
+    scale(1.08)
+    rotate(var(--tilt, 0deg));
+}
 
-      transition:
-        transform
-        0.45s
-        cubic-bezier(.2, .8, .2, 1);
 
-      transform-origin: bottom center;
-    }
+/* TEXT:
+   reacts at the same time,
+   but much more subtly */
+
+.hover-group:hover .label {
+  transform:
+    translateY(-7px);
+}
 
 
 
@@ -666,6 +674,26 @@
 
   </main>
 
+    // Wait until the browser has finished
+    // loading and calculating the images.
+
+    requestAnimationFrame(function () {
+
+      requestAnimationFrame(function () {
+
+        // Force Chrome to recalculate the layout
+        document.body.getBoundingClientRect();
+
+        // Trigger the same type of recalculation
+        // that happens when the window is resized.
+        window.dispatchEvent(new Event("resize"));
+
+      });
+
+    });
+
+  });
+</script>
 
 </body>
 
