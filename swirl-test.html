@@ -4,11 +4,7 @@
 <head>
 
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Swirl Test</title>
 
@@ -22,37 +18,26 @@
     body {
       margin: 0;
       width: 100%;
-      height: 100%;
+      min-height: 100%;
     }
 
     body {
+      min-height: 100vh;
+
       background: #0757e8;
 
       display: flex;
       justify-content: center;
       align-items: center;
-
-      overflow: hidden;
     }
 
-    .image-container {
+    .test-image {
+      display: block;
+
       width: 80vw;
       max-width: 1200px;
 
-      aspect-ratio: 3 / 2;
-
-      position: relative;
-
-      overflow: hidden;
-
-      cursor: crosshair;
-    }
-
-    canvas {
-      width: 100%;
-      height: 100%;
-
-      display: block;
+      height: auto;
     }
 
   </style>
@@ -62,318 +47,11 @@
 
 <body>
 
-
-  <div class="image-container">
-
-    <canvas id="swirlCanvas"></canvas>
-
-  </div>
-
-
-
-  <script>
-
-    const canvas =
-      document.getElementById("swirlCanvas");
-
-    const ctx =
-      canvas.getContext("2d");
-
-
-    const image =
-      new Image();
-
-    image.src =
-      "swirl-test.jpg";
-
-
-    let mouseX = -1000;
-    let mouseY = -1000;
-
-    let smoothX = -1000;
-    let smoothY = -1000;
-
-    let previousX = -1000;
-    let previousY = -1000;
-
-    let mouseInside = false;
-
-
-
-    /* ========================================
-       LOAD IMAGE
-       ======================================== */
-
-    image.onload = function () {
-
-      resizeCanvas();
-
-      draw();
-
-    };
-
-
-
-    /* ========================================
-       RESIZE
-       ======================================== */
-
-    function resizeCanvas() {
-
-      const rect =
-        canvas.getBoundingClientRect();
-
-      canvas.width =
-        rect.width;
-
-      canvas.height =
-        rect.height;
-
-    }
-
-
-    window.addEventListener(
-      "resize",
-      resizeCanvas
-    );
-
-
-
-    /* ========================================
-       MOUSE
-       ======================================== */
-
-    canvas.addEventListener(
-      "mousemove",
-      function (event) {
-
-        const rect =
-          canvas.getBoundingClientRect();
-
-        mouseX =
-          event.clientX - rect.left;
-
-        mouseY =
-          event.clientY - rect.top;
-
-        mouseInside = true;
-
-      }
-    );
-
-
-    canvas.addEventListener(
-      "mouseenter",
-      function () {
-
-        mouseInside = true;
-
-      }
-    );
-
-
-    canvas.addEventListener(
-      "mouseleave",
-      function () {
-
-        mouseInside = false;
-
-      }
-    );
-
-
-
-    /* ========================================
-       DRAW IMAGE
-       ======================================== */
-
-    function drawImage() {
-
-      ctx.drawImage(
-        image,
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
-
-    }
-
-
-
-    /* ========================================
-       DISTORTION
-       ======================================== */
-
-    function createSwirl() {
-
-      if (!mouseInside) {
-        return;
-      }
-
-
-      smoothX +=
-        (mouseX - smoothX) * 0.18;
-
-      smoothY +=
-        (mouseY - smoothY) * 0.18;
-
-
-      const dx =
-        smoothX - previousX;
-
-      const dy =
-        smoothY - previousY;
-
-
-      const speed =
-        Math.sqrt(
-          dx * dx +
-          dy * dy
-        );
-
-
-      previousX =
-        smoothX;
-
-      previousY =
-        smoothY;
-
-
-      const radius = 110;
-
-      const strength =
-        Math.min(
-          speed * 1.8,
-          25
-        );
-
-
-      /*
-        Grab a circular-ish square region
-        around the cursor.
-      */
-
-      const sourceX =
-        Math.max(
-          0,
-          smoothX - radius
-        );
-
-      const sourceY =
-        Math.max(
-          0,
-          smoothY - radius
-        );
-
-
-      const size =
-        radius * 2;
-
-
-      if (
-        sourceX + size >
-        canvas.width ||
-        sourceY + size >
-        canvas.height
-      ) {
-
-        return;
-
-      }
-
-
-      const patch =
-        ctx.getImageData(
-          sourceX,
-          sourceY,
-          size,
-          size
-        );
-
-
-      /*
-        Draw several rotated copies
-        around the cursor.
-
-        This creates the liquid/swirling
-        feeling.
-      */
-
-      ctx.save();
-
-
-      ctx.translate(
-        smoothX,
-        smoothY
-      );
-
-
-      ctx.rotate(
-        strength * 0.004
-      );
-
-
-      ctx.globalAlpha = 0.35;
-
-
-      ctx.putImageData(
-        patch,
-        -radius + dx * 2,
-        -radius + dy * 2
-      );
-
-
-      ctx.globalAlpha = 0.2;
-
-
-      ctx.rotate(
-        -strength * 0.008
-      );
-
-
-      ctx.putImageData(
-        patch,
-        -radius - dy,
-        -radius + dx
-      );
-
-
-      ctx.restore();
-
-    }
-
-
-
-    /* ========================================
-       ANIMATION LOOP
-       ======================================== */
-
-    function draw() {
-
-      /*
-        Redraw clean photograph.
-      */
-
-      drawImage();
-
-
-      /*
-        Then apply distortion.
-      */
-
-      createSwirl();
-
-
-      requestAnimationFrame(
-        draw
-      );
-
-    }
-
-
-  </script>
-
+  <img
+    src="./swirl-test.jpg"
+    class="test-image"
+    alt="Underwater kelp forest"
+  >
 
 </body>
 
