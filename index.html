@@ -87,12 +87,14 @@
 
       padding: 20px 3vw 70px;
 
-      /* MASTER CONTROL:
-         More negative = move everything higher
-         Less negative = move everything lower
+      /*
+        MASTER VERTICAL CONTROL
+
+        More negative = higher
+        Less negative = lower
       */
 
-      transform: translateY(-55px);
+      transform: translateY(-65px);
     }
 
 
@@ -127,6 +129,40 @@
        ========================================= */
 
     .category {
+      width: 100%;
+
+      display: flex;
+
+      justify-content: center;
+      align-items: flex-end;
+
+      min-width: 0;
+
+      /*
+        IMPORTANT:
+
+        The big category column itself
+        cannot trigger hover.
+      */
+
+      pointer-events: none;
+    }
+
+
+
+    /* =========================================
+       HOVER GROUP
+
+       This contains BOTH:
+       - seaweed
+       - label
+
+       This is the ONLY interactive area.
+       ========================================= */
+
+    .hover-group {
+      width: 100%;
+
       display: flex;
 
       flex-direction: column;
@@ -134,23 +170,32 @@
       align-items: center;
       justify-content: flex-end;
 
-      min-width: 0;
+      pointer-events: auto;
 
-      color: white;
+      cursor: pointer;
+
       text-decoration: none;
+      color: white;
+
+      transform:
+        translate(
+          var(--x, 0px),
+          var(--y, 0px)
+        );
+
+      transition:
+        transform
+        0.45s
+        cubic-bezier(.2, .8, .2, 1);
     }
 
 
 
     /* =========================================
        PLANT AREA
-
-       IMPORTANT:
-       This large area positions the plants,
-       but DOES NOT detect the mouse.
        ========================================= */
 
-    .plant-container {
+    .plant-area {
       width: 100%;
       height: 62vh;
 
@@ -159,43 +204,43 @@
       justify-content: center;
       align-items: flex-end;
 
+      /*
+        The blank positioning area itself
+        ignores the mouse.
+      */
+
       pointer-events: none;
     }
 
 
 
     /* =========================================
-       ACTUAL HOVER AREA
-
-       THIS is what detects the mouse.
-
-       It only wraps around the PNG instead
-       of extending all the way upward.
+       IMAGE WRAPPER
        ========================================= */
 
-    .plant-hitbox {
-      display: inline-block;
+    .plant-wrap {
+      width: 100%;
 
-      line-height: 0;
+      display: flex;
+
+      justify-content: center;
+      align-items: flex-end;
 
       pointer-events: auto;
 
       transform:
-        translate(
-          var(--x, 0px),
-          var(--y, 0px)
-        )
         scale(
           var(--scale, 1)
         );
 
-      transform-origin: bottom center;
+      transform-origin:
+        bottom center;
     }
 
 
 
     /* =========================================
-       ACTUAL IMAGE
+       IMAGE
        ========================================= */
 
     .plant {
@@ -208,43 +253,20 @@
 
       object-fit: contain;
 
-      transform: translateY(0px) scale(1) rotate(0deg);
-
-      transform-origin: bottom center;
-
-      transition:
-        transform
-        0.45s
-        cubic-bezier(.2, .8, .2, 1);
-
-      will-change: transform;
+      transform-origin:
+        bottom center;
     }
 
 
 
     /* =========================================
-       INDIVIDUAL PLANT CONTROLS
-
-       SCALE:
-       1.00 = normal
-       1.10 = 10% bigger
-       0.90 = 10% smaller
-
-       X:
-       positive = right
-       negative = left
-
-       Y:
-       positive = down
-       negative = up
+       INDIVIDUAL CONTROLS
        ========================================= */
 
 
     /* DATA ANALYTICS */
 
-    .data-science .plant-hitbox {
-
-      width: 100%;
+    .data-science {
 
       --scale: .88;
 
@@ -258,9 +280,7 @@
 
     /* RESEARCH */
 
-    .research .plant-hitbox {
-
-      width: 100%;
+    .research {
 
       --scale: .88;
 
@@ -274,9 +294,7 @@
 
     /* FILM / PHOTO */
 
-    .film-photo .plant-hitbox {
-
-      width: 100%;
+    .film-photo {
 
       --scale: .88;
 
@@ -290,9 +308,7 @@
 
     /* PRODUCT DESIGN */
 
-    .product-design .plant-hitbox {
-
-      width: 100%;
+    .product-design {
 
       --scale: .88;
 
@@ -306,9 +322,7 @@
 
     /* FASHION */
 
-    .fashion .plant-hitbox {
-
-      width: 100%;
+    .fashion {
 
       --scale: .88;
 
@@ -322,9 +336,7 @@
 
     /* ART */
 
-    .art .plant-hitbox {
-
-      width: 100%;
+    .art {
 
       --scale: .88;
 
@@ -337,7 +349,7 @@
 
 
     /* =========================================
-       LABELS
+       LABEL
        ========================================= */
 
     .label {
@@ -368,45 +380,27 @@
       white-space: nowrap;
 
       pointer-events: auto;
-
-      transition:
-        transform
-        0.35s
-        ease;
     }
 
 
 
     /* =========================================
-       HOVER EFFECT
+       HOVER
 
-       IMPORTANT:
-       Hovering the hitbox moves ONLY the
-       image inside it.
-
-       The hitbox itself stays still.
+       Moves the SEAWEED + TEXT together
        ========================================= */
 
-    .plant-hitbox:hover .plant {
+    .hover-group:hover {
 
       transform:
-        translateY(-22px)
-        scale(1.08)
+        translate(
+          var(--x, 0px),
+          calc(var(--y, 0px) - 22px)
+        )
+        scale(1.05)
         rotate(
           var(--tilt, 0deg)
         );
-    }
-
-
-
-    /* =========================================
-       TEXT HOVER
-       ========================================= */
-
-    .label:hover {
-
-      transform:
-        translateY(-5px);
     }
 
 
@@ -441,7 +435,7 @@
       }
 
 
-      .plant-container {
+      .plant-area {
 
         height: 45vh;
 
@@ -500,7 +494,7 @@
       }
 
 
-      .plant-container {
+      .plant-area {
 
         height: 55vh;
 
@@ -531,9 +525,7 @@
 <body>
 
 
-  <!-- =========================================
-       NAME
-       ========================================= -->
+  <!-- NAME -->
 
   <h1 class="name">
     LINNEA RM
@@ -541,9 +533,7 @@
 
 
 
-  <!-- =========================================
-       HOMEPAGE
-       ========================================= -->
+  <!-- HOMEPAGE -->
 
   <main class="homepage">
 
@@ -552,199 +542,181 @@
 
 
 
-      <!-- =====================================
-           DATA ANALYTICS
-           ===================================== -->
+      <!-- DATA ANALYTICS -->
 
       <div class="category data-science">
 
+        <div class="hover-group">
 
-        <div class="plant-container">
+          <div class="plant-area">
 
+            <div class="plant-wrap">
 
-          <div class="plant-hitbox">
+              <img
+                src="data-science.png"
+                class="plant"
+                alt="Data Analytics"
+              >
 
-            <img
-              src="data-science.png"
-              class="plant"
-              alt="Data Analytics"
-            >
+            </div>
 
           </div>
 
+          <div class="label">
+            data analytics
+          </div>
 
         </div>
-
-
-        <div class="label">
-          data analytics
-        </div>
-
 
       </div>
 
 
 
-      <!-- =====================================
-           RESEARCH
-           ===================================== -->
+      <!-- RESEARCH -->
 
       <div class="category research">
 
+        <div class="hover-group">
 
-        <div class="plant-container">
+          <div class="plant-area">
 
+            <div class="plant-wrap">
 
-          <div class="plant-hitbox">
+              <img
+                src="research.png"
+                class="plant"
+                alt="Research"
+              >
 
-            <img
-              src="research.png"
-              class="plant"
-              alt="Research"
-            >
+            </div>
 
           </div>
 
+          <div class="label">
+            research
+          </div>
 
         </div>
-
-
-        <div class="label">
-          research
-        </div>
-
 
       </div>
 
 
 
-      <!-- =====================================
-           FILM / PHOTO
-           ===================================== -->
+      <!-- FILM / PHOTO -->
 
       <div class="category film-photo">
 
+        <div class="hover-group">
 
-        <div class="plant-container">
+          <div class="plant-area">
 
+            <div class="plant-wrap">
 
-          <div class="plant-hitbox">
+              <img
+                src="film-photo.png"
+                class="plant"
+                alt="Film and Photo"
+              >
 
-            <img
-              src="film-photo.png"
-              class="plant"
-              alt="Film and Photo"
-            >
+            </div>
 
           </div>
 
+          <div class="label">
+            film/photo
+          </div>
 
         </div>
-
-
-        <div class="label">
-          film/photo
-        </div>
-
 
       </div>
 
 
 
-      <!-- =====================================
-           PRODUCT DESIGN
-           ===================================== -->
+      <!-- PRODUCT DESIGN -->
 
       <div class="category product-design">
 
+        <div class="hover-group">
 
-        <div class="plant-container">
+          <div class="plant-area">
 
+            <div class="plant-wrap">
 
-          <div class="plant-hitbox">
+              <img
+                src="product-design.png"
+                class="plant"
+                alt="Product Design"
+              >
 
-            <img
-              src="product-design.png"
-              class="plant"
-              alt="Product Design"
-            >
+            </div>
 
           </div>
 
+          <div class="label">
+            product design
+          </div>
 
         </div>
-
-
-        <div class="label">
-          product design
-        </div>
-
 
       </div>
 
 
 
-      <!-- =====================================
-           FASHION
-           ===================================== -->
+      <!-- FASHION -->
 
       <div class="category fashion">
 
+        <div class="hover-group">
 
-        <div class="plant-container">
+          <div class="plant-area">
 
+            <div class="plant-wrap">
 
-          <div class="plant-hitbox">
+              <img
+                src="fashion.png"
+                class="plant"
+                alt="Fashion"
+              >
 
-            <img
-              src="fashion.png"
-              class="plant"
-              alt="Fashion"
-            >
+            </div>
 
           </div>
 
+          <div class="label">
+            fashion
+          </div>
 
         </div>
-
-
-        <div class="label">
-          fashion
-        </div>
-
 
       </div>
 
 
 
-      <!-- =====================================
-           ART
-           ===================================== -->
+      <!-- ART -->
 
       <div class="category art">
 
+        <div class="hover-group">
 
-        <div class="plant-container">
+          <div class="plant-area">
 
+            <div class="plant-wrap">
 
-          <div class="plant-hitbox">
+              <img
+                src="art.png"
+                class="plant"
+                alt="Art"
+              >
 
-            <img
-              src="art.png"
-              class="plant"
-              alt="Art"
-            >
+            </div>
 
           </div>
 
+          <div class="label">
+            art
+          </div>
 
         </div>
-
-
-        <div class="label">
-          art
-        </div>
-
 
       </div>
 
