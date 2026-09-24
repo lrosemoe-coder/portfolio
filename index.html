@@ -9,9 +9,9 @@
 
   <style>
 
-    /* =========================
+    /* =========================================
        PAGE SETUP
-       ========================= */
+       ========================================= */
 
     * {
       box-sizing: border-box;
@@ -26,39 +26,38 @@
     }
 
     body {
-      background-color: #0757e8;
+      background: #0757e8;
       color: white;
       overflow-x: hidden;
     }
 
 
-    /* =========================
+    /* =========================================
        NAME
-       ========================= */
+       ========================================= */
 
     .name {
       position: absolute;
-      top: 20px;
-      left: 45px;
+      top: 18px;
+      left: 48px;
 
       margin: 0;
-
-      color: white;
 
       font-family: Impact, "Arial Narrow", sans-serif;
       font-size: 38px;
       font-weight: 500;
       letter-spacing: 2px;
 
+      color: white;
       text-transform: uppercase;
 
       z-index: 10;
     }
 
 
-    /* =========================
-       MAIN HOMEPAGE
-       ========================= */
+    /* =========================================
+       HOMEPAGE
+       ========================================= */
 
     .homepage {
       width: 100%;
@@ -68,37 +67,28 @@
       align-items: center;
       justify-content: center;
 
-      padding: 100px 55px 60px;
+      padding: 90px 4vw 50px;
     }
 
 
-    /* =========================
-       SIX CATEGORIES
-       ========================= */
+    /* =========================================
+       CATEGORY ROW
+       ========================================= */
 
     .categories {
       width: 100%;
-      max-width: 1600px;
 
-      display: grid;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
 
-      grid-template-columns:
-        1.1fr
-        0.8fr
-        1.15fr
-        1fr
-        0.95fr
-        0.8fr;
-
-      align-items: end;
-
-      gap: 35px;
+      gap: 2vw;
     }
 
 
-    /* =========================
-       EACH CATEGORY
-       ========================= */
+    /* =========================================
+       INDIVIDUAL CATEGORY
+       ========================================= */
 
     .category {
       color: white;
@@ -109,97 +99,117 @@
       align-items: center;
       justify-content: flex-end;
 
+      flex: 1;
+
       cursor: pointer;
     }
 
 
-    /* =========================
-       IMAGE AREA
-       ========================= */
+    /* =========================================
+       PLANT AREA
+       ========================================= */
 
     .plant-container {
       width: 100%;
-      height: 300px;
+      height: 390px;
 
       display: flex;
       align-items: flex-end;
       justify-content: center;
     }
 
+
     .plant {
       display: block;
 
-      max-width: 100%;
-      max-height: 100%;
-
       object-fit: contain;
 
-      transition: transform 0.4s cubic-bezier(.2, .8, .2, 1);
+      transform: translate(var(--x, 0px), var(--y, 0px));
+
+      transition:
+        transform 0.4s cubic-bezier(.2, .8, .2, 1),
+        filter 0.4s ease;
     }
 
 
- /* =========================
-   INDIVIDUAL PLANT CONTROLS
-   ========================= */
+    /* =========================================
+       INDIVIDUAL PLANTS
+       ========================================= */
 
-/* DATA SCIENCE */
-.data-science .plant {
-  width: 600px;
-  --x: 30px;
-  --y: -70px;
-}
 
-/* RESEARCH */
-.research .plant {
-  width: 650px;
-  --x: 30px;
-  --y: -70px;
-}
+    /* DATA SCIENCE */
 
-/* FILM / PHOTO */
-.film-photo .plant {
-  width: 630px;
-  --x: 30px;
-  --y: -70px;
-}
+    .data-science .plant {
+      width: 310px;
 
-/* PRODUCT DESIGN */
-.product-design .plant {
-  width: 630px;
-  --x: 30px;
-  --y: -70px;
-}
+      --x: 0px;
+      --y: 0px;
+    }
 
-/* FASHION */
-.fashion .plant {
-  width: 600px;
-  --x: 30px;
-  --y: -70px;
-}
 
-/* ART */
-.art .plant {
-  width: 650px;
-  --x: 30px;
-  --y: -70px;
-}
+    /* RESEARCH */
 
-.plant {
-  transform: translate(var(--x), var(--y));
-}
+    .research .plant {
+      width: 245px;
 
-  
-    /* =========================
-       CATEGORY LABELS
-       ========================= */
+      --x: 0px;
+      --y: 0px;
+    }
+
+
+    /* FILM / PHOTO */
+
+    .film-photo .plant {
+      width: 330px;
+
+      --x: 0px;
+      --y: 0px;
+    }
+
+
+    /* PRODUCT DESIGN */
+
+    .product-design .plant {
+      width: 280px;
+
+      --x: 0px;
+      --y: 0px;
+    }
+
+
+    /* FASHION */
+
+    .fashion .plant {
+      width: 285px;
+
+      --x: 0px;
+      --y: 0px;
+    }
+
+
+    /* ART */
+
+    .art .plant {
+      width: 255px;
+
+      --x: 0px;
+      --y: 0px;
+    }
+
+
+    /* =========================================
+       LABELS
+       ========================================= */
 
     .label {
+      width: 100%;
+
       margin-top: 20px;
 
-      color: white;
+      text-align: center;
 
       font-family: Georgia, "Times New Roman", serif;
-      font-size: 29px;
+      font-size: clamp(22px, 1.8vw, 32px);
       font-weight: 400;
 
       white-space: nowrap;
@@ -208,69 +218,77 @@
     }
 
 
-    /* =========================
-       HOVER EFFECT
-       ========================= */
+    /* =========================================
+       HOVER
+       ========================================= */
 
-  .category:hover .plant {
-  transform:
-    translate(
-      var(--x),
-      calc(var(--y) - 12px)
-    )
-    scale(1.07);
-}
+    .category:hover .plant {
+      transform:
+        translate(
+          var(--x, 0px),
+          calc(var(--y, 0px) - 15px)
+        )
+        scale(1.06);
+    }
 
     .category:hover .label {
-      transform: translateY(-3px);
+      transform: translateY(-4px);
     }
 
 
-    /* =========================
-       CLICK EFFECT
-       ========================= */
+    /* =========================================
+       CLICK
+       ========================================= */
 
-.category:active .plant {
-  transform:
-    translate(
-      var(--x),
-      calc(var(--y) - 6px)
-    )
-    scale(1.03);
-}
+    .category:active .plant {
+      transform:
+        translate(
+          var(--x, 0px),
+          calc(var(--y, 0px) - 7px)
+        )
+        scale(1.03);
+    }
 
 
-    /* =========================
+    /* =========================================
        TABLET
-       ========================= */
+       ========================================= */
 
     @media (max-width: 1000px) {
 
+      .homepage {
+        padding: 120px 50px 70px;
+      }
+
       .categories {
+        display: grid;
         grid-template-columns: repeat(2, 1fr);
+
         gap: 70px 40px;
       }
 
       .plant-container {
-        height: 260px;
+        height: 320px;
       }
 
-      .label {
-        font-size: 25px;
+      .plant {
+        max-width: 90%;
+        max-height: 100%;
       }
 
     }
 
 
-    /* =========================
+    /* =========================================
        PHONE
-       ========================= */
+       ========================================= */
 
     @media (max-width: 600px) {
 
       .name {
         top: 20px;
         left: 25px;
+
         font-size: 28px;
       }
 
@@ -280,15 +298,21 @@
 
       .categories {
         grid-template-columns: 1fr;
-        gap: 65px;
+
+        gap: 70px;
       }
 
       .plant-container {
-        height: 270px;
+        height: 300px;
+      }
+
+      .plant {
+        max-width: 90%;
+        max-height: 100%;
       }
 
       .label {
-        font-size: 26px;
+        font-size: 27px;
       }
 
     }
@@ -300,12 +324,8 @@
 <body>
 
 
-  <!-- NAME -->
-
   <h1 class="name">LINNEA RM</h1>
 
-
-  <!-- MAIN HOMEPAGE -->
 
   <main class="homepage">
 
@@ -317,10 +337,7 @@
       <a href="#" class="category data-science">
 
         <div class="plant-container">
-          <img
-            src="6.png"
-            class="plant"
-            alt="Data Science">
+          <img src="6.png" class="plant" alt="Data Science">
         </div>
 
         <div class="label">
@@ -330,15 +347,13 @@
       </a>
 
 
+
       <!-- RESEARCH -->
 
       <a href="#" class="category research">
 
         <div class="plant-container">
-          <img
-            src="8.png"
-            class="plant"
-            alt="Research">
+          <img src="8.png" class="plant" alt="Research">
         </div>
 
         <div class="label">
@@ -348,15 +363,13 @@
       </a>
 
 
+
       <!-- FILM / PHOTO -->
 
       <a href="#" class="category film-photo">
 
         <div class="plant-container">
-          <img
-            src="9.png"
-            class="plant"
-            alt="Film and Photo">
+          <img src="9.png" class="plant" alt="Film and Photo">
         </div>
 
         <div class="label">
@@ -366,15 +379,13 @@
       </a>
 
 
+
       <!-- PRODUCT DESIGN -->
 
       <a href="#" class="category product-design">
 
         <div class="plant-container">
-          <img
-            src="10.png"
-            class="plant"
-            alt="Product Design">
+          <img src="10.png" class="plant" alt="Product Design">
         </div>
 
         <div class="label">
@@ -384,15 +395,13 @@
       </a>
 
 
+
       <!-- FASHION -->
 
       <a href="#" class="category fashion">
 
         <div class="plant-container">
-          <img
-            src="11.png"
-            class="plant"
-            alt="Fashion">
+          <img src="11.png" class="plant" alt="Fashion">
         </div>
 
         <div class="label">
@@ -402,15 +411,13 @@
       </a>
 
 
+
       <!-- ART -->
 
       <a href="#" class="category art">
 
         <div class="plant-container">
-          <img
-            src="7.png"
-            class="plant"
-            alt="Art">
+          <img src="7.png" class="plant" alt="Art">
         </div>
 
         <div class="label">
@@ -423,6 +430,7 @@
     </div>
 
   </main>
+
 
 </body>
 
