@@ -215,7 +215,7 @@
 
       width: 100%;
 
-      --scale: .94;
+      --scale: .90;
 
       --x: 0px;
       --y: 0px;
@@ -231,7 +231,7 @@
 
       width: 100%;
 
-      --scale: .92;
+      --scale: .88;
 
       --x: 0px;
       --y: 0px;
@@ -247,7 +247,7 @@
 
       width: 100%;
 
-      --scale: .95;
+      --scale: .91;
 
       --x: 0px;
       --y: 0px;
@@ -263,7 +263,7 @@
 
       width: 100%;
 
-      --scale: .93;
+      --scale: .89;
 
       --x: 0px;
       --y: 0px;
@@ -279,7 +279,7 @@
 
       width: 100%;
 
-      --scale: .95;
+      --scale: .91;
 
       --x: 0px;
       --y: 0px;
@@ -295,7 +295,7 @@
 
       width: 100%;
 
-      --scale: .92;
+      --scale: .88;
 
       --x: 0px;
       --y: 0px;
@@ -350,11 +350,12 @@
    HOVER EFFECT
    ========================================= */
 
-.category .plant {
+.plant {
+  pointer-events: auto;
   transition: transform 0.35s ease;
 }
 
-.category:hover .plant {
+.plant:hover {
   transform:
     translate(
       var(--x, 0px),
@@ -364,10 +365,13 @@
     rotate(var(--tilt, 0deg));
 }
 
-.category:hover .label {
-  transform: translateY(-5px);
+.label {
+  transition: transform 0.35s ease;
 }
 
+.label:hover {
+  transform: translateY(-5px);
+}
 
     /* =========================================
        TABLET
