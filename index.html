@@ -348,7 +348,7 @@
        HOVER — ORGANIC SEAWEED MOVEMENT
        ========================================= */
 
-    .category:hover .plant {
+    .category:has(.plant:hover, .label:hover) .plant {
 
       transform:
 
@@ -374,7 +374,7 @@
 
     /* LABEL MOVES SLIGHTLY TOO */
 
-    .category:hover .label {
+    .category:has(.plant:hover, .label:hover) .label {
 
       transform:
         translateY(-5px);
