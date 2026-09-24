@@ -76,20 +76,24 @@
        MAIN HOMEPAGE
        ========================================= */
 
-
     .homepage {
-  width: 100%;
-  height: 100vh;
+      width: 100%;
+      height: 100vh;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+      display: flex;
 
-  padding: 20px 3vw 80px;
+      align-items: center;
+      justify-content: center;
 
-  /* moves the entire collection upward */
-  transform: translateY(-70px);
-}
+      padding: 20px 3vw 70px;
+
+      /* MASTER CONTROL:
+         More negative = move everything higher
+         Less negative = move everything lower
+      */
+
+      transform: translateY(-55px);
+    }
 
 
 
@@ -133,70 +137,84 @@
       min-width: 0;
 
       color: white;
-
       text-decoration: none;
-
-      cursor: pointer;
     }
 
 
 
     /* =========================================
-       PLANT CONTAINER
+       PLANT AREA
+
+       IMPORTANT:
+       This large area positions the plants,
+       but DOES NOT detect the mouse.
        ========================================= */
 
-.plant-container {
-  width: 100%;
-  height: 62vh;
+    .plant-container {
+      width: 100%;
+      height: 62vh;
 
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
+      display: flex;
 
-  pointer-events: none;
-}
+      justify-content: center;
+      align-items: flex-end;
 
-.plant {
-  pointer-events: auto;
-}
+      pointer-events: none;
+    }
 
 
 
     /* =========================================
-       PLANTS
+       ACTUAL HOVER AREA
+
+       THIS is what detects the mouse.
+
+       It only wraps around the PNG instead
+       of extending all the way upward.
        ========================================= */
 
-    .plant {
-      display: block;
+    .plant-hitbox {
+      display: inline-block;
 
-      max-width: 100%;
-      max-height: 100%;
+      line-height: 0;
 
-      object-fit: contain;
-
-      /*
-        These variables allow every seaweed
-        to have its own size and position.
-      */
+      pointer-events: auto;
 
       transform:
         translate(
           var(--x, 0px),
           var(--y, 0px)
         )
-        scale(var(--scale, 1))
-        rotate(0deg);
+        scale(
+          var(--scale, 1)
+        );
 
-      /*
-        Makes the plant feel like it is
-        growing/swaying from its base.
-      */
+      transform-origin: bottom center;
+    }
+
+
+
+    /* =========================================
+       ACTUAL IMAGE
+       ========================================= */
+
+    .plant {
+      display: block;
+
+      width: 100%;
+      height: auto;
+
+      max-height: 62vh;
+
+      object-fit: contain;
+
+      transform: translateY(0px) scale(1) rotate(0deg);
 
       transform-origin: bottom center;
 
       transition:
         transform
-        0.55s
+        0.45s
         cubic-bezier(.2, .8, .2, 1);
 
       will-change: transform;
@@ -206,16 +224,29 @@
 
     /* =========================================
        INDIVIDUAL PLANT CONTROLS
+
+       SCALE:
+       1.00 = normal
+       1.10 = 10% bigger
+       0.90 = 10% smaller
+
+       X:
+       positive = right
+       negative = left
+
+       Y:
+       positive = down
+       negative = up
        ========================================= */
 
 
     /* DATA ANALYTICS */
 
-    .data-science .plant {
+    .data-science .plant-hitbox {
 
       width: 100%;
 
-      --scale: .90;
+      --scale: .88;
 
       --x: 0px;
       --y: 0px;
@@ -227,7 +258,7 @@
 
     /* RESEARCH */
 
-    .research .plant {
+    .research .plant-hitbox {
 
       width: 100%;
 
@@ -243,11 +274,11 @@
 
     /* FILM / PHOTO */
 
-    .film-photo .plant {
+    .film-photo .plant-hitbox {
 
       width: 100%;
 
-      --scale: .91;
+      --scale: .88;
 
       --x: 0px;
       --y: 0px;
@@ -259,11 +290,11 @@
 
     /* PRODUCT DESIGN */
 
-    .product-design .plant {
+    .product-design .plant-hitbox {
 
       width: 100%;
 
-      --scale: .89;
+      --scale: .88;
 
       --x: 0px;
       --y: 0px;
@@ -275,11 +306,11 @@
 
     /* FASHION */
 
-    .fashion .plant {
+    .fashion .plant-hitbox {
 
       width: 100%;
 
-      --scale: .91;
+      --scale: .88;
 
       --x: 0px;
       --y: 0px;
@@ -291,7 +322,7 @@
 
     /* ART */
 
-    .art .plant {
+    .art .plant-hitbox {
 
       width: 100%;
 
@@ -336,42 +367,49 @@
 
       white-space: nowrap;
 
+      pointer-events: auto;
+
       transition:
         transform
-        0.4s
+        0.35s
         ease;
     }
 
 
 
+    /* =========================================
+       HOVER EFFECT
+
+       IMPORTANT:
+       Hovering the hitbox moves ONLY the
+       image inside it.
+
+       The hitbox itself stays still.
+       ========================================= */
+
+    .plant-hitbox:hover .plant {
+
+      transform:
+        translateY(-22px)
+        scale(1.08)
+        rotate(
+          var(--tilt, 0deg)
+        );
+    }
 
 
-/* =========================================
-   HOVER EFFECT
-   ========================================= */
 
-.plant {
-  pointer-events: auto;
-  transition: transform 0.35s ease;
-}
+    /* =========================================
+       TEXT HOVER
+       ========================================= */
 
-.plant:hover {
-  transform:
-    translate(
-      var(--x, 0px),
-      calc(var(--y, 0px) - 25px)
-    )
-    scale(calc(var(--scale, 1) * 1.08))
-    rotate(var(--tilt, 0deg));
-}
+    .label:hover {
 
-.label {
-  transition: transform 0.35s ease;
-}
+      transform:
+        translateY(-5px);
+    }
 
-.label:hover {
-  transform: translateY(-5px);
-}
+
 
     /* =========================================
        TABLET
@@ -382,13 +420,14 @@
       .homepage {
 
         height: auto;
-
         min-height: 100vh;
 
         padding:
           110px
           45px
           70px;
+
+        transform: none;
       }
 
 
@@ -407,6 +446,12 @@
         height: 45vh;
 
         min-height: 300px;
+      }
+
+
+      .plant {
+
+        max-height: 45vh;
       }
 
 
@@ -442,6 +487,8 @@
           100px
           35px
           60px;
+
+        transform: none;
       }
 
 
@@ -458,6 +505,12 @@
         height: 55vh;
 
         min-height: 320px;
+      }
+
+
+      .plant {
+
+        max-height: 55vh;
       }
 
 
@@ -478,9 +531,9 @@
 <body>
 
 
-  <!-- =======================================
+  <!-- =========================================
        NAME
-       ======================================= -->
+       ========================================= -->
 
   <h1 class="name">
     LINNEA RM
@@ -488,9 +541,9 @@
 
 
 
-  <!-- =======================================
+  <!-- =========================================
        HOMEPAGE
-       ======================================= -->
+       ========================================= -->
 
   <main class="homepage">
 
@@ -499,153 +552,201 @@
 
 
 
-      <!-- DATA ANALYTICS -->
+      <!-- =====================================
+           DATA ANALYTICS
+           ===================================== -->
 
-<a
-  href="javascript:void(0)"
-  class="category data-science"
->
+      <div class="category data-science">
+
 
         <div class="plant-container">
 
-          <img
-            src="data-science.png"
-            class="plant"
-            alt="Data Analytics"
-          >
+
+          <div class="plant-hitbox">
+
+            <img
+              src="data-science.png"
+              class="plant"
+              alt="Data Analytics"
+            >
+
+          </div>
+
 
         </div>
+
 
         <div class="label">
           data analytics
         </div>
 
-      </a>
+
+      </div>
 
 
 
-      <!-- RESEARCH -->
+      <!-- =====================================
+           RESEARCH
+           ===================================== -->
 
-<a
-  href="javascript:void(0)"
-  class="category data-science"
->
+      <div class="category research">
+
 
         <div class="plant-container">
 
-          <img
-            src="research.png"
-            class="plant"
-            alt="Research"
-          >
+
+          <div class="plant-hitbox">
+
+            <img
+              src="research.png"
+              class="plant"
+              alt="Research"
+            >
+
+          </div>
+
 
         </div>
+
 
         <div class="label">
           research
         </div>
 
-      </a>
+
+      </div>
 
 
 
-      <!-- FILM / PHOTO -->
+      <!-- =====================================
+           FILM / PHOTO
+           ===================================== -->
 
-<a
-  href="javascript:void(0)"
-  class="category data-science"
->
+      <div class="category film-photo">
+
 
         <div class="plant-container">
 
-          <img
-            src="film-photo.png"
-            class="plant"
-            alt="Film and Photo"
-          >
+
+          <div class="plant-hitbox">
+
+            <img
+              src="film-photo.png"
+              class="plant"
+              alt="Film and Photo"
+            >
+
+          </div>
+
 
         </div>
+
 
         <div class="label">
           film/photo
         </div>
 
-      </a>
+
+      </div>
 
 
 
-      <!-- PRODUCT DESIGN -->
+      <!-- =====================================
+           PRODUCT DESIGN
+           ===================================== -->
 
-<a
-  href="javascript:void(0)"
-  class="category data-science"
->
+      <div class="category product-design">
+
 
         <div class="plant-container">
 
-          <img
-            src="product-design.png"
-            class="plant"
-            alt="Product Design"
-          >
+
+          <div class="plant-hitbox">
+
+            <img
+              src="product-design.png"
+              class="plant"
+              alt="Product Design"
+            >
+
+          </div>
+
 
         </div>
+
 
         <div class="label">
           product design
         </div>
 
-      </a>
+
+      </div>
 
 
 
-      <!-- FASHION -->
+      <!-- =====================================
+           FASHION
+           ===================================== -->
 
-      <a
-  href="javascript:void(0)"
-  class="category data-science"
->
+      <div class="category fashion">
+
 
         <div class="plant-container">
 
-          <img
-            src="fashion.png"
-            class="plant"
-            alt="Fashion"
-          >
+
+          <div class="plant-hitbox">
+
+            <img
+              src="fashion.png"
+              class="plant"
+              alt="Fashion"
+            >
+
+          </div>
+
 
         </div>
+
 
         <div class="label">
           fashion
         </div>
 
-      </a>
+
+      </div>
 
 
 
-      <!-- ART -->
+      <!-- =====================================
+           ART
+           ===================================== -->
 
-<a
-  href="javascript:void(0)"
-  class="category data-science"
->
+      <div class="category art">
+
 
         <div class="plant-container">
 
-          <img
-            src="art.png"
-            class="plant"
-            alt="Art"
-          >
+
+          <div class="plant-hitbox">
+
+            <img
+              src="art.png"
+              class="plant"
+              alt="Art"
+            >
+
+          </div>
+
 
         </div>
+
 
         <div class="label">
           art
         </div>
 
-      </a>
+
+      </div>
 
 
     </div>
