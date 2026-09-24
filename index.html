@@ -692,7 +692,17 @@
 
   </main>
 
+<script>
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      document.documentElement.style.width = "calc(100% - 1px)";
 
+      requestAnimationFrame(() => {
+        document.documentElement.style.width = "100%";
+      });
+    }, 100);
+  });
+</script>
 </body>
 
 </html>
