@@ -551,23 +551,51 @@
       }
 
 
-      mouseX +=
-        (targetX - mouseX) * 0.15;
+      /* =========================================
+   LIQUID MOMENTUM
+   ========================================= */
 
-      mouseY +=
-        (targetY - mouseY) * 0.15;
+/*
+  The distortion follows behind the cursor
+  instead of snapping directly to it.
+*/
+
+mouseX +=
+  (targetX - mouseX) * 0.065;
+
+mouseY +=
+  (targetY - mouseY) * 0.065;
 
 
-      if (!inside) {
-        targetStrength = 0;
-      }
+/*
+  Strength builds smoothly.
+*/
+
+strength +=
+  (targetStrength - strength) * 0.075;
 
 
-      strength +=
-        (targetStrength - strength) * 0.12;
+/*
+  Slowly lose energy.
+
+  Higher number = longer-lasting swirl.
+*/
+
+targetStrength *= 0.965;
 
 
-      targetStrength *= 0.91;
+/*
+  When the mouse leaves, let the water
+  gradually settle instead of immediately
+  killing the distortion.
+*/
+
+if (!inside) {
+
+  targetStrength *= 0.94;
+  strength *= 0.985;
+
+}
 
 
       gl.uniform2f(
