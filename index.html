@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -11,7 +10,6 @@
   >
 
   <title>Linnea RM</title>
-
 
   <style>
 
@@ -27,7 +25,6 @@
     body {
       margin: 0;
       padding: 0;
-
       width: 100%;
       min-height: 100%;
     }
@@ -35,7 +32,6 @@
     body {
       background-color: #0757e8;
       color: white;
-
       overflow-x: hidden;
     }
 
@@ -47,7 +43,6 @@
 
     .name {
       position: absolute;
-
       top: 20px;
       left: 45px;
 
@@ -60,11 +55,9 @@
 
       font-size: 38px;
       font-weight: 500;
-
       letter-spacing: 2px;
 
       color: white;
-
       text-transform: uppercase;
 
       z-index: 10;
@@ -73,7 +66,11 @@
 
 
     /* =========================================
-       MAIN HOMEPAGE
+       HOMEPAGE
+
+       IMPORTANT:
+       No transform on the homepage anymore.
+       Bottom padding moves the collection up.
        ========================================= */
 
     .homepage {
@@ -81,20 +78,13 @@
       height: 100vh;
 
       display: flex;
-
       align-items: center;
       justify-content: center;
 
-      padding: 20px 3vw 70px;
-
-      /*
-        MASTER VERTICAL CONTROL
-
-        More negative = higher
-        Less negative = lower
-      */
-
-      transform: translateY(-65px);
+      padding:
+        20px
+        3vw
+        150px;
     }
 
 
@@ -125,25 +115,23 @@
 
 
     /* =========================================
-       INDIVIDUAL CATEGORY
+       CATEGORY COLUMN
+
+       This is ONLY for positioning.
+       It cannot detect the mouse.
        ========================================= */
 
     .category {
       width: 100%;
+      height: 62vh;
+
+      position: relative;
 
       display: flex;
-
-      justify-content: center;
       align-items: flex-end;
+      justify-content: center;
 
       min-width: 0;
-
-      /*
-        IMPORTANT:
-
-        The big category column itself
-        cannot trigger hover.
-      */
 
       pointer-events: none;
     }
@@ -153,63 +141,36 @@
     /* =========================================
        HOVER GROUP
 
-       This contains BOTH:
-       - seaweed
-       - label
+       THIS is the interactive part.
 
-       This is the ONLY interactive area.
+       It contains ONLY:
+       - the image
+       - the text
+
+       It does NOT extend upward through
+       the empty blue space.
        ========================================= */
 
     .hover-group {
       width: 100%;
 
       display: flex;
-
       flex-direction: column;
-
       align-items: center;
-      justify-content: flex-end;
 
       pointer-events: auto;
 
       cursor: pointer;
 
-      text-decoration: none;
       color: white;
-
-      transform:
-        translate(
-          var(--x, 0px),
-          var(--y, 0px)
-        );
+      text-decoration: none;
 
       transition:
         transform
         0.45s
         cubic-bezier(.2, .8, .2, 1);
-    }
 
-
-
-    /* =========================================
-       PLANT AREA
-       ========================================= */
-
-    .plant-area {
-      width: 100%;
-      height: 62vh;
-
-      display: flex;
-
-      justify-content: center;
-      align-items: flex-end;
-
-      /*
-        The blank positioning area itself
-        ignores the mouse.
-      */
-
-      pointer-events: none;
+      transform-origin: bottom center;
     }
 
 
@@ -222,25 +183,38 @@
       width: 100%;
 
       display: flex;
-
       justify-content: center;
       align-items: flex-end;
 
-      pointer-events: auto;
+      /*
+        This wrapper scales each plant
+        individually.
+      */
 
       transform:
+        translate(
+          var(--x, 0px),
+          var(--y, 0px)
+        )
         scale(
           var(--scale, 1)
         );
 
-      transform-origin:
-        bottom center;
+      transform-origin: bottom center;
+
+      /*
+        IMPORTANT:
+        The wrapper itself does not add
+        another hover region.
+      */
+
+      pointer-events: none;
     }
 
 
 
     /* =========================================
-       IMAGE
+       ACTUAL SEAWEED IMAGE
        ========================================= */
 
     .plant {
@@ -249,101 +223,12 @@
       width: 100%;
       height: auto;
 
-      max-height: 62vh;
+      max-width: 100%;
+      max-height: 55vh;
 
       object-fit: contain;
 
-      transform-origin:
-        bottom center;
-    }
-
-
-
-    /* =========================================
-       INDIVIDUAL CONTROLS
-       ========================================= */
-
-
-    /* DATA ANALYTICS */
-
-    .data-science {
-
-      --scale: .88;
-
-      --x: 0px;
-      --y: 0px;
-
-      --tilt: -2deg;
-    }
-
-
-
-    /* RESEARCH */
-
-    .research {
-
-      --scale: .88;
-
-      --x: 0px;
-      --y: 0px;
-
-      --tilt: 1.5deg;
-    }
-
-
-
-    /* FILM / PHOTO */
-
-    .film-photo {
-
-      --scale: .88;
-
-      --x: 0px;
-      --y: 0px;
-
-      --tilt: -1.5deg;
-    }
-
-
-
-    /* PRODUCT DESIGN */
-
-    .product-design {
-
-      --scale: .88;
-
-      --x: 0px;
-      --y: 0px;
-
-      --tilt: 1.5deg;
-    }
-
-
-
-    /* FASHION */
-
-    .fashion {
-
-      --scale: .88;
-
-      --x: 0px;
-      --y: 0px;
-
-      --tilt: -1.5deg;
-    }
-
-
-
-    /* ART */
-
-    .art {
-
-      --scale: .88;
-
-      --x: 0px;
-      --y: 0px;
-
-      --tilt: 2deg;
+      pointer-events: auto;
     }
 
 
@@ -385,18 +270,98 @@
 
 
     /* =========================================
-       HOVER
+       INDIVIDUAL SEAWEED CONTROLS
 
-       Moves the SEAWEED + TEXT together
+       SCALE
+       1.00 = normal
+       1.10 = 10% bigger
+       0.90 = 10% smaller
+
+       X
+       positive = right
+       negative = left
+
+       Y
+       positive = down
+       negative = up
+       ========================================= */
+
+
+    /* DATA ANALYTICS */
+
+    .data-science {
+      --scale: 1.03;
+      --x: 0px;
+      --y: 0px;
+      --tilt: -2deg;
+    }
+
+
+
+    /* RESEARCH */
+
+    .research {
+      --scale: 1.00;
+      --x: 0px;
+      --y: 0px;
+      --tilt: 1.5deg;
+    }
+
+
+
+    /* FILM / PHOTO */
+
+    .film-photo {
+      --scale: 1.07;
+      --x: 0px;
+      --y: 0px;
+      --tilt: -1.5deg;
+    }
+
+
+
+    /* PRODUCT DESIGN */
+
+    .product-design {
+      --scale: 1.02;
+      --x: 0px;
+      --y: 0px;
+      --tilt: 1.5deg;
+    }
+
+
+
+    /* FASHION */
+
+    .fashion {
+      --scale: 1.03;
+      --x: 0px;
+      --y: 0px;
+      --tilt: -1.5deg;
+    }
+
+
+
+    /* ART */
+
+    .art {
+      --scale: 1.00;
+      --x: 0px;
+      --y: 0px;
+      --tilt: 2deg;
+    }
+
+
+
+    /* =========================================
+       HOVER EFFECT
+
+       Image + text move together!
        ========================================= */
 
     .hover-group:hover {
-
       transform:
-        translate(
-          var(--x, 0px),
-          calc(var(--y, 0px) - 22px)
-        )
+        translateY(-22px)
         scale(1.05)
         rotate(
           var(--tilt, 0deg)
@@ -412,7 +377,6 @@
     @media (max-width: 1000px) {
 
       .homepage {
-
         height: auto;
         min-height: 100vh;
 
@@ -420,13 +384,10 @@
           110px
           45px
           70px;
-
-        transform: none;
       }
 
 
       .categories {
-
         grid-template-columns:
           repeat(2, 1fr);
 
@@ -435,22 +396,18 @@
       }
 
 
-      .plant-area {
-
+      .category {
         height: 45vh;
-
         min-height: 300px;
       }
 
 
       .plant {
-
-        max-height: 45vh;
+        max-height: 38vh;
       }
 
 
       .label {
-
         font-size: 26px;
       }
 
@@ -465,7 +422,6 @@
     @media (max-width: 600px) {
 
       .name {
-
         top: 20px;
         left: 25px;
 
@@ -474,42 +430,34 @@
 
 
       .homepage {
-
         height: auto;
 
         padding:
           100px
           35px
           60px;
-
-        transform: none;
       }
 
 
       .categories {
-
         grid-template-columns: 1fr;
 
         row-gap: 80px;
       }
 
 
-      .plant-area {
-
+      .category {
         height: 55vh;
-
         min-height: 320px;
       }
 
 
       .plant {
-
-        max-height: 55vh;
+        max-height: 47vh;
       }
 
 
       .label {
-
         font-size: 27px;
       }
 
@@ -525,7 +473,9 @@
 <body>
 
 
-  <!-- NAME -->
+  <!-- =========================================
+       NAME
+       ========================================= -->
 
   <h1 class="name">
     LINNEA RM
@@ -533,7 +483,9 @@
 
 
 
-  <!-- HOMEPAGE -->
+  <!-- =========================================
+       HOMEPAGE
+       ========================================= -->
 
   <main class="homepage">
 
@@ -542,23 +494,21 @@
 
 
 
-      <!-- DATA ANALYTICS -->
+      <!-- =====================================
+           DATA ANALYTICS
+           ===================================== -->
 
       <div class="category data-science">
 
         <div class="hover-group">
 
-          <div class="plant-area">
+          <div class="plant-wrap">
 
-            <div class="plant-wrap">
-
-              <img
-                src="data-science.png"
-                class="plant"
-                alt="Data Analytics"
-              >
-
-            </div>
+            <img
+              src="data-science.png"
+              class="plant"
+              alt="Data Analytics"
+            >
 
           </div>
 
@@ -572,23 +522,21 @@
 
 
 
-      <!-- RESEARCH -->
+      <!-- =====================================
+           RESEARCH
+           ===================================== -->
 
       <div class="category research">
 
         <div class="hover-group">
 
-          <div class="plant-area">
+          <div class="plant-wrap">
 
-            <div class="plant-wrap">
-
-              <img
-                src="research.png"
-                class="plant"
-                alt="Research"
-              >
-
-            </div>
+            <img
+              src="research.png"
+              class="plant"
+              alt="Research"
+            >
 
           </div>
 
@@ -602,23 +550,21 @@
 
 
 
-      <!-- FILM / PHOTO -->
+      <!-- =====================================
+           FILM / PHOTO
+           ===================================== -->
 
       <div class="category film-photo">
 
         <div class="hover-group">
 
-          <div class="plant-area">
+          <div class="plant-wrap">
 
-            <div class="plant-wrap">
-
-              <img
-                src="film-photo.png"
-                class="plant"
-                alt="Film and Photo"
-              >
-
-            </div>
+            <img
+              src="film-photo.png"
+              class="plant"
+              alt="Film and Photo"
+            >
 
           </div>
 
@@ -632,23 +578,21 @@
 
 
 
-      <!-- PRODUCT DESIGN -->
+      <!-- =====================================
+           PRODUCT DESIGN
+           ===================================== -->
 
       <div class="category product-design">
 
         <div class="hover-group">
 
-          <div class="plant-area">
+          <div class="plant-wrap">
 
-            <div class="plant-wrap">
-
-              <img
-                src="product-design.png"
-                class="plant"
-                alt="Product Design"
-              >
-
-            </div>
+            <img
+              src="product-design.png"
+              class="plant"
+              alt="Product Design"
+            >
 
           </div>
 
@@ -662,23 +606,21 @@
 
 
 
-      <!-- FASHION -->
+      <!-- =====================================
+           FASHION
+           ===================================== -->
 
       <div class="category fashion">
 
         <div class="hover-group">
 
-          <div class="plant-area">
+          <div class="plant-wrap">
 
-            <div class="plant-wrap">
-
-              <img
-                src="fashion.png"
-                class="plant"
-                alt="Fashion"
-              >
-
-            </div>
+            <img
+              src="fashion.png"
+              class="plant"
+              alt="Fashion"
+            >
 
           </div>
 
@@ -692,23 +634,21 @@
 
 
 
-      <!-- ART -->
+      <!-- =====================================
+           ART
+           ===================================== -->
 
       <div class="category art">
 
         <div class="hover-group">
 
-          <div class="plant-area">
+          <div class="plant-wrap">
 
-            <div class="plant-wrap">
-
-              <img
-                src="art.png"
-                class="plant"
-                alt="Art"
-              >
-
-            </div>
+            <img
+              src="art.png"
+              class="plant"
+              alt="Art"
+            >
 
           </div>
 
