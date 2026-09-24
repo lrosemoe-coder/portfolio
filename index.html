@@ -10,7 +10,7 @@
   <style>
 
     /* =========================================
-       PAGE SETUP
+       PAGE
        ========================================= */
 
     * {
@@ -26,7 +26,7 @@
     }
 
     body {
-      background: #0757e8;
+      background-color: #0757e8;
       color: white;
       overflow-x: hidden;
     }
@@ -38,8 +38,8 @@
 
     .name {
       position: absolute;
-      top: 18px;
-      left: 48px;
+      top: 20px;
+      left: 45px;
 
       margin: 0;
 
@@ -67,22 +67,31 @@
       align-items: center;
       justify-content: center;
 
-      padding: 90px 4vw 50px;
+      padding: 85px 3vw 45px;
     }
 
 
     /* =========================================
-       CATEGORY ROW
+       SEAWEED ROW
        ========================================= */
 
     .categories {
       width: 100%;
+      max-width: 1800px;
 
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
+      display: grid;
 
-      gap: 2vw;
+      grid-template-columns:
+        1.15fr
+        0.8fr
+        1.25fr
+        0.95fr
+        0.95fr
+        0.8fr;
+
+      align-items: end;
+
+      column-gap: 1.5vw;
     }
 
 
@@ -91,57 +100,71 @@
        ========================================= */
 
     .category {
-      color: white;
-      text-decoration: none;
-
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
 
-      flex: 1;
+      min-width: 0;
+
+      color: white;
+      text-decoration: none;
 
       cursor: pointer;
     }
 
 
     /* =========================================
-       PLANT AREA
+       PLANT CONTAINER
        ========================================= */
 
     .plant-container {
       width: 100%;
-      height: 390px;
+      height: 62vh;
 
       display: flex;
-      align-items: flex-end;
       justify-content: center;
-    }
-
-
-    .plant {
-      display: block;
-
-      object-fit: contain;
-
-      transform: translate(var(--x, 0px), var(--y, 0px));
-
-      transition:
-        transform 0.4s cubic-bezier(.2, .8, .2, 1),
-        filter 0.4s ease;
+      align-items: flex-end;
     }
 
 
     /* =========================================
-       INDIVIDUAL PLANTS
+       PLANTS
+       ========================================= */
+
+    .plant {
+      display: block;
+
+      max-width: 100%;
+      max-height: 100%;
+
+      object-fit: contain;
+
+      transform:
+        translate(
+          var(--x, 0px),
+          var(--y, 0px)
+        )
+        scale(var(--scale, 1));
+
+      transform-origin: bottom center;
+
+      transition:
+        transform 0.4s cubic-bezier(.2, .8, .2, 1);
+    }
+
+
+    /* =========================================
+       INDIVIDUAL PLANT CONTROLS
        ========================================= */
 
 
     /* DATA SCIENCE */
 
     .data-science .plant {
-      width: 310px;
+      width: 100%;
 
+      --scale: 1.08;
       --x: 0px;
       --y: 0px;
     }
@@ -150,8 +173,9 @@
     /* RESEARCH */
 
     .research .plant {
-      width: 245px;
+      width: 100%;
 
+      --scale: 1.05;
       --x: 0px;
       --y: 0px;
     }
@@ -160,8 +184,9 @@
     /* FILM / PHOTO */
 
     .film-photo .plant {
-      width: 330px;
+      width: 100%;
 
+      --scale: 1.12;
       --x: 0px;
       --y: 0px;
     }
@@ -170,8 +195,9 @@
     /* PRODUCT DESIGN */
 
     .product-design .plant {
-      width: 280px;
+      width: 100%;
 
+      --scale: 1.07;
       --x: 0px;
       --y: 0px;
     }
@@ -180,8 +206,9 @@
     /* FASHION */
 
     .fashion .plant {
-      width: 285px;
+      width: 100%;
 
+      --scale: 1.08;
       --x: 0px;
       --y: 0px;
     }
@@ -190,8 +217,9 @@
     /* ART */
 
     .art .plant {
-      width: 255px;
+      width: 100%;
 
+      --scale: 1.05;
       --x: 0px;
       --y: 0px;
     }
@@ -204,13 +232,19 @@
     .label {
       width: 100%;
 
-      margin-top: 20px;
+      margin-top: 24px;
 
       text-align: center;
 
       font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(22px, 1.8vw, 32px);
+
+      font-size: clamp(19px, 1.65vw, 31px);
+
       font-weight: 400;
+
+      line-height: 1.1;
+
+      color: white;
 
       white-space: nowrap;
 
@@ -226,13 +260,14 @@
       transform:
         translate(
           var(--x, 0px),
-          calc(var(--y, 0px) - 15px)
+          calc(var(--y, 0px) - 14px)
         )
-        scale(1.06);
+        scale(calc(var(--scale, 1) * 1.05));
     }
 
+
     .category:hover .label {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
     }
 
 
@@ -244,9 +279,9 @@
       transform:
         translate(
           var(--x, 0px),
-          calc(var(--y, 0px) - 7px)
+          calc(var(--y, 0px) - 6px)
         )
-        scale(1.03);
+        scale(calc(var(--scale, 1) * 1.02));
     }
 
 
@@ -257,23 +292,23 @@
     @media (max-width: 1000px) {
 
       .homepage {
-        padding: 120px 50px 70px;
+        padding: 110px 45px 70px;
       }
 
       .categories {
-        display: grid;
         grid-template-columns: repeat(2, 1fr);
 
-        gap: 70px 40px;
+        column-gap: 50px;
+        row-gap: 80px;
       }
 
       .plant-container {
-        height: 320px;
+        height: 45vh;
+        min-height: 300px;
       }
 
-      .plant {
-        max-width: 90%;
-        max-height: 100%;
+      .label {
+        font-size: 26px;
       }
 
     }
@@ -293,22 +328,18 @@
       }
 
       .homepage {
-        padding: 100px 30px 60px;
+        padding: 100px 35px 60px;
       }
 
       .categories {
         grid-template-columns: 1fr;
 
-        gap: 70px;
+        row-gap: 80px;
       }
 
       .plant-container {
-        height: 300px;
-      }
-
-      .plant {
-        max-width: 90%;
-        max-height: 100%;
+        height: 55vh;
+        min-height: 320px;
       }
 
       .label {
@@ -324,8 +355,14 @@
 <body>
 
 
-  <h1 class="name">LINNEA RM</h1>
+  <!-- NAME -->
 
+  <h1 class="name">
+    LINNEA RM
+  </h1>
+
+
+  <!-- HOMEPAGE -->
 
   <main class="homepage">
 
@@ -337,7 +374,12 @@
       <a href="#" class="category data-science">
 
         <div class="plant-container">
-          <img src="6.png" class="plant" alt="Data Science">
+
+          <img
+            src="data-science.png"
+            class="plant"
+            alt="Data Science">
+
         </div>
 
         <div class="label">
@@ -353,7 +395,12 @@
       <a href="#" class="category research">
 
         <div class="plant-container">
-          <img src="8.png" class="plant" alt="Research">
+
+          <img
+            src="research.png"
+            class="plant"
+            alt="Research">
+
         </div>
 
         <div class="label">
@@ -369,7 +416,12 @@
       <a href="#" class="category film-photo">
 
         <div class="plant-container">
-          <img src="9.png" class="plant" alt="Film and Photo">
+
+          <img
+            src="film-photo.png"
+            class="plant"
+            alt="Film and Photo">
+
         </div>
 
         <div class="label">
@@ -385,7 +437,12 @@
       <a href="#" class="category product-design">
 
         <div class="plant-container">
-          <img src="10.png" class="plant" alt="Product Design">
+
+          <img
+            src="product-design.png"
+            class="plant"
+            alt="Product Design">
+
         </div>
 
         <div class="label">
@@ -401,7 +458,12 @@
       <a href="#" class="category fashion">
 
         <div class="plant-container">
-          <img src="11.png" class="plant" alt="Fashion">
+
+          <img
+            src="fashion.png"
+            class="plant"
+            alt="Fashion">
+
         </div>
 
         <div class="label">
@@ -417,7 +479,12 @@
       <a href="#" class="category art">
 
         <div class="plant-container">
-          <img src="7.png" class="plant" alt="Art">
+
+          <img
+            src="art.png"
+            class="plant"
+            alt="Art">
+
         </div>
 
         <div class="label">
