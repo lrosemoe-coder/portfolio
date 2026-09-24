@@ -4,15 +4,20 @@
 <head>
 
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Linnea RM</title>
 
+
   <style>
 
-    /* ==================================================
-       BASIC PAGE SETUP
-       ================================================== */
+    /* =========================================
+       PAGE SETUP
+       ========================================= */
 
     * {
       box-sizing: border-box;
@@ -28,7 +33,7 @@
     }
 
     body {
-      background: #0757e8;
+      background-color: #0757e8;
       color: white;
 
       overflow-x: hidden;
@@ -36,9 +41,9 @@
 
 
 
-    /* ==================================================
+    /* =========================================
        NAME
-       ================================================== */
+       ========================================= */
 
     .name {
       position: absolute;
@@ -48,7 +53,10 @@
 
       margin: 0;
 
-      font-family: Impact, "Arial Narrow", sans-serif;
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
 
       font-size: 38px;
       font-weight: 500;
@@ -57,22 +65,20 @@
 
       color: white;
 
+      text-transform: uppercase;
+
       z-index: 10;
     }
 
 
 
-    /* ==================================================
-       HOMEPAGE
-       
-       No transforms.
-       No JavaScript.
-       No weird positioning tricks.
-       ================================================== */
+    /* =========================================
+       MAIN HOMEPAGE
+       ========================================= */
 
     .homepage {
       width: 100%;
-      min-height: 100vh;
+      height: 100vh;
 
       display: flex;
 
@@ -80,21 +86,21 @@
       justify-content: center;
 
       /*
-        More bottom padding pushes the
-        whole collection upward.
+        Extra padding on the bottom nudges the
+        entire composition slightly upward.
       */
 
       padding:
         20px
         3vw
-        150px;
+        80px;
     }
 
 
 
-    /* ==================================================
-       SIX COLUMN LAYOUT
-       ================================================== */
+    /* =========================================
+       SEAWEED ROW
+       ========================================= */
 
     .categories {
       width: 100%;
@@ -112,96 +118,202 @@
 
       align-items: end;
 
-      gap: 1.5vw;
+      column-gap: 1.5vw;
     }
 
 
 
-    /* ==================================================
-       CATEGORY POSITIONING COLUMN
-
-       This creates the vertical space we need.
-
-       IMPORTANT:
-       This is NOT the hover target.
-       ================================================== */
+    /* =========================================
+       INDIVIDUAL CATEGORY
+       ========================================= */
 
     .category {
-      height: 62vh;
-
       display: flex;
 
-      align-items: flex-end;
-      justify-content: center;
-
-      min-width: 0;
-    }
-
-
-
-    /* ==================================================
-       INTERACTIVE CARD
-
-       THIS is the hover target.
-
-       Very important:
-       THIS CARD NEVER MOVES.
-
-       Therefore the mouse cannot accidentally
-       leave/re-enter the hover target while
-       the animation is happening.
-       ================================================== */
-
-    .card {
-      width: 100%;
-
-      display: flex;
       flex-direction: column;
 
       align-items: center;
       justify-content: flex-end;
 
-      cursor: pointer;
+      min-width: 0;
 
       color: white;
+
       text-decoration: none;
+
+      cursor: pointer;
     }
 
 
 
-    /* ==================================================
-       IMAGE
-       ================================================== */
+    /* =========================================
+       PLANT CONTAINER
+       ========================================= */
+
+    .plant-container {
+      width: 100%;
+
+      height: 62vh;
+
+      display: flex;
+
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+
+
+    /* =========================================
+       PLANTS
+       ========================================= */
 
     .plant {
       display: block;
 
-      width: 100%;
-      height: auto;
-
       max-width: 100%;
-      max-height: 54vh;
+      max-height: 100%;
 
       object-fit: contain;
+
+      /*
+        These variables allow every seaweed
+        to have its own size and position.
+      */
+
+      transform:
+        translate(
+          var(--x, 0px),
+          var(--y, 0px)
+        )
+        scale(var(--scale, 1))
+        rotate(0deg);
+
+      /*
+        Makes the plant feel like it is
+        growing/swaying from its base.
+      */
 
       transform-origin: bottom center;
 
       transition:
         transform
-        0.5s
+        0.55s
         cubic-bezier(.2, .8, .2, 1);
+
+      will-change: transform;
     }
 
 
 
-    /* ==================================================
-       LABEL
-       ================================================== */
+    /* =========================================
+       INDIVIDUAL PLANT CONTROLS
+       ========================================= */
 
-    .label {
-      margin-top: 24px;
+
+    /* DATA ANALYTICS */
+
+    .data-science .plant {
 
       width: 100%;
+
+      --scale: 1.03;
+
+      --x: 0px;
+      --y: 0px;
+
+      --tilt: -2deg;
+    }
+
+
+
+    /* RESEARCH */
+
+    .research .plant {
+
+      width: 100%;
+
+      --scale: 1.00;
+
+      --x: 0px;
+      --y: 0px;
+
+      --tilt: 1.5deg;
+    }
+
+
+
+    /* FILM / PHOTO */
+
+    .film-photo .plant {
+
+      width: 100%;
+
+      --scale: 1.07;
+
+      --x: 0px;
+      --y: 0px;
+
+      --tilt: -1.5deg;
+    }
+
+
+
+    /* PRODUCT DESIGN */
+
+    .product-design .plant {
+
+      width: 100%;
+
+      --scale: 1.02;
+
+      --x: 0px;
+      --y: 0px;
+
+      --tilt: 1.5deg;
+    }
+
+
+
+    /* FASHION */
+
+    .fashion .plant {
+
+      width: 100%;
+
+      --scale: 1.03;
+
+      --x: 0px;
+      --y: 0px;
+
+      --tilt: -1.5deg;
+    }
+
+
+
+    /* ART */
+
+    .art .plant {
+
+      width: 100%;
+
+      --scale: 1.00;
+
+      --x: 0px;
+      --y: 0px;
+
+      --tilt: 2deg;
+    }
+
+
+
+    /* =========================================
+       LABELS
+       ========================================= */
+
+    .label {
+      width: 100%;
+
+      margin-top: 24px;
 
       text-align: center;
 
@@ -221,111 +333,98 @@
 
       line-height: 1.1;
 
-      white-space: nowrap;
-
       color: white;
+
+      white-space: nowrap;
 
       transition:
         transform
-        0.5s
-        cubic-bezier(.2, .8, .2, 1);
+        0.4s
+        ease;
     }
 
 
 
-    /* ==================================================
-       INDIVIDUAL SEAWEED SIZES + TILTS
-       ================================================== */
+    /* =========================================
+       HOVER — ORGANIC SEAWEED MOVEMENT
+       ========================================= */
 
-    .data-science {
-      --plant-size: 1.03;
-      --tilt: -2deg;
-    }
+    .category:hover .plant {
 
-    .research {
-      --plant-size: 1.00;
-      --tilt: 1.5deg;
-    }
-
-    .film-photo {
-      --plant-size: 1.07;
-      --tilt: -1.5deg;
-    }
-
-    .product-design {
-      --plant-size: 1.02;
-      --tilt: 1.5deg;
-    }
-
-    .fashion {
-      --plant-size: 1.03;
-      --tilt: -1.5deg;
-    }
-
-    .art {
-      --plant-size: 1.00;
-      --tilt: 2deg;
-    }
-
-
-
-    /* ==================================================
-       NORMAL PLANT SIZE
-       ================================================== */
-
-    .category .plant {
       transform:
-        scale(
-          var(--plant-size, 1)
-        );
-    }
 
-
-
-    /* ==================================================
-       HOVER
-
-       Hovering anywhere on the card triggers BOTH.
-
-       But they move differently.
-
-       Plant:
-       - moves up 22px
-       - grows
-       - tilts
-
-       Text:
-       - only moves up 7px
-
-       THE CARD ITSELF DOES NOT MOVE.
-       ================================================== */
-
-    .card:hover .plant {
-      transform:
-        translateY(-22px)
-        scale(
-          calc(var(--plant-size, 1) * 1.08)
+        translate(
+          var(--x, 0px),
+          calc(
+            var(--y, 0px) - 22px
+          )
         )
+
+        scale(
+          calc(
+            var(--scale, 1) * 1.08
+          )
+        )
+
         rotate(
           var(--tilt, 0deg)
         );
     }
 
 
-    .card:hover .label {
+
+    /* LABEL MOVES SLIGHTLY TOO */
+
+    .category:hover .label {
+
       transform:
-        translateY(-7px);
+        translateY(-5px);
     }
 
 
 
-    /* ==================================================
+    /* =========================================
+       CLICK
+       ========================================= */
+
+    .category:active .plant {
+
+      transform:
+
+        translate(
+          var(--x, 0px),
+          calc(
+            var(--y, 0px) - 10px
+          )
+        )
+
+        scale(
+          calc(
+            var(--scale, 1) * 1.04
+          )
+        )
+
+        rotate(
+          calc(
+            var(--tilt, 0deg) * 0.5
+          )
+        );
+    }
+
+
+
+    /* =========================================
        TABLET
-       ================================================== */
+       ========================================= */
 
     @media (max-width: 1000px) {
 
       .homepage {
+
+        height: auto;
+
+        min-height: 100vh;
+
         padding:
           110px
           45px
@@ -334,6 +433,7 @@
 
 
       .categories {
+
         grid-template-columns:
           repeat(2, 1fr);
 
@@ -342,17 +442,16 @@
       }
 
 
-      .category {
-        height: auto;
-      }
+      .plant-container {
 
+        height: 45vh;
 
-      .plant {
-        max-height: 42vh;
+        min-height: 300px;
       }
 
 
       .label {
+
         font-size: 26px;
       }
 
@@ -360,13 +459,14 @@
 
 
 
-    /* ==================================================
+    /* =========================================
        PHONE
-       ================================================== */
+       ========================================= */
 
     @media (max-width: 600px) {
 
       .name {
+
         top: 20px;
         left: 25px;
 
@@ -375,6 +475,9 @@
 
 
       .homepage {
+
+        height: auto;
+
         padding:
           100px
           35px
@@ -383,23 +486,23 @@
 
 
       .categories {
+
         grid-template-columns: 1fr;
 
         row-gap: 80px;
       }
 
 
-      .category {
-        height: auto;
-      }
+      .plant-container {
 
+        height: 55vh;
 
-      .plant {
-        max-height: 50vh;
+        min-height: 320px;
       }
 
 
       .label {
+
         font-size: 27px;
       }
 
@@ -411,12 +514,13 @@
 </head>
 
 
+
 <body>
 
 
-  <!-- ==================================================
+  <!-- =======================================
        NAME
-       ================================================== -->
+       ======================================= -->
 
   <h1 class="name">
     LINNEA RM
@@ -424,9 +528,9 @@
 
 
 
-  <!-- ==================================================
+  <!-- =======================================
        HOMEPAGE
-       ================================================== -->
+       ======================================= -->
 
   <main class="homepage">
 
@@ -437,9 +541,12 @@
 
       <!-- DATA ANALYTICS -->
 
-      <div class="category data-science">
+      <a
+        href="#"
+        class="category data-science"
+      >
 
-        <div class="card">
+        <div class="plant-container">
 
           <img
             src="data-science.png"
@@ -447,21 +554,24 @@
             alt="Data Analytics"
           >
 
-          <div class="label">
-            data analytics
-          </div>
-
         </div>
 
-      </div>
+        <div class="label">
+          data analytics
+        </div>
+
+      </a>
 
 
 
       <!-- RESEARCH -->
 
-      <div class="category research">
+      <a
+        href="#"
+        class="category research"
+      >
 
-        <div class="card">
+        <div class="plant-container">
 
           <img
             src="research.png"
@@ -469,21 +579,24 @@
             alt="Research"
           >
 
-          <div class="label">
-            research
-          </div>
-
         </div>
 
-      </div>
+        <div class="label">
+          research
+        </div>
+
+      </a>
 
 
 
       <!-- FILM / PHOTO -->
 
-      <div class="category film-photo">
+      <a
+        href="#"
+        class="category film-photo"
+      >
 
-        <div class="card">
+        <div class="plant-container">
 
           <img
             src="film-photo.png"
@@ -491,21 +604,24 @@
             alt="Film and Photo"
           >
 
-          <div class="label">
-            film/photo
-          </div>
-
         </div>
 
-      </div>
+        <div class="label">
+          film/photo
+        </div>
+
+      </a>
 
 
 
       <!-- PRODUCT DESIGN -->
 
-      <div class="category product-design">
+      <a
+        href="#"
+        class="category product-design"
+      >
 
-        <div class="card">
+        <div class="plant-container">
 
           <img
             src="product-design.png"
@@ -513,21 +629,24 @@
             alt="Product Design"
           >
 
-          <div class="label">
-            product design
-          </div>
-
         </div>
 
-      </div>
+        <div class="label">
+          product design
+        </div>
+
+      </a>
 
 
 
       <!-- FASHION -->
 
-      <div class="category fashion">
+      <a
+        href="#"
+        class="category fashion"
+      >
 
-        <div class="card">
+        <div class="plant-container">
 
           <img
             src="fashion.png"
@@ -535,21 +654,24 @@
             alt="Fashion"
           >
 
-          <div class="label">
-            fashion
-          </div>
-
         </div>
 
-      </div>
+        <div class="label">
+          fashion
+        </div>
+
+      </a>
 
 
 
       <!-- ART -->
 
-      <div class="category art">
+      <a
+        href="#"
+        class="category art"
+      >
 
-        <div class="card">
+        <div class="plant-container">
 
           <img
             src="art.png"
@@ -557,13 +679,13 @@
             alt="Art"
           >
 
-          <div class="label">
-            art
-          </div>
-
         </div>
 
-      </div>
+        <div class="label">
+          art
+        </div>
+
+      </a>
 
 
     </div>
