@@ -559,7 +559,7 @@
 
 
 
-    const fragmentShaderSource = `
+  const fragmentShaderSource = `
 
   precision mediump float;
 
@@ -615,15 +615,136 @@
 
 
 
+  /*
+    ========================================
+    SOFT BLUR FUNCTION
+
+    Samples the photograph several times
+    around each pixel.
+
+    This creates an optical / lens blur
+    rather than another image warp.
+    ========================================
+  */
+
+  vec4 blurredImage(
+    vec2 uv,
+    float blurAmount
+  ) {
+
+    vec2 imageUV =
+      coverImage(uv);
+
+    vec2 px =
+      vec2(
+        blurAmount / u_aspect,
+        blurAmount
+      );
+
+
+    vec4 color =
+      texture2D(
+        u_image,
+        imageUV
+      ) * 0.20;
+
+
+    color +=
+      texture2D(
+        u_image,
+        coverImage(
+          uv +
+          vec2(px.x, 0.0)
+        )
+      ) * 0.10;
+
+
+    color +=
+      texture2D(
+        u_image,
+        coverImage(
+          uv -
+          vec2(px.x, 0.0)
+        )
+      ) * 0.10;
+
+
+    color +=
+      texture2D(
+        u_image,
+        coverImage(
+          uv +
+          vec2(0.0, px.y)
+        )
+      ) * 0.10;
+
+
+    color +=
+      texture2D(
+        u_image,
+        coverImage(
+          uv -
+          vec2(0.0, px.y)
+        )
+      ) * 0.10;
+
+
+    color +=
+      texture2D(
+        u_image,
+        coverImage(
+          uv +
+          vec2(px.x, px.y)
+        )
+      ) * 0.10;
+
+
+    color +=
+      texture2D(
+        u_image,
+        coverImage(
+          uv +
+          vec2(-px.x, px.y)
+        )
+      ) * 0.10;
+
+
+    color +=
+      texture2D(
+        u_image,
+        coverImage(
+          uv +
+          vec2(px.x, -px.y)
+        )
+      ) * 0.10;
+
+
+    color +=
+      texture2D(
+        u_image,
+        coverImage(
+          uv -
+          vec2(px.x, px.y)
+        )
+      ) * 0.10;
+
+
+    return color;
+
+  }
+
+
+
   void main() {
 
     vec2 uv =
       v_texCoord;
 
 
+
     /*
       ========================================
-      DISTANCE FROM CURSOR
+      DISTANCE FROM FOCUS POINT
       ========================================
     */
 
@@ -631,8 +752,10 @@
       uv -
       u_mouse;
 
+
     delta.x *=
       u_aspect;
+
 
     float distanceFromMouse =
       length(delta);
@@ -641,90 +764,135 @@
 
     /*
       ========================================
-      LENS SIZE
+      FOCUS AREA SIZE
 
-      Larger number =
-      larger glass/lens area
+      Smaller = tighter camera focus
+
+      Larger = larger focused region
       ========================================
     */
 
-    float radius =
-      0.65;
+    float focusRadius =
+      0.18;
 
 
-    float influence =
+
+    /*
+      Soft transition between
+      sharp and out-of-focus.
+    */
+
+    float focusMask =
+
+      1.0 -
+
       smoothstep(
-        radius,
-        0.0,
+        focusRadius * 0.45,
+        focusRadius,
         distanceFromMouse
       );
 
 
-    /*
-      Smooth the edge of the lens.
-    */
-
-    influence =
-      influence *
-      influence *
-      (3.0 - 2.0 * influence);
-
-
 
     /*
       ========================================
-      GLASS MAGNIFICATION
-
-      This pulls image coordinates toward
-      the cursor, producing the feeling of
-      looking through curved glass.
-
-      Increase 0.025 for stronger bending.
+      OUT-OF-FOCUS IMAGE
       ========================================
+
+      Increase 0.006 if you want
+      dramatically more blur.
     */
 
-    float lensStrength =
-
-      influence *
-
-      (0.025 +
-      abs(u_strength) * 0.05);
+    float blurAmount =
+      0.006;
 
 
-
-    vec2 lensDelta =
-      uv -
-      u_mouse;
-
-
-    vec2 distortedUV =
-
-      uv -
-
-      lensDelta *
-
-      lensStrength;
+    vec4 blurred =
+      blurredImage(
+        uv,
+        blurAmount
+      );
 
 
 
     /*
       ========================================
-      CURVED GLASS / REFRACTION
-
-      Adds a second bend around the
-      outside of the lens so it feels
-      optical rather than simply zoomed.
+      SHARP IMAGE AT CURSOR
       ========================================
     */
 
-    float edgeRing =
-
-      influence *
-
-      (1.0 - influence);
+    vec2 sharpUV =
+      coverImage(uv);
 
 
-    vec2 normalizedDirection =
+    vec4 sharp =
+      texture2D(
+        u_image,
+        sharpUV
+      );
+
+
+
+    /*
+      Blend from blurry photograph
+      into sharp focus.
+    */
+
+    vec4 color =
+      mix(
+        blurred,
+        sharp,
+        focusMask
+      );
+
+
+
+    /*
+      ========================================
+      FOCUS RING / OPTICAL EDGE
+      ========================================
+
+      This isn't a visible line.
+
+      It creates a subtle optical change
+      around the edge of the focused area.
+    */
+
+    float ring =
+
+      smoothstep(
+        focusRadius * 0.35,
+        focusRadius * 0.70,
+        distanceFromMouse
+      )
+
+      *
+
+      (
+        1.0 -
+
+        smoothstep(
+          focusRadius * 0.70,
+          focusRadius,
+          distanceFromMouse
+        )
+      );
+
+
+
+    /*
+      ========================================
+      CHROMATIC ABERRATION
+      ========================================
+
+      Tiny red / blue separation around
+      the focus transition.
+
+      This gives us the imperfect
+      camera-lens feeling.
+    */
+
+    vec2 direction =
 
       delta /
 
@@ -734,104 +902,128 @@
       );
 
 
-    normalizedDirection.x /=
+    direction.x /=
       u_aspect;
 
 
-    distortedUV +=
-
-      normalizedDirection *
-
-      edgeRing *
-
-      abs(u_strength) *
-
-      0.008;
-
-
-
-    /*
-      ========================================
-      CHROMATIC ABERRATION
-
-      Camera-lens-style red / blue
-      separation near the lens edge.
-      ========================================
-    */
-
     float separation =
 
-      edgeRing *
+      ring *
 
       (
-        0.0025 +
+        0.003 +
+
         abs(u_strength) *
-        0.0015
-      );
-
-
-    vec2 chromaticDirection =
-
-      normalizedDirection *
-
-      separation;
-
-
-
-    /*
-      Convert everything to correctly
-      cropped image coordinates.
-    */
-
-    vec2 centerUV =
-      coverImage(
-        distortedUV
+        0.0007
       );
 
 
     vec2 redUV =
       coverImage(
-        distortedUV +
-        chromaticDirection
+        uv +
+        direction *
+        separation
       );
 
 
     vec2 blueUV =
       coverImage(
-        distortedUV -
-        chromaticDirection
+        uv -
+        direction *
+        separation
       );
 
 
-
-    vec4 red =
+    vec4 redSample =
       texture2D(
         u_image,
         redUV
       );
 
 
-    vec4 green =
-      texture2D(
-        u_image,
-        centerUV
-      );
-
-
-    vec4 blue =
+    vec4 blueSample =
       texture2D(
         u_image,
         blueUV
       );
 
 
+    color.r =
+      mix(
+        color.r,
+        redSample.r,
+        ring * 0.65
+      );
+
+
+    color.b =
+      mix(
+        color.b,
+        blueSample.b,
+        ring * 0.65
+      );
+
+
+
+    /*
+      ========================================
+      SUBTLE EXPOSURE BLOOM
+
+      The focus point gets very slightly
+      brighter, like light entering a lens.
+      ========================================
+    */
+
+    float bloom =
+
+      focusMask *
+
+      (
+        0.025 +
+
+        min(
+          abs(u_strength) * 0.008,
+          0.04
+        )
+      );
+
+
+    color.rgb +=
+      bloom;
+
+
+
+    /*
+      ========================================
+      VERY SUBTLE VIGNETTE
+
+      Helps reinforce the camera feeling.
+      ========================================
+    */
+
+    vec2 centered =
+      uv - 0.5;
+
+
+    float vignette =
+      dot(
+        centered,
+        centered
+      );
+
+
+    color.rgb *=
+
+      1.0 -
+
+      vignette *
+      0.16;
+
+
 
     gl_FragColor =
-
       vec4(
-        red.r,
-        green.g,
-        blue.b,
+        color.rgb,
         1.0
       );
 
