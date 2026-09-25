@@ -571,6 +571,8 @@
 
       uniform float u_aspect;
 
+      uniform float u_imageAspect;
+
       varying vec2 v_texCoord;
 
 
@@ -578,6 +580,41 @@
 
         vec2 uv =
           v_texCoord;
+
+          /*
+  KEEP IMAGE PROPORTIONS
+  Works like object-fit: cover
+*/
+
+vec2 coverUV = uv;
+
+if (u_aspect > u_imageAspect) {
+
+  float scale =
+    u_imageAspect /
+    u_aspect;
+
+  coverUV.y =
+    (uv.y - 0.5) *
+    scale +
+    0.5;
+
+}
+
+else {
+
+  float scale =
+    u_aspect /
+    u_imageAspect;
+
+  coverUV.x =
+    (uv.x - 0.5) *
+    scale +
+    0.5;
+
+}
+
+uv = coverUV;
 
 
         vec2 delta =
@@ -1028,6 +1065,11 @@
 
       );
 
+    const imageAspectLocation =
+  gl.getUniformLocation(
+    program,
+    "u_imageAspect"
+  );
 
 
     /* =========================================
@@ -1518,6 +1560,11 @@
 
       );
 
+      gl.uniform1f(
+  imageAspectLocation,
+  image.width /
+  image.height
+);
 
 
       gl.drawArrays(
