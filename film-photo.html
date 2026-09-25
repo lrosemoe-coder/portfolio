@@ -561,203 +561,283 @@
 
     const fragmentShaderSource = `
 
-      precision mediump float;
+  precision mediump float;
 
-      uniform sampler2D u_image;
+  uniform sampler2D u_image;
+  uniform vec2 u_mouse;
+  uniform float u_strength;
+  uniform float u_aspect;
+  uniform float u_imageAspect;
 
-      uniform vec2 u_mouse;
+  varying vec2 v_texCoord;
 
-      uniform float u_strength;
 
-      uniform float u_aspect;
+  /*
+    ========================================
+    KEEP IMAGE PROPORTIONS
+    Works like object-fit: cover
+    ========================================
+  */
 
-      uniform float u_imageAspect;
+  vec2 coverImage(vec2 uv) {
 
-      varying vec2 v_texCoord;
+    vec2 result = uv;
 
+    if (u_aspect > u_imageAspect) {
 
-      void main() {
+      float scale =
+        u_imageAspect /
+        u_aspect;
 
-        vec2 uv =
-          v_texCoord;
+      result.y =
+        (uv.y - 0.5) *
+        scale +
+        0.5;
 
-          /*
-  KEEP IMAGE PROPORTIONS
-  Works like object-fit: cover
-*/
+    }
 
-vec2 coverUV = uv;
+    else {
 
-if (u_aspect > u_imageAspect) {
+      float scale =
+        u_aspect /
+        u_imageAspect;
 
-  float scale =
-    u_imageAspect /
-    u_aspect;
+      result.x =
+        (uv.x - 0.5) *
+        scale +
+        0.5;
 
-  coverUV.y =
-    (uv.y - 0.5) *
-    scale +
-    0.5;
+    }
 
-}
+    return result;
 
-else {
+  }
 
-  float scale =
-    u_aspect /
-    u_imageAspect;
 
-  coverUV.x =
-    (uv.x - 0.5) *
-    scale +
-    0.5;
 
-}
+  void main() {
 
-uv = coverUV;
+    vec2 uv =
+      v_texCoord;
 
 
-        vec2 delta =
-          uv -
-          u_mouse;
+    /*
+      ========================================
+      DISTANCE FROM CURSOR
+      ========================================
+    */
 
+    vec2 delta =
+      uv -
+      u_mouse;
 
-        delta.x *=
-          u_aspect;
+    delta.x *=
+      u_aspect;
 
+    float distanceFromMouse =
+      length(delta);
 
-        float distanceFromMouse =
-          length(delta);
 
 
-        /*
-          SIZE OF THE SWIRL
+    /*
+      ========================================
+      LENS SIZE
 
-          Increase this number if you want
-          the affected area to be larger.
-        */
+      Larger number =
+      larger glass/lens area
+      ========================================
+    */
 
-        float radius =
-          0.50;
+    float radius =
+      0.30;
 
 
-        float influence =
-          smoothstep(
-            radius,
-            0.0,
-            distanceFromMouse
-          );
+    float influence =
+      smoothstep(
+        radius,
+        0.0,
+        distanceFromMouse
+      );
 
 
-        float angle =
-          influence *
-          u_strength;
+    /*
+      Smooth the edge of the lens.
+    */
 
+    influence =
+      influence *
+      influence *
+      (3.0 - 2.0 * influence);
 
-        float s =
-          sin(angle);
 
-        float c =
-          cos(angle);
 
+    /*
+      ========================================
+      GLASS MAGNIFICATION
 
-        vec2 rotated;
+      This pulls image coordinates toward
+      the cursor, producing the feeling of
+      looking through curved glass.
 
+      Increase 0.025 for stronger bending.
+      ========================================
+    */
 
-        rotated.x =
-          delta.x * c -
-          delta.y * s;
+    float lensStrength =
 
+      influence *
 
-        rotated.y =
-          delta.x * s +
-          delta.y * c;
+      (0.025 +
+      abs(u_strength) * 0.008);
 
 
-        rotated.x /=
-          u_aspect;
 
+    vec2 lensDelta =
+      uv -
+      u_mouse;
 
-        vec2 distortedUV =
-          u_mouse +
-          rotated;
 
+    vec2 distortedUV =
 
+      uv -
 
-        /*
-          COLOR SEPARATION
-        */
+      lensDelta *
 
-        float separation =
+      lensStrength;
 
-          influence *
 
-          abs(u_strength) *
 
-          0.005;
+    /*
+      ========================================
+      CURVED GLASS / REFRACTION
 
+      Adds a second bend around the
+      outside of the lens so it feels
+      optical rather than simply zoomed.
+      ========================================
+    */
 
+    float edgeRing =
 
-        vec4 red =
+      influence *
 
-          texture2D(
+      (1.0 - influence);
 
-            u_image,
 
-            distortedUV +
+    vec2 normalizedDirection =
 
-            vec2(
-              separation,
-              0.0
-            )
+      delta /
 
-          );
+      max(
+        distanceFromMouse,
+        0.001
+      );
 
 
+    normalizedDirection.x /=
+      u_aspect;
 
-        vec4 green =
 
-          texture2D(
+    distortedUV +=
 
-            u_image,
+      normalizedDirection *
 
-            distortedUV
+      edgeRing *
 
-          );
+      abs(u_strength) *
 
+      0.008;
 
 
-        vec4 blue =
 
-          texture2D(
+    /*
+      ========================================
+      CHROMATIC ABERRATION
 
-            u_image,
+      Camera-lens-style red / blue
+      separation near the lens edge.
+      ========================================
+    */
 
-            distortedUV -
+    float separation =
 
-            vec2(
-              separation,
-              0.0
-            )
+      edgeRing *
 
-          );
+      (
+        0.0025 +
+        abs(u_strength) *
+        0.0015
+      );
 
 
+    vec2 chromaticDirection =
 
-        gl_FragColor =
+      normalizedDirection *
 
-          vec4(
+      separation;
 
-            red.r,
-            green.g,
-            blue.b,
-            1.0
 
-          );
 
-      }
+    /*
+      Convert everything to correctly
+      cropped image coordinates.
+    */
 
-    `;
+    vec2 centerUV =
+      coverImage(
+        distortedUV
+      );
+
+
+    vec2 redUV =
+      coverImage(
+        distortedUV +
+        chromaticDirection
+      );
+
+
+    vec2 blueUV =
+      coverImage(
+        distortedUV -
+        chromaticDirection
+      );
+
+
+
+    vec4 red =
+      texture2D(
+        u_image,
+        redUV
+      );
+
+
+    vec4 green =
+      texture2D(
+        u_image,
+        centerUV
+      );
+
+
+    vec4 blue =
+      texture2D(
+        u_image,
+        blueUV
+      );
+
+
+
+    gl_FragColor =
+
+      vec4(
+        red.r,
+        green.g,
+        blue.b,
+        1.0
+      );
+
+  }
+
+`;
 
 
 
