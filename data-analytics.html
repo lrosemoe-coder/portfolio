@@ -559,206 +559,352 @@
 
 
 
-    const fragmentShaderSource = `
+  const fragmentShaderSource = `
 
-      precision mediump float;
+  precision mediump float;
 
-      uniform sampler2D u_image;
+  uniform sampler2D u_image;
+  uniform vec2 u_mouse;
+  uniform float u_strength;
+  uniform float u_aspect;
+  uniform float u_imageAspect;
 
-      uniform vec2 u_mouse;
-
-      uniform float u_strength;
-
-      uniform float u_aspect;
-
-      uniform float u_imageAspect;
-
-      varying vec2 v_texCoord;
+  varying vec2 v_texCoord;
 
 
-      void main() {
+  /*
+    Makes the image behave like
+    object-fit: cover.
 
-        vec2 uv =
-          v_texCoord;
+    This prevents stretching.
+  */
 
-          /*
-  KEEP IMAGE PROPORTIONS
-  Works like object-fit: cover
-*/
+  vec2 coverImage(vec2 uv) {
 
-vec2 coverUV = uv;
+    vec2 result = uv;
 
-if (u_aspect > u_imageAspect) {
+    if (u_aspect > u_imageAspect) {
 
-  float scale =
-    u_imageAspect /
-    u_aspect;
+      float scale =
+        u_imageAspect /
+        u_aspect;
 
-  coverUV.y =
-    (uv.y - 0.5) *
-    scale +
-    0.5;
+      result.y =
+        (uv.y - 0.5) *
+        scale +
+        0.5;
 
-}
+    }
 
-else {
+    else {
 
-  float scale =
-    u_aspect /
-    u_imageAspect;
+      float scale =
+        u_aspect /
+        u_imageAspect;
 
-  coverUV.x =
-    (uv.x - 0.5) *
-    scale +
-    0.5;
+      result.x =
+        (uv.x - 0.5) *
+        scale +
+        0.5;
 
-}
+    }
 
-uv = coverUV;
+    return result;
 
-
-        vec2 delta =
-          uv -
-          u_mouse;
-
-
-        delta.x *=
-          u_aspect;
-
-
-        float distanceFromMouse =
-          length(delta);
-
-
-        /*
-          SIZE OF THE SWIRL
-
-          Increase this number if you want
-          the affected area to be larger.
-        */
-
-        float radius =
-          0.50;
-
-
-        float influence =
-          smoothstep(
-            radius,
-            0.0,
-            distanceFromMouse
-          );
-
-
-        float angle =
-          influence *
-          u_strength;
-
-
-        float s =
-          sin(angle);
-
-        float c =
-          cos(angle);
-
-
-        vec2 rotated;
-
-
-        rotated.x =
-          delta.x * c -
-          delta.y * s;
-
-
-        rotated.y =
-          delta.x * s +
-          delta.y * c;
-
-
-        rotated.x /=
-          u_aspect;
-
-
-        vec2 distortedUV =
-          u_mouse +
-          rotated;
+  }
 
 
 
-        /*
-          COLOR SEPARATION
-        */
+  void main() {
 
-        float separation =
+    /*
+      SCREEN COORDINATES
+    */
 
-          influence *
-
-          abs(u_strength) *
-
-          0.005;
+    vec2 uv =
+      v_texCoord;
 
 
+    /*
+      DISTANCE FROM CURSOR
+    */
 
-        vec4 red =
+    vec2 delta =
+      uv -
+      u_mouse;
 
-          texture2D(
+    delta.x *=
+      u_aspect;
 
-            u_image,
+    float dist =
+      length(delta);
 
-            distortedUV +
+
+
+    /*
+      SIZE OF EFFECT
+
+      Bigger number =
+      larger affected area.
+    */
+
+    float radius =
+      0.34;
+
+
+    float influence =
+      smoothstep(
+        radius,
+        0.0,
+        dist
+      );
+
+
+
+    /*
+      ==================================
+      GEOMETRIC GRID
+      ==================================
+
+      Increase 18.0 for
+      smaller/more cells.
+
+      Decrease for
+      larger/chunkier cells.
+    */
+
+    float gridSize =
+      18.0;
+
+
+    vec2 cell =
+      floor(
+        uv *
+        gridSize
+      );
+
+
+    vec2 cellCenter =
+      (
+        cell +
+        0.5
+      ) /
+      gridSize;
+
+
+
+    /*
+      Generate a different pseudo-random
+      value for every grid cell.
+    */
+
+    float randomValue =
+      fract(
+
+        sin(
+
+          dot(
+
+            cell,
 
             vec2(
-              separation,
-              0.0
+              12.9898,
+              78.233
             )
 
-          );
+          )
+
+        )
+
+        *
+
+        43758.5453
+
+      );
 
 
 
-        vec4 green =
+    /*
+      Give every cell its own
+      movement direction.
+    */
 
-          texture2D(
-
-            u_image,
-
-            distortedUV
-
-          );
-
+    float angle =
+      randomValue *
+      6.283185;
 
 
-        vec4 blue =
-
-          texture2D(
-
-            u_image,
-
-            distortedUV -
-
-            vec2(
-              separation,
-              0.0
-            )
-
-          );
+    vec2 direction =
+      vec2(
+        cos(angle),
+        sin(angle)
+      );
 
 
 
-        gl_FragColor =
+    /*
+      Make cells near cursor move more.
 
-          vec4(
+      floor() gives the movement
+      a stepped / data-like quality.
+    */
 
-            red.r,
-            green.g,
-            blue.b,
-            1.0
+    float steppedInfluence =
+      floor(
+        influence *
+        6.0
+      )
+      /
+      6.0;
 
-          );
 
-      }
 
-    `;
+    /*
+      Amount cells move.
 
+      THIS is one of your main
+      intensity controls.
+    */
+
+    float displacementAmount =
+
+      steppedInfluence *
+
+      u_strength *
+
+      0.010;
+
+
+
+    vec2 displacedUV =
+
+      uv +
+
+      direction *
+
+      displacementAmount;
+
+
+
+    /*
+      Add a tiny directional snap
+      toward cell centers.
+
+      This gives the distortion
+      a structured / geometric feel.
+    */
+
+    vec2 towardCell =
+
+      cellCenter -
+      uv;
+
+
+    displacedUV +=
+
+      towardCell *
+
+      influence *
+
+      abs(u_strength) *
+
+      0.055;
+
+
+
+    /*
+      Convert screen coordinates
+      into correctly cropped
+      image coordinates.
+    */
+
+    vec2 imageUV =
+      coverImage(
+        displacedUV
+      );
+
+
+
+    /*
+      ==================================
+      DIGITAL COLOR SPLIT
+      ==================================
+
+      Very subtle RGB separation
+      around the affected cells.
+    */
+
+    float separation =
+
+      influence *
+
+      abs(u_strength) *
+
+      0.0018;
+
+
+    vec2 redUV =
+      coverImage(
+
+        displacedUV +
+
+        vec2(
+          separation,
+          0.0
+        )
+
+      );
+
+
+    vec2 blueUV =
+      coverImage(
+
+        displacedUV -
+
+        vec2(
+          separation,
+          0.0
+        )
+
+      );
+
+
+    vec4 red =
+      texture2D(
+        u_image,
+        redUV
+      );
+
+
+    vec4 green =
+      texture2D(
+        u_image,
+        imageUV
+      );
+
+
+    vec4 blue =
+      texture2D(
+        u_image,
+        blueUV
+      );
+
+
+
+    gl_FragColor =
+
+      vec4(
+
+        red.r,
+        green.g,
+        blue.b,
+        1.0
+
+      );
+
+  }
+
+`;
 
 
     /* =========================================
