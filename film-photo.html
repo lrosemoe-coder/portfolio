@@ -709,10 +709,11 @@
 
       abs(
         sin(
-  angle * 5.0 +
+  angle * 3.7 +
+  dist * 19.0 +
+  sin(angle * 2.3 + dist * 11.0) * 1.4 +
   u_mouse.x * 16.0 +
-  u_mouse.y * 11.0 +
-  dist * 12.0
+  u_mouse.y * 11.0
 )
       );
 
@@ -751,11 +752,22 @@
       );
 
 
-    float prism =
+    float centerBreak =
 
-      facets *
+  smoothstep(
+    0.035,
+    0.10,
+    dist
+  );
 
-      prismRing;
+
+float prism =
+
+  facets *
+
+  prismRing *
+
+  centerBreak;
 
 
 
@@ -772,8 +784,9 @@
 
       abs(
         cos(
-  angle * 7.0 +
-  dist * 38.0 -
+  angle * 5.3 +
+  dist * 31.0 +
+  sin(angle * 3.1 - dist * 8.0) * 1.7 -
   u_mouse.x * 19.0 +
   u_mouse.y * 14.0
 )
