@@ -559,7 +559,7 @@
 
 
 
-  const fragmentShaderSource = `
+ const fragmentShaderSource = `
 
   precision mediump float;
 
@@ -574,8 +574,7 @@
 
   /*
     ========================================
-    KEEP IMAGE PROPORTIONS
-    Works like object-fit: cover
+    OBJECT-FIT: COVER
     ========================================
   */
 
@@ -586,8 +585,7 @@
     if (u_aspect > u_imageAspect) {
 
       float scale =
-        u_imageAspect /
-        u_aspect;
+        u_imageAspect / u_aspect;
 
       result.y =
         (uv.y - 0.5) *
@@ -599,8 +597,7 @@
     else {
 
       float scale =
-        u_aspect /
-        u_imageAspect;
+        u_aspect / u_imageAspect;
 
       result.x =
         (uv.x - 0.5) *
@@ -615,136 +612,15 @@
 
 
 
-  /*
-    ========================================
-    SOFT BLUR FUNCTION
-
-    Samples the photograph several times
-    around each pixel.
-
-    This creates an optical / lens blur
-    rather than another image warp.
-    ========================================
-  */
-
-  vec4 blurredImage(
-    vec2 uv,
-    float blurAmount
-  ) {
-
-    vec2 imageUV =
-      coverImage(uv);
-
-    vec2 px =
-      vec2(
-        blurAmount / u_aspect,
-        blurAmount
-      );
-
-
-    vec4 color =
-      texture2D(
-        u_image,
-        imageUV
-      ) * 0.20;
-
-
-    color +=
-      texture2D(
-        u_image,
-        coverImage(
-          uv +
-          vec2(px.x, 0.0)
-        )
-      ) * 0.10;
-
-
-    color +=
-      texture2D(
-        u_image,
-        coverImage(
-          uv -
-          vec2(px.x, 0.0)
-        )
-      ) * 0.10;
-
-
-    color +=
-      texture2D(
-        u_image,
-        coverImage(
-          uv +
-          vec2(0.0, px.y)
-        )
-      ) * 0.10;
-
-
-    color +=
-      texture2D(
-        u_image,
-        coverImage(
-          uv -
-          vec2(0.0, px.y)
-        )
-      ) * 0.10;
-
-
-    color +=
-      texture2D(
-        u_image,
-        coverImage(
-          uv +
-          vec2(px.x, px.y)
-        )
-      ) * 0.10;
-
-
-    color +=
-      texture2D(
-        u_image,
-        coverImage(
-          uv +
-          vec2(-px.x, px.y)
-        )
-      ) * 0.10;
-
-
-    color +=
-      texture2D(
-        u_image,
-        coverImage(
-          uv +
-          vec2(px.x, -px.y)
-        )
-      ) * 0.10;
-
-
-    color +=
-      texture2D(
-        u_image,
-        coverImage(
-          uv -
-          vec2(px.x, px.y)
-        )
-      ) * 0.10;
-
-
-    return color;
-
-  }
-
-
-
   void main() {
 
     vec2 uv =
       v_texCoord;
 
 
-
     /*
       ========================================
-      DISTANCE FROM FOCUS POINT
+      CURSOR POSITION
       ========================================
     */
 
@@ -752,118 +628,111 @@
       uv -
       u_mouse;
 
-
     delta.x *=
       u_aspect;
 
-
-    float distanceFromMouse =
+    float dist =
       length(delta);
 
 
+    /*
+      Size of lens / prism area
+    */
+
+    float radius =
+      0.34;
+
+
+    float influence =
+      smoothstep(
+        radius,
+        0.0,
+        dist
+      );
+
 
     /*
       ========================================
-      FOCUS AREA SIZE
-
-      Smaller = tighter camera focus
-
-      Larger = larger focused region
+      GLASS LENS DISTORTION
       ========================================
     */
 
-    float focusRadius =
-      0.45;
+    vec2 lensDelta =
+      uv -
+      u_mouse;
+
+
+    float glassStrength =
+
+      influence *
+
+      (
+        0.035 +
+        abs(u_strength) *
+        0.009
+      );
+
+
+    vec2 distortedUV =
+
+      uv -
+
+      lensDelta *
+      glassStrength;
 
 
 
     /*
-      Soft transition between
-      sharp and out-of-focus.
+      ========================================
+      ANGULAR PRISM SHAPE
+      ========================================
+
+      Convert cursor position to an angle.
+
+      This is what gives the light
+      geometric / fractured edges.
     */
 
-    float focusMask =
+    float angle =
+      atan(
+        delta.y,
+        delta.x
+      );
 
-      1.0 -
+
+    /*
+      Several angular facets around
+      the cursor.
+    */
+
+    float facets =
+
+      abs(
+        sin(
+          angle * 5.0
+        )
+      );
+
+
+    facets =
+      pow(
+        facets,
+        10.0
+      );
+
+
+    /*
+      Light is strongest in a ring
+      around the lens instead of
+      directly underneath the cursor.
+    */
+
+    float prismRing =
 
       smoothstep(
-        focusRadius * 0.45,
-        focusRadius,
-        distanceFromMouse
-      );
-
-
-
-    /*
-      ========================================
-      OUT-OF-FOCUS IMAGE
-      ========================================
-
-      Increase 0.008 if you want
-      dramatically more blur.
-    */
-
-    float blurAmount =
-      0.004;
-
-
-    vec4 blurred =
-      blurredImage(
-        uv,
-        blurAmount
-      );
-
-
-
-    /*
-      ========================================
-      SHARP IMAGE AT CURSOR
-      ========================================
-    */
-
-    vec2 sharpUV =
-      coverImage(uv);
-
-
-    vec4 sharp =
-      texture2D(
-        u_image,
-        sharpUV
-      );
-
-
-
-    /*
-      Blend from blurry photograph
-      into sharp focus.
-    */
-
-    vec4 color =
-      mix(
-        blurred,
-        sharp,
-        focusMask
-      );
-
-
-
-    /*
-      ========================================
-      FOCUS RING / OPTICAL EDGE
-      ========================================
-
-      This isn't a visible line.
-
-      It creates a subtle optical change
-      around the edge of the focused area.
-    */
-
-    float ring =
-
-      smoothstep(
-        focusRadius * 0.35,
-        focusRadius * 0.70,
-        distanceFromMouse
+        0.04,
+        0.13,
+        dist
       )
 
       *
@@ -872,24 +741,73 @@
         1.0 -
 
         smoothstep(
-          focusRadius * 0.70,
-          focusRadius,
-          distanceFromMouse
+          0.13,
+          radius,
+          dist
         )
       );
+
+
+    float prism =
+
+      facets *
+
+      prismRing;
 
 
 
     /*
       ========================================
-      CHROMATIC ABERRATION
+      SECOND FRACTAL LAYER
+
+      Offset angular pattern makes the
+      light less perfectly symmetrical.
       ========================================
+    */
 
-      Tiny red / blue separation around
-      the focus transition.
+    float facetsTwo =
 
-      This gives us the imperfect
-      camera-lens feeling.
+      abs(
+        cos(
+          angle * 7.0 +
+          dist * 28.0
+        )
+      );
+
+
+    facetsTwo =
+      pow(
+        facetsTwo,
+        16.0
+      );
+
+
+    float prismTwo =
+
+      facetsTwo *
+
+      influence *
+
+      0.55;
+
+
+
+    /*
+      Combine our fractured light.
+    */
+
+    float fracturedLight =
+
+      prism +
+
+      prismTwo;
+
+
+
+    /*
+      ========================================
+      PRISMATIC COLOR SEPARATION
+      ========================================
     */
 
     vec2 direction =
@@ -897,7 +815,7 @@
       delta /
 
       max(
-        distanceFromMouse,
+        dist,
         0.001
       );
 
@@ -908,129 +826,233 @@
 
     float separation =
 
-      ring *
+      influence *
 
       (
-        0.003 +
+        0.002 +
 
         abs(u_strength) *
-        0.0007
+        0.0014
       );
 
 
+    /*
+      Fractals increase RGB splitting.
+    */
+
+    separation +=
+
+      fracturedLight *
+      0.0045;
+
+
+
     vec2 redUV =
+
       coverImage(
-        uv +
+
+        distortedUV +
+
         direction *
         separation
+
+      );
+
+
+    vec2 greenUV =
+
+      coverImage(
+        distortedUV
       );
 
 
     vec2 blueUV =
+
       coverImage(
-        uv -
+
+        distortedUV -
+
         direction *
         separation
+
       );
 
 
-    vec4 redSample =
+
+    vec4 red =
       texture2D(
         u_image,
         redUV
       );
 
 
-    vec4 blueSample =
+    vec4 green =
+      texture2D(
+        u_image,
+        greenUV
+      );
+
+
+    vec4 blue =
       texture2D(
         u_image,
         blueUV
       );
 
 
-    color.r =
-      mix(
-        color.r,
-        redSample.r,
-        ring * 0.65
-      );
 
+    vec3 color =
 
-    color.b =
-      mix(
-        color.b,
-        blueSample.b,
-        ring * 0.65
+      vec3(
+        red.r,
+        green.g,
+        blue.b
       );
 
 
 
     /*
       ========================================
-      SUBTLE EXPOSURE BLOOM
-
-      The focus point gets very slightly
-      brighter, like light entering a lens.
+      LIGHT FRACTALS
       ========================================
+
+      White photographic flare +
+      slightly rainbow prism edges.
     */
 
-    float bloom =
+    float movementEnergy =
 
-      focusMask *
+      min(
+        abs(u_strength) / 4.0,
+        1.0
+      );
+
+
+    float lightAmount =
+
+      fracturedLight *
 
       (
-        0.025 +
-
-        min(
-          abs(u_strength) * 0.008,
-          0.04
-        )
+        0.12 +
+        movementEnergy *
+        0.22
       );
 
 
-    color.rgb +=
-      bloom;
+    /*
+      Main white refracted light
+    */
+
+    color +=
+
+      vec3(
+        1.0,
+        0.97,
+        0.90
+      )
+
+      *
+
+      lightAmount;
 
 
 
     /*
       ========================================
-      VERY SUBTLE VIGNETTE
-
-      Helps reinforce the camera feeling.
+      SUBTLE RAINBOW REFRACTION
       ========================================
     */
 
-    vec2 centered =
-      uv - 0.5;
+    float rainbowPosition =
+
+      angle * 2.0 +
+
+      dist * 20.0;
 
 
-    float vignette =
-      dot(
-        centered,
-        centered
+    vec3 rainbow =
+
+      vec3(
+
+        0.5 +
+        0.5 *
+        sin(
+          rainbowPosition
+        ),
+
+        0.5 +
+        0.5 *
+        sin(
+          rainbowPosition +
+          2.094
+        ),
+
+        0.5 +
+        0.5 *
+        sin(
+          rainbowPosition +
+          4.188
+        )
+
       );
 
 
-    color.rgb *=
+    color +=
 
-      1.0 -
+      rainbow *
 
-      vignette *
-      0.16;
+      fracturedLight *
+
+      (
+        0.035 +
+        movementEnergy *
+        0.08
+      );
+
+
+
+    /*
+      ========================================
+      CENTRAL GLASS GLOW
+      ========================================
+    */
+
+    float centerGlow =
+
+      pow(
+        influence,
+        3.0
+      )
+
+      *
+
+      0.035;
+
+
+    color +=
+
+      vec3(
+        1.0,
+        0.96,
+        0.88
+      )
+
+      *
+
+      centerGlow;
 
 
 
     gl_FragColor =
+
       vec4(
-        color.rgb,
+        color,
         1.0
       );
 
   }
 
 `;
-
 
 
     /* =========================================
