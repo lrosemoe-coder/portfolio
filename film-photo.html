@@ -705,17 +705,55 @@
       the cursor.
     */
 
-    float facets =
+float flowingAngle =
 
-      abs(
-        sin(
-  angle * 3.7 +
-  dist * 19.0 +
-  sin(angle * 2.3 + dist * 11.0) * 1.4 +
-  u_mouse.x * 16.0 +
-  u_mouse.y * 11.0
-)
-      );
+  angle
+
+  +
+
+  sin(
+    dist * 9.0 +
+    u_mouse.x * 7.0
+  ) * 0.8
+
+  +
+
+  sin(
+    angle * 1.7 -
+    dist * 6.0 +
+    u_mouse.y * 8.0
+  ) * 0.55;
+
+
+
+float facets =
+
+  abs(
+    sin(
+
+      flowingAngle * 2.6
+
+      +
+
+      dist * 13.0
+
+      +
+
+      sin(
+        flowingAngle * 1.8 +
+        dist * 7.0
+      ) * 2.1
+
+      +
+
+      u_mouse.x * 13.0
+
+      -
+
+      u_mouse.y * 9.0
+
+    )
+  );
 
 
     facets =
@@ -793,11 +831,11 @@ float prism =
       );
 
 
-    facetsTwo =
-      pow(
-        facetsTwo,
-        16.0
-      );
+facets =
+  pow(
+    facets,
+    3.2
+  );
 
 
     float prismTwo =
@@ -948,13 +986,13 @@ float prism =
 
     float lightAmount =
 
-      fracturedLight *
+  fracturedLight *
 
-      (
-        0.10 +
-movementEnergy *
-0.22
-      );
+  (
+    0.16 +
+    movementEnergy *
+    0.32
+  );
 
 
     /*
@@ -1017,15 +1055,15 @@ movementEnergy *
 
     color +=
 
-      rainbow *
+  rainbow *
 
-      fracturedLight *
+  fracturedLight *
 
-      (
-        0.035 +
-        movementEnergy *
-        0.08
-      );
+  (
+    0.11 +
+    movementEnergy *
+    0.24
+  );
 
 
 
