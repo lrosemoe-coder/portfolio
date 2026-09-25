@@ -709,8 +709,10 @@
 
       abs(
         sin(
-          angle * 5.0
-        )
+  angle * 5.0 +
+  u_mouse.x * 5.0 +
+  u_mouse.y * 3.0
+)
       );
 
 
@@ -769,9 +771,11 @@
 
       abs(
         cos(
-          angle * 7.0 +
-          dist * 28.0
-        )
+  angle * 7.0 +
+  dist * 28.0 -
+  u_mouse.x * 6.0 +
+  u_mouse.y * 4.0
+)
       );
 
 
@@ -933,9 +937,9 @@
       fracturedLight *
 
       (
-        0.12 +
+        0.06 +
         movementEnergy *
-        0.22
+        0.12
       );
 
 
