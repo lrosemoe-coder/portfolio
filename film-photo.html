@@ -78,19 +78,19 @@
        HERO
        ========================================= */
 
-.hero {
-  position: relative;
+    .hero {
+      position: relative;
 
-  width: 100%;
-  height: 62vh;
-  min-height: 480px;
+      width: 100%;
+      height: 62vh;
+      min-height: 480px;
 
-  margin: 0;
+      margin: 0;
 
-  overflow: hidden;
+      overflow: hidden;
 
-  background: #071a18;
-}
+      background: #071a18;
+    }
 
 
 
@@ -115,7 +115,7 @@
 
 
     /* =========================================
-       RESEARCH TITLE
+       FILM TITLE
        ========================================= */
 
     .hero-title {
@@ -342,12 +342,12 @@
       }
 
 
-.hero {
-  width: 100%;
-  height: 55vh;
-  min-height: 400px;
-  margin: 0;
-}
+      .hero {
+        width: 100%;
+        height: 55vh;
+        min-height: 400px;
+        margin: 0;
+      }
 
 
       .hero-title {
@@ -415,7 +415,7 @@
 
 
   <!-- =======================================
-       RESEARCH CONTENT
+       FILM CONTENT
        ======================================= -->
 
   <main class="film-content">
@@ -424,13 +424,12 @@
     <section class="intro">
 
       <p class="section-label">
-        Research
+        Film + Photo
       </p>
 
       <p class="intro-text">
-        Exploring biological systems through
-        fieldwork, experimentation, data, and
-        curiosity.
+        Exploring images, light, movement,
+        observation, and visual storytelling.
       </p>
 
     </section>
@@ -448,24 +447,22 @@
         </p>
 
         <h2 class="project-title">
-          Marine Fungi
-          & Algal
-          Decomposition
+          Film &
+          Photography
+          Project
         </h2>
 
         <p class="project-description">
-          Research conducted in Mo'orea,
-          French Polynesia examining marine
-          fungi associated with algae and
-          their potential role in
-          decomposition.
+          This space can hold photography,
+          film, visual experiments,
+          documentation, and process.
         </p>
 
       </div>
 
 
       <div class="project-placeholder">
-        project image / graph / specimen
+        film / photo / project
       </div>
 
     </section>
@@ -483,21 +480,21 @@
         </p>
 
         <h2 class="project-title">
-          Next Research
+          Next Visual
           Project
         </h2>
 
         <p class="project-description">
-          This space can hold another research
-          project, field study, dataset, or
-          scientific exploration.
+          This space can hold another film,
+          photography series, visual study,
+          or creative exploration.
         </p>
 
       </div>
 
 
       <div class="project-placeholder">
-        project image / graph / specimen
+        film / photo / project
       </div>
 
     </section>
@@ -516,6 +513,7 @@
     const canvas =
       document.getElementById("twistCanvas");
 
+
     const gl =
       canvas.getContext("webgl");
 
@@ -531,7 +529,7 @@
 
 
     /* =========================================
-       SHADERS
+       VERTEX SHADER
        ========================================= */
 
     const vertexShaderSource = `
@@ -540,6 +538,7 @@
       attribute vec2 a_texCoord;
 
       varying vec2 v_texCoord;
+
 
       void main() {
 
@@ -550,6 +549,7 @@
             1.0
           );
 
+
         v_texCoord =
           a_texCoord;
 
@@ -559,698 +559,860 @@
 
 
 
- const fragmentShaderSource = `
+    /* =========================================
+       FILM / PRISM FRAGMENT SHADER
+       ========================================= */
 
-  precision mediump float;
+    const fragmentShaderSource = `
 
-  uniform sampler2D u_image;
-  uniform vec2 u_mouse;
-  uniform float u_strength;
-  uniform float u_aspect;
-  uniform float u_imageAspect;
-  uniform float u_time;
+      precision mediump float;
 
-  varying vec2 v_texCoord;
 
+      uniform sampler2D u_image;
 
-  /*
-    ========================================
-    OBJECT-FIT: COVER
-    ========================================
-  */
+      uniform vec2 u_mouse;
 
-  vec2 coverImage(vec2 uv) {
+      uniform float u_strength;
+      uniform float u_aspect;
+      uniform float u_imageAspect;
+      uniform float u_time;
 
-    vec2 result = uv;
 
-    if (u_aspect > u_imageAspect) {
+      varying vec2 v_texCoord;
 
-      float scale =
-        u_imageAspect / u_aspect;
 
-      result.y =
-        (uv.y - 0.5) *
-        scale +
-        0.5;
 
-    }
+      /* ========================================
+         OBJECT-FIT: COVER
+         ======================================== */
 
-    else {
+      vec2 coverImage(
+        vec2 uv
+      ) {
 
-      float scale =
-        u_aspect / u_imageAspect;
+        vec2 result =
+          uv;
 
-      result.x =
-        (uv.x - 0.5) *
-        scale +
-        0.5;
 
-    }
+        if (
+          u_aspect >
+          u_imageAspect
+        ) {
 
-    return result;
+          float scale =
 
-  }
+            u_imageAspect /
 
+            u_aspect;
 
 
-  void main() {
+          result.y =
 
-    vec2 uv =
-      v_texCoord;
+            (uv.y - 0.5) *
 
+            scale +
 
-    /*
-      ========================================
-      CURSOR POSITION
-      ========================================
-    */
+            0.5;
 
-    vec2 delta =
-      uv -
-      u_mouse;
+        }
 
-    delta.x *=
-      u_aspect;
 
-    float dist =
-      length(delta);
+        else {
 
+          float scale =
 
-    /*
-      Size of lens / prism area
-    */
+            u_aspect /
 
-    float radius =
-      0.45;
+            u_imageAspect;
 
 
-    float influence =
-      smoothstep(
-        radius,
-        0.0,
-        dist
-      );
+          result.x =
 
+            (uv.x - 0.5) *
 
-    /*
-      ========================================
-      GLASS LENS DISTORTION
-      ========================================
-    */
+            scale +
 
-    vec2 lensDelta =
-      uv -
-      u_mouse;
+            0.5;
 
+        }
 
-    float glassStrength =
 
-      influence *
+        return result;
 
-      (
-        0.11 +
-        abs(u_strength) *
-        0.025
-      );
+      }
 
 
-    vec2 distortedUV =
 
-      uv -
+      void main() {
 
-      lensDelta *
-      glassStrength;
 
+        vec2 uv =
+          v_texCoord;
 
 
-   /*
-  ========================================
-  FLOWING PRISM FIELD
-  ========================================
 
-  Instead of building the light directly
-  from raw polar angle, we warp the angle
-  continuously.
+        /* ========================================
+           CURSOR POSITION
+           ======================================== */
 
-  This helps remove the obvious radial
-  seam and makes the light feel more like
-  flowing glass.
-*/
+        vec2 delta =
 
-float angle =
-  atan(
-    delta.y,
-    delta.x
-  );
+          uv -
 
+          u_mouse;
 
-/*
-  ========================================
-  CONTINUOUS IDLE MOTION
-  ========================================
 
-  These very slow waves continue changing
-  even when the mouse is completely still.
-*/
+        delta.x *=
+          u_aspect;
 
-float timeFlow =
-  u_time * 0.42;
 
+        float dist =
+          length(delta);
 
-float slowDrift =
 
-  sin(
-    u_time * 0.31
-  ) * 0.32;
 
+        /*
+          Size of the prism / lens.
+        */
 
+        float radius =
+          0.45;
 
-/*
-  ========================================
-  FIRST FLOW FIELD
-  ========================================
-*/
 
-float flowingAngle =
+        float influence =
 
-  angle
+          smoothstep(
+            radius,
+            0.0,
+            dist
+          );
 
-  +
 
-  sin(
-    dist * 8.0 +
-    timeFlow
-  ) * 0.85
 
-  +
+        /* ========================================
+           GLASS LENS DISTORTION
+           ======================================== */
 
-  sin(
-    angle * 1.35 -
-    dist * 5.0 -
-    timeFlow * 0.7
-  ) * 0.62
+        vec2 lensDelta =
 
-  +
+          uv -
 
-  sin(
-    delta.x * 8.0 +
-    delta.y * 5.0 +
-    u_time * 0.23
-  ) * 0.28
+          u_mouse;
 
-  +
 
-  slowDrift;
+        float glassStrength =
 
+          influence *
 
+          (
+            0.11 +
 
-/*
-  The phase itself moves with time.
+            abs(u_strength) *
 
-  This makes the refracted bands slide
-  and reform while your mouse is still.
-*/
+            0.025
+          );
 
-float facetPhase =
 
-  flowingAngle * 2.15
+        vec2 distortedUV =
 
-  +
+          uv -
 
-  dist * 12.0
+          lensDelta *
 
-  +
+          glassStrength;
 
-  sin(
-    flowingAngle * 1.55 +
-    dist * 6.0 -
-    u_time * 0.48
-  ) * 2.3
 
-  +
 
-  u_time * 0.36;
+        /* ========================================
+           SEAM-SAFE CIRCULAR COORDINATES
+           ========================================
 
+           atan() gives us the angle around
+           the cursor.
 
+           We DO NOT feed raw angle directly
+           into fractional-frequency patterns.
 
-/*
-  IMPORTANT:
+           Instead, cos(angle) and sin(angle)
+           remain continuous around the circle.
+           ======================================== */
 
-  Using 0.5 + 0.5*sin instead of abs(sin)
-  removes the harsh mirrored fold that can
-  create that unnatural straight seam.
-*/
+        float angle =
 
-float facets =
+          atan(
+            delta.y,
+            delta.x
+          );
 
-  0.5 +
 
-  0.5 *
+        float angleX =
+          cos(angle);
 
-  sin(
-    facetPhase
-  );
 
+        float angleY =
+          sin(angle);
 
-/*
-  Softer exponent = broader,
-  less razor-sharp light structures.
-*/
 
-facets =
 
-  pow(
-    facets,
-    3.0
-  );
+        /* ========================================
+           CONTINUOUS TIME MOTION
+           ======================================== */
 
+        float timeFlow =
 
+          u_time *
 
-/*
-  ========================================
-  SOFT PRISM REGION
-  ========================================
+          0.42;
 
-  This replaces the harder ring structure
-  with a softer irregular region.
-*/
 
-float innerFade =
+        float slowDrift =
 
-  smoothstep(
-    0.015,
-    0.09,
-    dist
-  );
+          sin(
+            u_time *
+            0.31
+          )
 
+          *
 
-float outerFade =
+          0.32;
 
-  1.0 -
 
-  smoothstep(
-    0.16,
-    radius,
-    dist
-  );
 
+        /* ========================================
+           FIRST FLOWING LIGHT FIELD
+           ======================================== */
 
-float prismRegion =
+        float flowingAngle =
 
-  innerFade *
+          angleX * 1.35
 
-  outerFade;
+          +
 
+          angleY * 0.95
 
+          +
 
-/*
-  Add a subtle irregular mask so the
-  refracted light doesn't terminate in
-  a perfectly circular boundary.
-*/
+          sin(
+            dist * 8.0 +
+            timeFlow
+          ) * 0.85
 
-float organicMask =
+          +
 
-  0.78 +
+          sin(
+            angleX * 2.8 +
+            angleY * 2.1 -
+            dist * 5.0 -
+            timeFlow * 0.7
+          ) * 0.62
 
-  0.22 *
+          +
 
-  sin(
-    angle * 2.0 +
-    dist * 15.0 -
-    u_time * 0.27
-  );
+          sin(
+            delta.x * 8.0 +
+            delta.y * 5.0 +
+            u_time * 0.23
+          ) * 0.28
 
+          +
 
-float prism =
+          slowDrift;
 
-  facets *
 
-  prismRegion *
 
-  organicMask;
+        /*
+          Moving phase of first
+          refracted-light layer.
+        */
 
+        float facetPhase =
 
+          flowingAngle * 2.15
 
-/*
-  ========================================
-  SECOND FLOWING FRACTAL LAYER
-  ========================================
+          +
 
-  This layer moves at a different speed
-  and direction so the two patterns never
-  lock together.
-*/
+          dist * 12.0
 
-float flowingAngleTwo =
+          +
 
-  angle
+          sin(
+            flowingAngle * 1.55 +
+            dist * 6.0 -
+            u_time * 0.48
+          ) * 2.3
 
-  -
+          +
 
-  sin(
-    dist * 6.5 -
-    u_time * 0.29
-  ) * 0.9
+          u_time * 0.36;
 
-  +
 
-  cos(
-    angle * 1.2 +
-    dist * 4.5 +
-    u_time * 0.21
-  ) * 0.72;
 
+        /*
+          0.5 + 0.5*sin() avoids the
+          hard mirrored fold produced
+          by abs(sin()).
+        */
 
+        float facets =
 
-float facetPhaseTwo =
+          0.5 +
 
-  flowingAngleTwo * 2.75
+          0.5 *
 
-  +
+          sin(
+            facetPhase
+          );
 
-  dist * 15.0
 
-  +
+        facets =
 
-  sin(
-    flowingAngleTwo * 1.9 -
-    dist * 7.0 +
-    u_time * 0.33
-  ) * 1.9
+          pow(
+            facets,
+            3.0
+          );
 
-  -
 
-  u_time * 0.25;
 
+        /* ========================================
+           SOFT PRISM REGION
+           ======================================== */
 
+        float innerFade =
 
-float facetsTwo =
+          smoothstep(
+            0.015,
+            0.09,
+            dist
+          );
 
-  0.5 +
 
-  0.5 *
+        float outerFade =
 
-  cos(
-    facetPhaseTwo
-  );
+          1.0 -
 
+          smoothstep(
+            0.16,
+            radius,
+            dist
+          );
 
-facetsTwo =
 
-  pow(
-    facetsTwo,
-    3.6
-  );
 
+        /*
+          Soft central-to-outer prism field.
+        */
 
+        float prismRegion =
 
-float prismTwo =
+          innerFade *
 
-  facetsTwo *
+          outerFade;
 
-  influence *
 
-  innerFade *
 
-  0.48;
+        /*
+          Irregular edge instead of
+          perfect circular ring.
+        */
 
+        float organicMask =
 
+          0.78 +
 
-    /*
-      Combine our fractured light.
-    */
+          0.22 *
 
-    float fracturedLight =
+          sin(
 
-      prism +
+            angleX * 2.0 +
 
-      prismTwo;
+            angleY * 2.6 +
 
+            dist * 15.0 -
 
+            u_time * 0.27
 
-    /*
-      ========================================
-      PRISMATIC COLOR SEPARATION
-      ========================================
-    */
+          );
 
-    vec2 direction =
 
-      delta /
 
-      max(
-        dist,
-        0.001
-      );
+        float prism =
 
+          facets *
 
-    direction.x /=
-      u_aspect;
+          prismRegion *
 
+          organicMask;
 
-    float separation =
 
-      influence *
 
-      (
-        0.002 +
+        /* ========================================
+           SECOND FLOWING LIGHT FIELD
+           ======================================== */
 
-        abs(u_strength) *
-        0.0014
-      );
+        float flowingAngleTwo =
 
+          angleX * 0.8
 
-    /*
-      Fractals increase RGB splitting.
-    */
+          -
 
-    separation +=
+          angleY * 1.15
 
-      fracturedLight *
-      0.0045;
+          -
 
+          sin(
+            dist * 6.5 -
+            u_time * 0.29
+          ) * 0.9
 
+          +
 
-    vec2 redUV =
+          cos(
 
-      coverImage(
+            angleX * 2.4 -
 
-        distortedUV +
+            angleY * 1.8 +
 
-        direction *
-        separation
+            dist * 4.5 +
 
-      );
+            u_time * 0.21
 
+          ) * 0.72;
 
-    vec2 greenUV =
 
-      coverImage(
-        distortedUV
-      );
 
+        float facetPhaseTwo =
 
-    vec2 blueUV =
+          flowingAngleTwo * 2.75
 
-      coverImage(
+          +
 
-        distortedUV -
+          dist * 15.0
 
-        direction *
-        separation
+          +
 
-      );
+          sin(
 
+            flowingAngleTwo * 1.9 -
 
+            dist * 7.0 +
 
-    vec4 red =
-      texture2D(
-        u_image,
-        redUV
-      );
+            u_time * 0.33
 
+          ) * 1.9
 
-    vec4 green =
-      texture2D(
-        u_image,
-        greenUV
-      );
+          -
 
+          u_time * 0.25;
 
-    vec4 blue =
-      texture2D(
-        u_image,
-        blueUV
-      );
 
 
+        float facetsTwo =
 
-    vec3 color =
+          0.5 +
 
-      vec3(
-        red.r,
-        green.g,
-        blue.b
-      );
+          0.5 *
 
+          cos(
+            facetPhaseTwo
+          );
 
 
-    /*
-      ========================================
-      LIGHT FRACTALS
-      ========================================
+        facetsTwo =
 
-      White photographic flare +
-      slightly rainbow prism edges.
-    */
+          pow(
+            facetsTwo,
+            3.6
+          );
 
-    float movementEnergy =
 
-      min(
-        abs(u_strength) / 4.0,
-        1.0
-      );
 
+        float prismTwo =
 
-    float lightAmount =
+          facetsTwo *
 
-  fracturedLight *
+          influence *
 
-  (
-    0.16 +
-    movementEnergy *
-    0.32
-  );
+          innerFade *
 
+          0.48;
 
-    /*
-      Main white refracted light
-    */
 
-    color +=
 
-      vec3(
-        1.0,
-        0.97,
-        0.90
-      )
+        /* ========================================
+           THIRD SOFT LIGHT FIELD
+           ========================================
 
-      *
+           This layer breaks up the remaining
+           radial structure and gives the light
+           a softer optical-glass appearance.
+           ======================================== */
 
-      lightAmount;
+        float softField =
 
+          sin(
 
+            delta.x * 10.0 +
 
-    /*
-      ========================================
-      SUBTLE RAINBOW REFRACTION
-      ========================================
-    */
+            sin(
+              delta.y * 7.0 +
+              u_time * 0.22
+            ) * 1.8 +
 
-float rainbowPosition =
+            dist * 9.0 -
 
-  flowingAngle * 1.7
+            u_time * 0.18
 
-  +
+          );
 
-  dist * 18.0
 
-  -
+        softField =
 
-  u_time * 0.32
+          0.5 +
 
-  +
+          0.5 *
 
-  sin(
-    flowingAngleTwo * 1.4 +
-    u_time * 0.21
-  ) * 1.2;
+          softField;
 
 
-    vec3 rainbow =
+        softField =
 
-      vec3(
+          pow(
+            softField,
+            2.4
+          );
 
-        0.5 +
-        0.5 *
-        sin(
-          rainbowPosition
-        ),
 
-        0.5 +
-        0.5 *
-        sin(
-          rainbowPosition +
-          2.094
-        ),
+        float prismThree =
 
-        0.5 +
-        0.5 *
-        sin(
-          rainbowPosition +
-          4.188
-        )
+          softField *
 
-      );
+          influence *
 
+          0.26;
 
-    color +=
 
-  rainbow *
 
-  fracturedLight *
+        /* ========================================
+           COMBINE FRACTURED LIGHT
+           ======================================== */
 
-  (
-    0.11 +
-    movementEnergy *
-    0.24
-  );
+        float fracturedLight =
 
+          prism +
 
+          prismTwo +
 
-    /*
-      ========================================
-      CENTRAL GLASS GLOW
-      ========================================
-    */
+          prismThree;
 
-    float centerGlow =
 
-      pow(
-        influence,
-        3.0
-      )
 
-      *
+        /* ========================================
+           PRISMATIC COLOR SEPARATION
+           ======================================== */
 
-      0.035;
+        vec2 direction =
 
+          delta /
 
-    color +=
+          max(
+            dist,
+            0.001
+          );
 
-      vec3(
-        1.0,
-        0.96,
-        0.88
-      )
 
-      *
+        direction.x /=
+          u_aspect;
 
-      centerGlow;
 
 
+        float separation =
 
-    gl_FragColor =
+          influence *
 
-      vec4(
-        color,
-        1.0
-      );
+          (
+            0.002 +
 
-  }
+            abs(u_strength) *
 
-`;
+            0.0014
+          );
+
+
+
+        /*
+          Bright refracted areas get
+          additional RGB splitting.
+        */
+
+        separation +=
+
+          fracturedLight *
+
+          0.0045;
+
+
+
+        vec2 redUV =
+
+          coverImage(
+
+            distortedUV +
+
+            direction *
+
+            separation
+
+          );
+
+
+        vec2 greenUV =
+
+          coverImage(
+            distortedUV
+          );
+
+
+        vec2 blueUV =
+
+          coverImage(
+
+            distortedUV -
+
+            direction *
+
+            separation
+
+          );
+
+
+
+        vec4 red =
+
+          texture2D(
+            u_image,
+            redUV
+          );
+
+
+        vec4 green =
+
+          texture2D(
+            u_image,
+            greenUV
+          );
+
+
+        vec4 blue =
+
+          texture2D(
+            u_image,
+            blueUV
+          );
+
+
+
+        vec3 color =
+
+          vec3(
+            red.r,
+            green.g,
+            blue.b
+          );
+
+
+
+        /* ========================================
+           LIGHT INTENSITY
+           ======================================== */
+
+        float movementEnergy =
+
+          min(
+
+            abs(u_strength) /
+
+            4.0,
+
+            1.0
+
+          );
+
+
+
+        /*
+          There is always some light activity.
+
+          Mouse movement makes it considerably
+          stronger.
+        */
+
+        float idleLight =
+
+          0.92 +
+
+          0.08 *
+
+          sin(
+            u_time * 0.55
+          );
+
+
+        float lightAmount =
+
+          fracturedLight *
+
+          idleLight *
+
+          (
+            0.16 +
+
+            movementEnergy *
+
+            0.32
+          );
+
+
+
+        /* ========================================
+           WHITE REFRACTED LIGHT
+           ======================================== */
+
+        color +=
+
+          vec3(
+            1.0,
+            0.97,
+            0.90
+          )
+
+          *
+
+          lightAmount;
+
+
+
+        /* ========================================
+           MOVING RAINBOW REFRACTION
+           ======================================== */
+
+        float rainbowPosition =
+
+          flowingAngle * 1.7
+
+          +
+
+          dist * 18.0
+
+          -
+
+          u_time * 0.32
+
+          +
+
+          sin(
+
+            flowingAngleTwo * 1.4 +
+
+            u_time * 0.21
+
+          ) * 1.2;
+
+
+
+        vec3 rainbow =
+
+          vec3(
+
+            0.5 +
+
+            0.5 *
+
+            sin(
+              rainbowPosition
+            ),
+
+
+            0.5 +
+
+            0.5 *
+
+            sin(
+              rainbowPosition +
+              2.094
+            ),
+
+
+            0.5 +
+
+            0.5 *
+
+            sin(
+              rainbowPosition +
+              4.188
+            )
+
+          );
+
+
+
+        color +=
+
+          rainbow *
+
+          fracturedLight *
+
+          (
+            0.11 +
+
+            movementEnergy *
+
+            0.24
+          );
+
+
+
+        /* ========================================
+           CENTRAL GLASS GLOW
+           ======================================== */
+
+        float centerGlow =
+
+          pow(
+            influence,
+            3.0
+          )
+
+          *
+
+          0.035;
+
+
+
+        color +=
+
+          vec3(
+            1.0,
+            0.96,
+            0.88
+          )
+
+          *
+
+          centerGlow;
+
+
+
+        gl_FragColor =
+
+          vec4(
+            color,
+            1.0
+          );
+
+      }
+
+    `;
+
 
 
     /* =========================================
@@ -1280,21 +1442,16 @@ float rainbowPosition =
       if (
 
         !gl.getShaderParameter(
-
           shader,
-
           gl.COMPILE_STATUS
-
         )
 
       ) {
 
         console.error(
-
           gl.getShaderInfoLog(
             shader
           )
-
         );
 
       }
@@ -1355,6 +1512,24 @@ float rainbowPosition =
     );
 
 
+    if (
+
+      !gl.getProgramParameter(
+        program,
+        gl.LINK_STATUS
+      )
+
+    ) {
+
+      console.error(
+        gl.getProgramInfoLog(
+          program
+        )
+      );
+
+    }
+
+
     gl.useProgram(
       program
     );
@@ -1397,126 +1572,92 @@ float rainbowPosition =
 
 
 
+    /* =========================================
+       POSITION BUFFER
+       ========================================= */
+
     const positionBuffer =
       gl.createBuffer();
 
 
     gl.bindBuffer(
-
       gl.ARRAY_BUFFER,
-
       positionBuffer
-
     );
 
 
     gl.bufferData(
-
       gl.ARRAY_BUFFER,
-
       positions,
-
       gl.STATIC_DRAW
-
     );
-
 
 
     const positionLocation =
 
       gl.getAttribLocation(
-
         program,
-
         "a_position"
-
       );
 
 
-
     gl.enableVertexAttribArray(
-
       positionLocation
-
     );
 
 
     gl.vertexAttribPointer(
-
       positionLocation,
-
       2,
-
       gl.FLOAT,
-
       false,
-
       0,
-
       0
-
     );
 
 
+
+    /* =========================================
+       TEXTURE COORDINATE BUFFER
+       ========================================= */
 
     const texCoordBuffer =
       gl.createBuffer();
 
 
     gl.bindBuffer(
-
       gl.ARRAY_BUFFER,
-
       texCoordBuffer
-
     );
 
 
     gl.bufferData(
-
       gl.ARRAY_BUFFER,
-
       texCoords,
-
       gl.STATIC_DRAW
-
     );
-
 
 
     const texCoordLocation =
 
       gl.getAttribLocation(
-
         program,
-
         "a_texCoord"
-
       );
 
 
-
     gl.enableVertexAttribArray(
-
       texCoordLocation
-
     );
 
 
     gl.vertexAttribPointer(
-
       texCoordLocation,
-
       2,
-
       gl.FLOAT,
-
       false,
-
       0,
-
       0
-
     );
 
 
@@ -1528,52 +1669,52 @@ float rainbowPosition =
     const mouseLocation =
 
       gl.getUniformLocation(
-
         program,
-
         "u_mouse"
-
       );
 
 
     const strengthLocation =
 
       gl.getUniformLocation(
-
         program,
-
         "u_strength"
-
       );
 
 
     const aspectLocation =
 
       gl.getUniformLocation(
-
         program,
-
         "u_aspect"
-
       );
 
+
     const imageAspectLocation =
-  gl.getUniformLocation(
-    program,
-    "u_imageAspect"
-  );
+
+      gl.getUniformLocation(
+        program,
+        "u_imageAspect"
+      );
 
 
     const timeLocation =
 
-  gl.getUniformLocation(
-    program,
-    "u_time"
-  );
+      gl.getUniformLocation(
+        program,
+        "u_time"
+      );
 
 
-const startTime =
-  performance.now();
+
+    /*
+      Master animation clock.
+    */
+
+    const startTime =
+      performance.now();
+
+
 
     /* =========================================
        IMAGE
@@ -1584,55 +1725,36 @@ const startTime =
 
 
     gl.bindTexture(
-
       gl.TEXTURE_2D,
-
       texture
-
     );
 
 
     gl.texParameteri(
-
       gl.TEXTURE_2D,
-
       gl.TEXTURE_WRAP_S,
-
       gl.CLAMP_TO_EDGE
-
     );
 
 
     gl.texParameteri(
-
       gl.TEXTURE_2D,
-
       gl.TEXTURE_WRAP_T,
-
       gl.CLAMP_TO_EDGE
-
     );
 
 
     gl.texParameteri(
-
       gl.TEXTURE_2D,
-
       gl.TEXTURE_MIN_FILTER,
-
       gl.LINEAR
-
     );
 
 
     gl.texParameteri(
-
       gl.TEXTURE_2D,
-
       gl.TEXTURE_MAG_FILTER,
-
       gl.LINEAR
-
     );
 
 
@@ -1642,9 +1764,8 @@ const startTime =
 
 
     /*
-      IMPORTANT:
-      This must match the filename
-      in your GitHub repository EXACTLY.
+      Must exactly match the filename
+      in your GitHub repository.
     */
 
     image.src =
@@ -1661,37 +1782,24 @@ const startTime =
 
 
         gl.bindTexture(
-
           gl.TEXTURE_2D,
-
           texture
-
         );
 
 
         gl.pixelStorei(
-
           gl.UNPACK_FLIP_Y_WEBGL,
-
           false
-
         );
 
 
         gl.texImage2D(
-
           gl.TEXTURE_2D,
-
           0,
-
           gl.RGBA,
-
           gl.RGBA,
-
           gl.UNSIGNED_BYTE,
-
           image
-
         );
 
 
@@ -1706,11 +1814,12 @@ const startTime =
 
 
     /* =========================================
-       MOUSE + LIQUID MOMENTUM
+       MOUSE + MOMENTUM
        ========================================= */
 
     let mouseX =
       0.5;
+
 
     let mouseY =
       0.5;
@@ -1719,6 +1828,7 @@ const startTime =
     let targetX =
       0.5;
 
+
     let targetY =
       0.5;
 
@@ -1726,12 +1836,14 @@ const startTime =
     let previousX =
       0.5;
 
+
     let previousY =
       0.5;
 
 
     let strength =
       0;
+
 
     let targetStrength =
       0;
@@ -1741,6 +1853,10 @@ const startTime =
       false;
 
 
+
+    /* =========================================
+       MOUSE MOVEMENT
+       ========================================= */
 
     canvas.addEventListener(
 
@@ -1784,12 +1900,14 @@ const startTime =
         const dx =
 
           targetX -
+
           previousX;
 
 
         const dy =
 
           targetY -
+
           previousY;
 
 
@@ -1807,7 +1925,8 @@ const startTime =
 
 
         /*
-          DRAMATIC SWIRL STRENGTH
+          Fast movement creates
+          stronger refraction.
         */
 
         targetStrength =
@@ -1894,16 +2013,24 @@ const startTime =
 
       canvas.width =
 
-        rect.width *
+        Math.round(
 
-        pixelRatio;
+          rect.width *
+
+          pixelRatio
+
+        );
 
 
       canvas.height =
 
-        rect.height *
+        Math.round(
 
-        pixelRatio;
+          rect.height *
+
+          pixelRatio
+
+        );
 
 
       gl.viewport(
@@ -1923,11 +2050,8 @@ const startTime =
 
 
     window.addEventListener(
-
       "resize",
-
       resize
-
     );
 
 
@@ -1940,9 +2064,7 @@ const startTime =
 
 
       requestAnimationFrame(
-
         animate
-
       );
 
 
@@ -1955,8 +2077,8 @@ const startTime =
 
 
       /*
-        Cursor position follows slightly
-        behind the actual mouse.
+        Cursor follows the actual mouse
+        with a little lag.
       */
 
       mouseX +=
@@ -1986,7 +2108,7 @@ const startTime =
 
 
       /*
-        Build distortion smoothly.
+        Build movement energy smoothly.
       */
 
       strength +=
@@ -2003,10 +2125,8 @@ const startTime =
 
 
       /*
-        Slowly lose energy.
-
-        Closer to 1 =
-        longer-lasting movement.
+        Mouse movement energy slowly
+        dissipates.
       */
 
       targetStrength *=
@@ -2015,8 +2135,8 @@ const startTime =
 
 
       /*
-        Continue settling after
-        cursor leaves image.
+        Let movement settle when
+        cursor leaves the image.
       */
 
       if (!inside) {
@@ -2024,12 +2144,34 @@ const startTime =
         targetStrength *=
           0.94;
 
+
         strength *=
           0.985;
 
       }
 
 
+
+      /* =========================================
+         CURRENT TIME
+         ========================================= */
+
+      const elapsedTime =
+
+        (
+          performance.now() -
+          startTime
+        )
+
+        /
+
+        1000;
+
+
+
+      /* =========================================
+         SEND VALUES TO SHADER
+         ========================================= */
 
       gl.uniform2f(
 
@@ -2042,7 +2184,6 @@ const startTime =
       );
 
 
-
       gl.uniform1f(
 
         strengthLocation,
@@ -2051,20 +2192,15 @@ const startTime =
 
       );
 
-const elapsedTime =
 
-  (
-    performance.now() -
-    startTime
-  )
+      gl.uniform1f(
 
-  / 1000;
+        timeLocation,
 
+        elapsedTime
 
-gl.uniform1f(
-  timeLocation,
-  elapsedTime
-);
+      );
+
 
       gl.uniform1f(
 
@@ -2076,12 +2212,22 @@ gl.uniform1f(
 
       );
 
-      gl.uniform1f(
-  imageAspectLocation,
-  image.width /
-  image.height
-);
 
+      gl.uniform1f(
+
+        imageAspectLocation,
+
+        image.width /
+
+        image.height
+
+      );
+
+
+
+      /* =========================================
+         DRAW
+         ========================================= */
 
       gl.drawArrays(
 
