@@ -1,0 +1,2639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Film & Photo — Linnea RM</title>
+
+
+  <style>
+
+    /* =========================================
+       PAGE SETUP
+       ========================================= */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    body {
+      background: #e7e7e7;
+      color: #071a18;
+    }
+
+
+
+    /* =========================================
+       HEADER
+       ========================================= */
+
+    .header {
+      height: 78px;
+
+      display: flex;
+      align-items: center;
+
+      padding: 0 28px;
+
+      background: #e7e7e7;
+    }
+
+
+    .name {
+      margin: 0;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 38px;
+      font-weight: 500;
+
+      letter-spacing: 2px;
+
+      color: #071a18;
+
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+
+
+    /* =========================================
+       HERO
+       ========================================= */
+
+    .hero {
+      position: relative;
+
+      width: 100%;
+      height: 62vh;
+      min-height: 480px;
+
+      margin: 0;
+
+      overflow: hidden;
+
+      background: #071a18;
+    }
+
+
+
+    /* =========================================
+       WEBGL IMAGE
+       ========================================= */
+
+    #twistCanvas {
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      z-index: 1;
+    }
+
+
+
+    /* =========================================
+       FILM TITLE
+       ========================================= */
+
+    .hero-title {
+      position: absolute;
+
+      top: 50%;
+      left: 50%;
+
+      transform: translate(-50%, -50%);
+
+      margin: 0;
+
+      z-index: 2;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: clamp(90px, 14vw, 240px);
+      font-weight: 500;
+
+      line-height: 0.8;
+
+      letter-spacing: 5px;
+
+      color: white;
+
+      text-transform: uppercase;
+
+      pointer-events: none;
+    }
+
+
+
+    /* =========================================
+       CONTENT BELOW HERO
+       ========================================= */
+
+    .film-content {
+      width: 100%;
+
+      padding:
+        120px
+        7vw
+        160px;
+
+      background: #e7e7e7;
+    }
+
+
+    .intro {
+      max-width: 900px;
+
+      margin-bottom: 120px;
+    }
+
+
+    .section-label {
+      margin:
+        0
+        0
+        22px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 18px;
+
+      letter-spacing: 2px;
+
+      text-transform: uppercase;
+    }
+
+
+    .intro-text {
+      margin: 0;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size:
+        clamp(
+          28px,
+          3.3vw,
+          54px
+        );
+
+      line-height: 1.15;
+      font-weight: 400;
+    }
+
+
+
+    /* =========================================
+       PROJECT
+       ========================================= */
+
+    .project {
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        1fr;
+
+      gap: 70px;
+
+      padding:
+        70px
+        0;
+
+      border-top:
+        1px
+        solid
+        rgba(7, 26, 24, 0.35);
+    }
+
+
+    .project-number {
+      margin:
+        0
+        0
+        20px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 17px;
+
+      letter-spacing: 2px;
+    }
+
+
+    .project-title {
+      margin:
+        0
+        0
+        25px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size:
+        clamp(
+          40px,
+          5vw,
+          78px
+        );
+
+      font-weight: 500;
+
+      line-height: 0.95;
+
+      text-transform: uppercase;
+    }
+
+
+    .project-description {
+      max-width: 650px;
+
+      margin: 0;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 20px;
+
+      line-height: 1.55;
+    }
+
+
+    .project-placeholder {
+      min-height: 430px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border:
+        1px
+        solid
+        rgba(7, 26, 24, 0.35);
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 17px;
+
+      font-style: italic;
+    }
+
+
+
+    /* =========================================
+       MOBILE
+       ========================================= */
+
+    @media (max-width: 800px) {
+
+      .header {
+        height: 68px;
+
+        padding:
+          0
+          18px;
+      }
+
+
+      .name {
+        font-size: 28px;
+      }
+
+
+      .hero {
+        width: 100%;
+        height: 55vh;
+        min-height: 400px;
+        margin: 0;
+      }
+
+
+      .hero-title {
+        font-size: 19vw;
+      }
+
+
+      .film-content {
+        padding:
+          80px
+          28px
+          120px;
+      }
+
+
+      .project {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+      }
+
+    }
+
+
+  </style>
+
+</head>
+
+
+
+<body>
+
+
+  <!-- =======================================
+       HEADER
+       ======================================= -->
+
+  <header class="header">
+
+    <a
+      href="index.html"
+      class="name"
+    >
+      LINNEA RM
+    </a>
+
+  </header>
+
+
+
+  <!-- =======================================
+       INTERACTIVE HERO
+       ======================================= -->
+
+  <section class="hero">
+
+    <canvas id="twistCanvas"></canvas>
+
+    <h1 class="hero-title">
+      FILM & PHOTO
+    </h1>
+
+  </section>
+
+
+
+  <!-- =======================================
+       FILM CONTENT
+       ======================================= -->
+
+  <main class="film-content">
+
+
+    <section class="intro">
+
+      <p class="section-label">
+        Film + Photo
+      </p>
+
+      <p class="intro-text">
+        Exploring images, light, movement,
+        observation, and visual storytelling.
+      </p>
+
+    </section>
+
+
+
+    <!-- PROJECT 01 -->
+
+    <section class="project">
+
+      <div>
+
+        <p class="project-number">
+          01
+        </p>
+
+        <h2 class="project-title">
+          Film &
+          Photography
+          Project
+        </h2>
+
+        <p class="project-description">
+          This space can hold photography,
+          film, visual experiments,
+          documentation, and process.
+        </p>
+
+      </div>
+
+
+      <div class="project-placeholder">
+        film / photo / project
+      </div>
+
+    </section>
+
+
+
+    <!-- PROJECT 02 -->
+
+    <section class="project">
+
+      <div>
+
+        <p class="project-number">
+          02
+        </p>
+
+        <h2 class="project-title">
+          Next Visual
+          Project
+        </h2>
+
+        <p class="project-description">
+          This space can hold another film,
+          photography series, visual study,
+          or creative exploration.
+        </p>
+
+      </div>
+
+
+      <div class="project-placeholder">
+        film / photo / project
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+
+  <script>
+
+  /* =========================================
+     WEBGL SETUP
+     ========================================= */
+
+  const canvas =
+    document.getElementById("twistCanvas");
+
+  const gl =
+    canvas.getContext("webgl");
+
+  if (!gl) {
+    alert("WebGL is not supported in this browser.");
+  }
+
+
+
+  /* =========================================
+     VERTEX SHADER
+     ========================================= */
+
+  const vertexShaderSource = `
+
+    attribute vec2 a_position;
+    attribute vec2 a_texCoord;
+
+    varying vec2 v_texCoord;
+
+    void main() {
+
+      gl_Position =
+        vec4(
+          a_position,
+          0.0,
+          1.0
+        );
+
+      v_texCoord =
+        a_texCoord;
+
+    }
+
+  `;
+
+
+
+  /* =========================================
+     FILM / PRISM FRAGMENT SHADER
+     ========================================= */
+
+  const fragmentShaderSource = `
+
+    precision mediump float;
+
+
+    uniform sampler2D u_image;
+
+    uniform vec2 u_mouse;
+
+    uniform float u_strength;
+    uniform float u_aspect;
+    uniform float u_imageAspect;
+    uniform float u_time;
+
+
+    /* ========================================
+       CONTINUOUS LIGHT-TRAIL PATH
+       ======================================== */
+
+    const int TRAIL_POINTS = 24;
+    uniform vec2 u_trails[TRAIL_POINTS];
+    uniform float u_trailEnergy;
+
+
+    varying vec2 v_texCoord;
+
+
+
+    /* ========================================
+       OBJECT-FIT: COVER
+       ======================================== */
+
+    vec2 coverImage(
+      vec2 uv
+    ) {
+
+      vec2 result =
+        uv;
+
+
+      if (
+        u_aspect >
+        u_imageAspect
+      ) {
+
+        float scale =
+
+          u_imageAspect /
+
+          u_aspect;
+
+
+        result.y =
+
+          (uv.y - 0.5) *
+
+          scale +
+
+          0.5;
+
+      }
+
+
+      else {
+
+        float scale =
+
+          u_aspect /
+
+          u_imageAspect;
+
+
+        result.x =
+
+          (uv.x - 0.5) *
+
+          scale +
+
+          0.5;
+
+      }
+
+
+      return result;
+
+    }
+
+
+
+    /* ========================================
+       CONTINUOUS LIGHT-TRAIL FUNCTION
+
+       This measures the distance from each
+       pixel to the connected mouse path.
+       The result is a real streak instead
+       of separate circular ghost copies.
+       ======================================== */
+
+    float segmentDistance(
+      vec2 p,
+      vec2 a,
+      vec2 b,
+      out float along
+    ) {
+
+      vec2 pa = p - a;
+      vec2 ba = b - a;
+
+      float denom =
+        max(
+          dot(ba, ba),
+          0.000001
+        );
+
+      along =
+        clamp(
+          dot(pa, ba) / denom,
+          0.0,
+          1.0
+        );
+
+      return length(
+        pa - ba * along
+      );
+    }
+
+
+    vec3 continuousTrail(
+      vec2 uv
+    ) {
+
+      vec3 trailColor =
+        vec3(0.0);
+
+      vec2 p = uv;
+      p.x *= u_aspect;
+
+      for (
+        int i = 0;
+        i < 23;
+        i++
+      ) {
+
+        vec2 a =
+          u_trails[i];
+
+        vec2 b =
+          u_trails[i + 1];
+
+        a.x *= u_aspect;
+        b.x *= u_aspect;
+
+        float along = 0.0;
+
+        float d =
+          segmentDistance(
+            p,
+            a,
+            b,
+            along
+          );
+
+        /*
+          Newest part of the path is brightest.
+          Older sections fade progressively.
+        */
+
+        float age =
+          1.0 -
+          (
+            float(i) +
+            along
+          ) /
+          23.0;
+
+        age =
+          pow(
+            max(age, 0.0),
+            1.15
+          );
+
+
+        /*
+          A narrow bright core plus a larger,
+          softer halo creates a long-exposure
+          light-painting appearance.
+        */
+
+        float core =
+          1.0 -
+          smoothstep(
+            0.0,
+            0.010,
+            d
+          );
+
+        float glow =
+          1.0 -
+          smoothstep(
+            0.004,
+            0.050,
+            d
+          );
+
+        float haze =
+          1.0 -
+          smoothstep(
+            0.018,
+            0.095,
+            d
+          );
+
+
+        /*
+          Flowing optical breakup along the line.
+          This keeps the trail feeling like the
+          prism effect rather than a neon stroke.
+        */
+
+        float pathPhase =
+          float(i) * 0.72 +
+          along * 4.8 -
+          u_time * 1.15;
+
+        float shimmer =
+          0.72 +
+          0.28 *
+          sin(
+            pathPhase * 2.1 +
+            u_time * 0.55
+          );
+
+        float light =
+          (
+            core * 1.35 +
+            glow * 0.62 +
+            haze * 0.16
+          )
+          *
+          age
+          *
+          shimmer
+          *
+          u_trailEnergy;
+
+
+        /*
+          White refracted-light center.
+        */
+
+        vec3 whiteLight =
+          vec3(
+            1.0,
+            0.98,
+            0.92
+          )
+          *
+          light
+          *
+          0.42;
+
+
+        /*
+          Moving rainbow fringe.
+        */
+
+        float rainbowPosition =
+          pathPhase * 1.35 +
+          d * 85.0 -
+          u_time * 0.35;
+
+        vec3 rainbow =
+          vec3(
+            0.5 + 0.5 * sin(rainbowPosition),
+            0.5 + 0.5 * sin(rainbowPosition + 2.094),
+            0.5 + 0.5 * sin(rainbowPosition + 4.188)
+          );
+
+        vec3 rainbowLight =
+          rainbow
+          *
+          (
+            glow * 0.34 +
+            haze * 0.10
+          )
+          *
+          age
+          *
+          u_trailEnergy;
+
+
+        trailColor +=
+          whiteLight +
+          rainbowLight;
+
+      }
+
+
+      /*
+        Keep overlapping curved segments luminous
+        without letting them blow out completely.
+      */
+
+      return min(
+        trailColor,
+        vec3(1.65)
+      );
+
+    }
+
+
+
+    void main() {
+
+
+      vec2 uv =
+        v_texCoord;
+
+
+
+      /* ========================================
+         CURRENT CURSOR POSITION
+         ======================================== */
+
+      vec2 delta =
+
+        uv -
+
+        u_mouse;
+
+
+      delta.x *=
+        u_aspect;
+
+
+      float dist =
+        length(delta);
+
+
+
+      /*
+        Size of main prism / lens.
+      */
+
+      float radius =
+        0.45;
+
+
+      float influence =
+
+        smoothstep(
+          radius,
+          0.0,
+          dist
+        );
+
+
+
+      /* ========================================
+         GLASS LENS DISTORTION
+
+         ONLY current cursor affects this.
+         Trails do not touch this section.
+         ======================================== */
+
+      vec2 lensDelta =
+
+        uv -
+
+        u_mouse;
+
+
+      float glassStrength =
+
+        influence *
+
+        (
+          0.11 +
+
+          abs(u_strength) *
+
+          0.025
+        );
+
+
+      vec2 distortedUV =
+
+        uv -
+
+        lensDelta *
+
+        glassStrength;
+
+
+
+      /* ========================================
+         SEAM-SAFE CIRCULAR COORDINATES
+         ======================================== */
+
+      float safeDist =
+
+        max(
+          dist,
+          0.0001
+        );
+
+
+      float angleX =
+
+        delta.x /
+
+        safeDist;
+
+
+      float angleY =
+
+        delta.y /
+
+        safeDist;
+
+
+
+      /* ========================================
+         CONTINUOUS TIME MOTION
+         ======================================== */
+
+      float timeFlow =
+
+        u_time *
+
+        0.85;
+
+
+      float slowDrift =
+
+        sin(
+          u_time *
+          0.55
+        )
+
+        *
+
+        0.42;
+
+
+
+      /* ========================================
+         FIRST FLOWING LIGHT FIELD
+         ======================================== */
+
+      float flowingAngle =
+
+        angleX * 1.35
+
+        +
+
+        angleY * 0.95
+
+        +
+
+        sin(
+          dist * 8.0 +
+          timeFlow
+        ) * 0.85
+
+        +
+
+        sin(
+          angleX * 2.8 +
+          angleY * 2.1 -
+          dist * 5.0 -
+          timeFlow * 0.7
+        ) * 0.62
+
+        +
+
+        sin(
+          delta.x * 8.0 +
+          delta.y * 5.0 +
+          u_time * 0.23
+        ) * 0.28
+
+        +
+
+        slowDrift;
+
+
+
+      float facetPhase =
+
+        flowingAngle * 2.15
+
+        +
+
+        dist * 12.0
+
+        +
+
+        sin(
+          flowingAngle * 1.55 +
+          dist * 6.0 -
+          u_time * 0.48
+        ) * 2.3
+
+        +
+
+        u_time * 0.36;
+
+
+
+      float facets =
+
+        0.5 +
+
+        0.5 *
+
+        sin(
+          facetPhase
+        );
+
+
+      facets =
+
+        pow(
+          facets,
+          3.0
+        );
+
+
+
+      /* ========================================
+         SOFT PRISM REGION
+         ======================================== */
+
+      float innerFade =
+
+        smoothstep(
+          0.015,
+          0.09,
+          dist
+        );
+
+
+      float outerFade =
+
+        1.0 -
+
+        smoothstep(
+          0.16,
+          radius,
+          dist
+        );
+
+
+      float prismRegion =
+
+        innerFade *
+
+        outerFade;
+
+
+
+      float organicMask =
+
+        0.78 +
+
+        0.22 *
+
+        sin(
+
+          angleX * 2.0 +
+
+          angleY * 2.6 +
+
+          dist * 15.0 -
+
+          u_time * 0.27
+
+        );
+
+
+
+      float prism =
+
+        facets *
+
+        prismRegion *
+
+        organicMask;
+
+
+
+      /* ========================================
+         SECOND FLOWING LIGHT FIELD
+         ======================================== */
+
+      float flowingAngleTwo =
+
+        angleX * 0.8
+
+        -
+
+        angleY * 1.15
+
+        -
+
+        sin(
+          dist * 6.5 -
+          u_time * 0.29
+        ) * 0.9
+
+        +
+
+        cos(
+
+          angleX * 2.4 -
+
+          angleY * 1.8 +
+
+          dist * 4.5 +
+
+          u_time * 0.21
+
+        ) * 0.72;
+
+
+
+      float facetPhaseTwo =
+
+        flowingAngleTwo * 2.75
+
+        +
+
+        dist * 15.0
+
+        +
+
+        sin(
+
+          flowingAngleTwo * 1.9 -
+
+          dist * 7.0 +
+
+          u_time * 0.33
+
+        ) * 1.9
+
+        -
+
+        u_time * 0.25;
+
+
+
+      float facetsTwo =
+
+        0.5 +
+
+        0.5 *
+
+        cos(
+          facetPhaseTwo
+        );
+
+
+      facetsTwo =
+
+        pow(
+          facetsTwo,
+          3.6
+        );
+
+
+
+      float prismTwo =
+
+        facetsTwo *
+
+        influence *
+
+        innerFade *
+
+        0.48;
+
+
+
+      /* ========================================
+         THIRD SOFT LIGHT FIELD
+         ======================================== */
+
+      float softField =
+
+        sin(
+
+          delta.x * 10.0 +
+
+          sin(
+            delta.y * 7.0 +
+            u_time * 0.22
+          ) * 1.8 +
+
+          dist * 9.0 -
+
+          u_time * 0.18
+
+        );
+
+
+      softField =
+
+        0.5 +
+
+        0.5 *
+
+        softField;
+
+
+      softField =
+
+        pow(
+          softField,
+          2.4
+        );
+
+
+      float prismThree =
+
+        softField *
+
+        influence *
+
+        0.26;
+
+
+
+      /* ========================================
+         COMBINE MAIN FRACTURED LIGHT
+         ======================================== */
+
+      float fracturedLight =
+
+        prism +
+
+        prismTwo +
+
+        prismThree;
+
+
+
+      /* ========================================
+         MAIN PRISMATIC COLOR SEPARATION
+         ======================================== */
+
+      vec2 direction =
+
+        delta /
+
+        max(
+          dist,
+          0.001
+        );
+
+
+      direction.x /=
+        u_aspect;
+
+
+
+      float separation =
+
+        influence *
+
+        (
+          0.002 +
+
+          abs(u_strength) *
+
+          0.0014
+        );
+
+
+      separation +=
+
+        fracturedLight *
+
+        0.0045;
+
+
+
+      vec2 redUV =
+
+        coverImage(
+
+          distortedUV +
+
+          direction *
+
+          separation
+
+        );
+
+
+      vec2 greenUV =
+
+        coverImage(
+          distortedUV
+        );
+
+
+      vec2 blueUV =
+
+        coverImage(
+
+          distortedUV -
+
+          direction *
+
+          separation
+
+        );
+
+
+
+      vec4 red =
+
+        texture2D(
+          u_image,
+          redUV
+        );
+
+
+      vec4 green =
+
+        texture2D(
+          u_image,
+          greenUV
+        );
+
+
+      vec4 blue =
+
+        texture2D(
+          u_image,
+          blueUV
+        );
+
+
+
+      vec3 color =
+
+        vec3(
+          red.r,
+          green.g,
+          blue.b
+        );
+
+
+
+      /* ========================================
+         MAIN LIGHT INTENSITY
+         ======================================== */
+
+      float movementEnergy =
+
+        min(
+
+          abs(u_strength) /
+
+          4.0,
+
+          1.0
+
+        );
+
+
+
+      float idleLight =
+
+        0.92 +
+
+        0.08 *
+
+        sin(
+          u_time * 0.55
+        );
+
+
+      float lightAmount =
+
+        fracturedLight *
+
+        idleLight *
+
+        (
+          0.16 +
+
+          movementEnergy *
+
+          0.32
+        );
+
+
+
+      /* ========================================
+         MAIN WHITE REFRACTED LIGHT
+         ======================================== */
+
+      color +=
+
+        vec3(
+          1.0,
+          0.97,
+          0.90
+        )
+
+        *
+
+        lightAmount;
+
+
+
+      /* ========================================
+         MAIN MOVING RAINBOW REFRACTION
+         ======================================== */
+
+      float rainbowPosition =
+
+        flowingAngle * 1.7
+
+        +
+
+        dist * 18.0
+
+        -
+
+        u_time * 0.32
+
+        +
+
+        sin(
+
+          flowingAngleTwo * 1.4 +
+
+          u_time * 0.21
+
+        ) * 1.2;
+
+
+
+      vec3 rainbow =
+
+        vec3(
+
+          0.5 +
+
+          0.5 *
+
+          sin(
+            rainbowPosition
+          ),
+
+
+          0.5 +
+
+          0.5 *
+
+          sin(
+            rainbowPosition +
+            2.094
+          ),
+
+
+          0.5 +
+
+          0.5 *
+
+          sin(
+            rainbowPosition +
+            4.188
+          )
+
+        );
+
+
+
+      color +=
+
+        rainbow *
+
+        fracturedLight *
+
+        (
+          0.11 +
+
+          movementEnergy *
+
+          0.24
+        );
+
+
+
+      /* ========================================
+         CONTINUOUS LONG-EXPOSURE LIGHT TRAIL
+         ======================================== */
+
+      color +=
+        continuousTrail(
+          uv
+        );
+
+
+
+      /* ========================================
+         CENTRAL GLASS GLOW
+         ======================================== */
+
+      float centerGlow =
+
+        pow(
+          influence,
+          3.0
+        )
+
+        *
+
+        0.035;
+
+
+      color +=
+
+        vec3(
+          1.0,
+          0.96,
+          0.88
+        )
+
+        *
+
+        centerGlow;
+
+
+
+      gl_FragColor =
+
+        vec4(
+          color,
+          1.0
+        );
+
+    }
+
+  `;
+
+
+
+  /* =========================================
+     CREATE SHADER
+     ========================================= */
+
+  function createShader(
+    type,
+    source
+  ) {
+
+    const shader =
+      gl.createShader(type);
+
+
+    gl.shaderSource(
+      shader,
+      source
+    );
+
+
+    gl.compileShader(
+      shader
+    );
+
+
+    if (
+      !gl.getShaderParameter(
+        shader,
+        gl.COMPILE_STATUS
+      )
+    ) {
+
+      console.error(
+        gl.getShaderInfoLog(
+          shader
+        )
+      );
+
+    }
+
+
+    return shader;
+
+  }
+
+
+
+  const vertexShader =
+
+    createShader(
+      gl.VERTEX_SHADER,
+      vertexShaderSource
+    );
+
+
+  const fragmentShader =
+
+    createShader(
+      gl.FRAGMENT_SHADER,
+      fragmentShaderSource
+    );
+
+
+
+  /* =========================================
+     PROGRAM
+     ========================================= */
+
+  const program =
+    gl.createProgram();
+
+
+  gl.attachShader(
+    program,
+    vertexShader
+  );
+
+
+  gl.attachShader(
+    program,
+    fragmentShader
+  );
+
+
+  gl.linkProgram(
+    program
+  );
+
+
+  if (
+    !gl.getProgramParameter(
+      program,
+      gl.LINK_STATUS
+    )
+  ) {
+
+    console.error(
+      gl.getProgramInfoLog(
+        program
+      )
+    );
+
+  }
+
+
+  gl.useProgram(
+    program
+  );
+
+
+
+  /* =========================================
+     RECTANGLE
+     ========================================= */
+
+  const positions =
+
+    new Float32Array([
+
+      -1, -1,
+       1, -1,
+      -1,  1,
+
+      -1,  1,
+       1, -1,
+       1,  1
+
+    ]);
+
+
+
+  const texCoords =
+
+    new Float32Array([
+
+      0, 1,
+      1, 1,
+      0, 0,
+
+      0, 0,
+      1, 1,
+      1, 0
+
+    ]);
+
+
+
+  /* =========================================
+     POSITION BUFFER
+     ========================================= */
+
+  const positionBuffer =
+    gl.createBuffer();
+
+
+  gl.bindBuffer(
+    gl.ARRAY_BUFFER,
+    positionBuffer
+  );
+
+
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    positions,
+    gl.STATIC_DRAW
+  );
+
+
+  const positionLocation =
+
+    gl.getAttribLocation(
+      program,
+      "a_position"
+    );
+
+
+  gl.enableVertexAttribArray(
+    positionLocation
+  );
+
+
+  gl.vertexAttribPointer(
+    positionLocation,
+    2,
+    gl.FLOAT,
+    false,
+    0,
+    0
+  );
+
+
+
+  /* =========================================
+     TEXTURE COORDINATE BUFFER
+     ========================================= */
+
+  const texCoordBuffer =
+    gl.createBuffer();
+
+
+  gl.bindBuffer(
+    gl.ARRAY_BUFFER,
+    texCoordBuffer
+  );
+
+
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    texCoords,
+    gl.STATIC_DRAW
+  );
+
+
+  const texCoordLocation =
+
+    gl.getAttribLocation(
+      program,
+      "a_texCoord"
+    );
+
+
+  gl.enableVertexAttribArray(
+    texCoordLocation
+  );
+
+
+  gl.vertexAttribPointer(
+    texCoordLocation,
+    2,
+    gl.FLOAT,
+    false,
+    0,
+    0
+  );
+
+
+
+  /* =========================================
+     UNIFORMS
+     ========================================= */
+
+  const mouseLocation =
+
+    gl.getUniformLocation(
+      program,
+      "u_mouse"
+    );
+
+
+  const strengthLocation =
+
+    gl.getUniformLocation(
+      program,
+      "u_strength"
+    );
+
+
+  const aspectLocation =
+
+    gl.getUniformLocation(
+      program,
+      "u_aspect"
+    );
+
+
+  const imageAspectLocation =
+
+    gl.getUniformLocation(
+      program,
+      "u_imageAspect"
+    );
+
+
+  const timeLocation =
+
+    gl.getUniformLocation(
+      program,
+      "u_time"
+    );
+
+
+
+  /* =========================================
+     CONTINUOUS LIGHT TRAIL UNIFORMS
+     ========================================= */
+
+  const trailLocation =
+    gl.getUniformLocation(
+      program,
+      "u_trails[0]"
+    );
+
+
+  const trailEnergyLocation =
+    gl.getUniformLocation(
+      program,
+      "u_trailEnergy"
+    );
+
+
+
+  /* =========================================
+     MASTER CLOCK
+     ========================================= */
+
+  const startTime =
+    performance.now();
+
+
+
+  /* =========================================
+     IMAGE
+     ========================================= */
+
+  const texture =
+    gl.createTexture();
+
+
+  gl.bindTexture(
+    gl.TEXTURE_2D,
+    texture
+  );
+
+
+  gl.texParameteri(
+    gl.TEXTURE_2D,
+    gl.TEXTURE_WRAP_S,
+    gl.CLAMP_TO_EDGE
+  );
+
+
+  gl.texParameteri(
+    gl.TEXTURE_2D,
+    gl.TEXTURE_WRAP_T,
+    gl.CLAMP_TO_EDGE
+  );
+
+
+  gl.texParameteri(
+    gl.TEXTURE_2D,
+    gl.TEXTURE_MIN_FILTER,
+    gl.LINEAR
+  );
+
+
+  gl.texParameteri(
+    gl.TEXTURE_2D,
+    gl.TEXTURE_MAG_FILTER,
+    gl.LINEAR
+  );
+
+
+
+  const image =
+    new Image();
+
+
+  image.src =
+    "./film-twist.jpeg";
+
+
+  let imageLoaded =
+    false;
+
+
+
+  image.onload =
+    () => {
+
+
+      gl.bindTexture(
+        gl.TEXTURE_2D,
+        texture
+      );
+
+
+      gl.pixelStorei(
+        gl.UNPACK_FLIP_Y_WEBGL,
+        false
+      );
+
+
+      gl.texImage2D(
+        gl.TEXTURE_2D,
+        0,
+        gl.RGBA,
+        gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        image
+      );
+
+
+      imageLoaded =
+        true;
+
+
+      resize();
+
+    };
+
+
+
+  /* =========================================
+     MOUSE + MOMENTUM
+     ========================================= */
+
+  let mouseX =
+    0.5;
+
+
+  let mouseY =
+    0.5;
+
+
+  let targetX =
+    0.5;
+
+
+  let targetY =
+    0.5;
+
+
+  let previousX =
+    0.5;
+
+
+  let previousY =
+    0.5;
+
+
+  let strength =
+    0;
+
+
+  let targetStrength =
+    0;
+
+
+  let inside =
+    false;
+
+
+
+  /* =========================================
+     CONTINUOUS LIGHT TRAIL HISTORY
+     ========================================= */
+
+  const TRAIL_COUNT =
+    24;
+
+
+  const trails =
+    Array.from(
+      { length: TRAIL_COUNT },
+      () => ({
+        x: 0.5,
+        y: 0.5
+      })
+    );
+
+
+  const trailData =
+    new Float32Array(
+      TRAIL_COUNT * 2
+    );
+
+
+  let trailEnergy =
+    0;
+
+
+  let targetTrailEnergy =
+    0;
+
+
+
+  /* =========================================
+     MOUSE MOVEMENT
+     ========================================= */
+
+  canvas.addEventListener(
+
+    "mousemove",
+
+    (event) => {
+
+
+      const rect =
+
+        canvas.getBoundingClientRect();
+
+
+
+      targetX =
+
+        (
+          event.clientX -
+          rect.left
+        )
+
+        /
+
+        rect.width;
+
+
+
+      targetY =
+
+        (
+          event.clientY -
+          rect.top
+        )
+
+        /
+
+        rect.height;
+
+
+
+      const dx =
+
+        targetX -
+
+        previousX;
+
+
+      const dy =
+
+        targetY -
+
+        previousY;
+
+
+
+      const speed =
+
+        Math.sqrt(
+
+          dx * dx +
+
+          dy * dy
+
+        );
+
+
+
+      /* =========================================
+         MAIN PRISM ENERGY
+         ========================================= */
+
+      targetStrength =
+
+        Math.min(
+
+          speed * 20,
+
+          6.0
+
+        );
+
+
+
+      /* =========================================
+         TRAIL ENERGY
+
+         Slow movement = subtle trail.
+         Fast movement = brighter trail.
+         ========================================= */
+
+      targetTrailEnergy =
+
+        Math.min(
+
+          speed * 30,
+
+          1.0
+
+        );
+
+
+
+      previousX =
+        targetX;
+
+
+      previousY =
+        targetY;
+
+
+      inside =
+        true;
+
+    }
+
+  );
+
+
+
+  canvas.addEventListener(
+
+    "mouseenter",
+
+    () => {
+
+      inside =
+        true;
+
+    }
+
+  );
+
+
+
+  canvas.addEventListener(
+
+    "mouseleave",
+
+    () => {
+
+      inside =
+        false;
+
+    }
+
+  );
+
+
+
+  /* =========================================
+     RESIZE
+     ========================================= */
+
+  function resize() {
+
+
+    const rect =
+
+      canvas.getBoundingClientRect();
+
+
+    const pixelRatio =
+
+      Math.min(
+
+        window.devicePixelRatio,
+
+        2
+
+      );
+
+
+    canvas.width =
+
+      Math.round(
+
+        rect.width *
+
+        pixelRatio
+
+      );
+
+
+    canvas.height =
+
+      Math.round(
+
+        rect.height *
+
+        pixelRatio
+
+      );
+
+
+    gl.viewport(
+
+      0,
+
+      0,
+
+      canvas.width,
+
+      canvas.height
+
+    );
+
+  }
+
+
+
+  window.addEventListener(
+    "resize",
+    resize
+  );
+
+
+
+  /* =========================================
+     UPDATE CONTINUOUS LIGHT TRAIL
+
+     A new point is stored only after the
+     smoothed cursor has actually moved far
+     enough. This prevents the whole history
+     from collapsing onto the cursor when
+     the mouse stops.
+     ========================================= */
+
+  function updateTrails() {
+
+    const dx =
+      mouseX -
+      trails[0].x;
+
+
+    const dy =
+      mouseY -
+      trails[0].y;
+
+
+    const distance =
+      Math.sqrt(
+        dx * dx +
+        dy * dy
+      );
+
+
+    if (
+      distance >
+      0.0045
+    ) {
+
+      for (
+        let i =
+          trails.length - 1;
+        i > 0;
+        i--
+      ) {
+
+        trails[i].x =
+          trails[i - 1].x;
+
+
+        trails[i].y =
+          trails[i - 1].y;
+
+      }
+
+
+      trails[0].x =
+        mouseX;
+
+
+      trails[0].y =
+        mouseY;
+
+    }
+
+  }
+
+
+
+  /* =========================================
+     ANIMATION
+     ========================================= */
+
+  function animate() {
+
+
+    requestAnimationFrame(
+      animate
+    );
+
+
+    if (!imageLoaded) {
+
+      return;
+
+    }
+
+
+
+    /* =========================================
+       SMOOTH CURRENT CURSOR
+       ========================================= */
+
+    mouseX +=
+
+      (
+        targetX -
+        mouseX
+      )
+
+      *
+
+      0.065;
+
+
+
+    mouseY +=
+
+      (
+        targetY -
+        mouseY
+      )
+
+      *
+
+      0.065;
+
+
+
+    /* =========================================
+       MAIN PRISM ENERGY
+       ========================================= */
+
+    strength +=
+
+      (
+        targetStrength -
+        strength
+      )
+
+      *
+
+      0.075;
+
+
+    targetStrength *=
+      0.965;
+
+
+
+    /* =========================================
+       TRAIL ENERGY
+       ========================================= */
+
+    trailEnergy +=
+
+      (
+        targetTrailEnergy -
+        trailEnergy
+      )
+
+      *
+
+      0.16;
+
+
+
+    /*
+      This decay is intentionally faster
+      than the main prism.
+
+      When you stop moving, the ghosts
+      disappear while the prism itself
+      keeps flowing.
+    */
+
+    targetTrailEnergy *=
+      0.94;
+
+
+    trailEnergy *=
+      0.988;
+
+
+
+    if (!inside) {
+
+      targetStrength *=
+        0.94;
+
+
+      strength *=
+        0.985;
+
+
+      targetTrailEnergy *=
+        0.82;
+
+
+      trailEnergy *=
+        0.94;
+
+    }
+
+
+
+    /* =========================================
+       RECORD CURVED MOUSE PATH
+       ========================================= */
+
+    updateTrails();
+
+
+
+    /* =========================================
+       CURRENT TIME
+       ========================================= */
+
+    const elapsedTime =
+
+      (
+        performance.now() -
+        startTime
+      )
+
+      /
+
+      1000;
+
+
+
+    /* =========================================
+       SEND MAIN VALUES TO SHADER
+       ========================================= */
+
+    gl.uniform2f(
+
+      mouseLocation,
+
+      mouseX,
+
+      mouseY
+
+    );
+
+
+    gl.uniform1f(
+
+      strengthLocation,
+
+      strength
+
+    );
+
+
+    gl.uniform1f(
+
+      timeLocation,
+
+      elapsedTime
+
+    );
+
+
+    gl.uniform1f(
+
+      aspectLocation,
+
+      canvas.width /
+
+      canvas.height
+
+    );
+
+
+    gl.uniform1f(
+
+      imageAspectLocation,
+
+      image.width /
+
+      image.height
+
+    );
+
+
+
+    /* =========================================
+       SEND CONTINUOUS TRAIL PATH TO SHADER
+       ========================================= */
+
+    for (
+      let i = 0;
+      i < trails.length;
+      i++
+    ) {
+
+      trailData[
+        i * 2
+      ] =
+        trails[i].x;
+
+
+      trailData[
+        i * 2 + 1
+      ] =
+        trails[i].y;
+
+    }
+
+
+    gl.uniform2fv(
+      trailLocation,
+      trailData
+    );
+
+
+    gl.uniform1f(
+      trailEnergyLocation,
+      trailEnergy
+    );
+
+
+
+    /* =========================================
+       DRAW
+       ========================================= */
+
+    gl.drawArrays(
+
+      gl.TRIANGLES,
+
+      0,
+
+      6
+
+    );
+
+  }
+
+
+
+  animate();
+
+</script>
+
+</body>
+</html>
