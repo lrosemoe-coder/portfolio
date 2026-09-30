@@ -559,7 +559,7 @@
 
 
 
-  const fragmentShaderSource = `
+const fragmentShaderSource = `
 
   precision mediump float;
 
@@ -609,7 +609,6 @@
     }
 
     return result;
-
   }
 
 
@@ -622,7 +621,7 @@
 
     /*
       ========================================
-      CURSOR / SURFACE POSITION
+      DISTANCE FROM CURSOR
       ========================================
     */
 
@@ -641,104 +640,76 @@
 
     /*
       ========================================
-      SIZE OF DEFORMATION
+      SIZE OF RIPPLE AREA
       ========================================
     */
 
     float radius =
-      0.30;
+      0.48;
 
 
-    float influence =
+    float fade =
+
+      1.0 -
+
       smoothstep(
+        0.04,
         radius,
-        0.0,
         dist
       );
 
 
-    /*
-      Softer material falloff
-    */
-
-    float softInfluence =
-
-      influence *
-      influence *
-      (3.0 - 2.0 * influence);
-
-
 
     /*
       ========================================
-      PHYSICAL DEFORMATION
+      RIPPLE WAVES
 
-      Pull pixels toward the cursor,
-      creating the impression that the
-      surface is being pushed inward.
+      42.0 = number / tightness of waves
+
+      Lower = broad waves
+      Higher = lots of small ripples
       ========================================
     */
 
-    vec2 screenDelta =
-      uv -
-      u_mouse;
+    float ripple =
 
-
-    float pressure =
-
-      0.10 +
-
-      min(
-        abs(u_strength) * 0.018,
-        0.08
+      sin(
+        dist * 42.0
+        -
+        u_strength * 1.4
       );
 
 
-    vec2 distortedUV =
-
-      uv -
-
-      screenDelta *
-
-      softInfluence *
-
-      pressure;
-
-
-
     /*
-      ========================================
-      MATERIAL RIM
-
-      Creates a raised-looking transition
-      around the pushed area.
-      ========================================
+      Give the waves a softer,
+      less mathematically perfect shape.
     */
 
-    float rim =
+    float secondaryRipple =
 
-      smoothstep(
-        radius * 0.35,
-        radius * 0.68,
-        dist
-      )
-
-      *
-
-      (
-        1.0 -
-
-        smoothstep(
-          radius * 0.68,
-          radius,
-          dist
-        )
+      sin(
+        dist * 24.0
+        +
+        delta.x * 7.0
+        -
+        delta.y * 5.0
+        -
+        u_strength * 0.8
       );
 
 
+    ripple =
+
+      ripple * 0.72 +
+
+      secondaryRipple * 0.28;
+
+
 
     /*
-      Push the rim slightly outward.
+      ========================================
+      DIRECTION OF DISPLACEMENT
+      ========================================
     */
 
     vec2 direction =
@@ -755,22 +726,48 @@
       u_aspect;
 
 
-    distortedUV +=
 
-      direction *
+    /*
+      ========================================
+      RIPPLE STRENGTH
 
-      rim *
+      This physically moves the photograph.
+      ========================================
+    */
+
+    float movementEnergy =
+
+      min(
+        abs(u_strength) / 5.0,
+        1.0
+      );
+
+
+    float displacement =
+
+      ripple *
+
+      fade *
 
       (
-        0.018 +
-        abs(u_strength) * 0.003
+        0.010 +
+        movementEnergy * 0.018
       );
+
+
+
+    vec2 distortedUV =
+
+      uv +
+
+      direction *
+      displacement;
 
 
 
     /*
       ========================================
-      SAMPLE IMAGE
+      SAMPLE THE DISTORTED IMAGE
       ========================================
     */
 
@@ -780,164 +777,75 @@
       );
 
 
-    vec4 imageColor =
+    vec3 color =
+
       texture2D(
         u_image,
         imageUV
-      );
-
-
-    vec3 color =
-      imageColor.rgb;
+      ).rgb;
 
 
 
     /*
       ========================================
-      FAKE 3D LIGHTING
+      RIPPLE HIGHLIGHT
 
-      Imagine light coming from
-      the upper-left.
+      Very subtle light catching the
+      crest of each wave.
 
-      One side of the deformation gets
-      brighter; the opposite gets darker.
+      This helps the ripple feel dimensional.
       ========================================
     */
 
-    vec2 lightDirection =
-      normalize(
-        vec2(
-          -0.7,
-          -0.7
-        )
-      );
-
-
-    float directionalLight =
-
-      dot(
-        normalize(
-          delta +
-          vec2(0.0001)
-        ),
-        lightDirection
-      );
-
-
-
-    /*
-      Raised highlight
-    */
-
-    float highlight =
-
-      rim *
+    float crest =
 
       max(
-        directionalLight,
+        ripple,
         0.0
-      );
+      )
 
+      *
 
-    /*
-      Opposite shadow
-    */
+      fade;
 
-    float shadow =
-
-      rim *
-
-      max(
-        -directionalLight,
-        0.0
-      );
-
-
-
-    /*
-      ========================================
-      APPLY MATERIAL LIGHTING
-      ========================================
-    */
 
     color +=
 
-      highlight *
+      crest *
 
-      vec3(
-        0.20,
-        0.20,
-        0.20
+      (
+        0.025 +
+        movementEnergy * 0.025
       );
+
+
+
+    /*
+      ========================================
+      RIPPLE SHADOW
+
+      Darkens the opposite side of
+      the wave slightly.
+      ========================================
+    */
+
+    float trough =
+
+      max(
+        -ripple,
+        0.0
+      )
+
+      *
+
+      fade;
 
 
     color -=
 
-      shadow *
+      trough *
 
-      vec3(
-        0.16,
-        0.16,
-        0.16
-      );
-
-
-
-    /*
-      ========================================
-      SOFT CENTER SHADING
-
-      Gives the pushed-in center
-      a little more depth.
-      ========================================
-    */
-
-    float centerDepth =
-
-      pow(
-        influence,
-        2.2
-      );
-
-
-    color *=
-
-      1.0 -
-
-      centerDepth *
-      0.07;
-
-
-
-    /*
-      ========================================
-      SPECULAR EDGE
-
-      Tiny bright reflection that makes
-      the surface feel slightly synthetic.
-      ========================================
-    */
-
-    float specular =
-
-      pow(
-        max(
-          highlight,
-          0.0
-        ),
-        3.0
-      );
-
-
-    color +=
-
-      specular *
-
-      vec3(
-        0.30,
-        0.30,
-        0.30
-      );
+      0.018;
 
 
 
@@ -951,7 +859,6 @@
   }
 
 `;
-
 
     /* =========================================
        CREATE SHADER
