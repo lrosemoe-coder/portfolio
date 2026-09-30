@@ -1,4 +1,510 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Film & Photo — Linnea RM</title>
+
+
+  <style>
+
+    /* =========================================
+       PAGE SETUP
+       ========================================= */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    body {
+      background: #e7e7e7;
+      color: #071a18;
+    }
+
+
+
+    /* =========================================
+       HEADER
+       ========================================= */
+
+    .header {
+      height: 78px;
+
+      display: flex;
+      align-items: center;
+
+      padding: 0 28px;
+
+      background: #e7e7e7;
+    }
+
+
+    .name {
+      margin: 0;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 38px;
+      font-weight: 500;
+
+      letter-spacing: 2px;
+
+      color: #071a18;
+
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+
+
+    /* =========================================
+       HERO
+       ========================================= */
+
+    .hero {
+      position: relative;
+
+      width: 100%;
+      height: 62vh;
+      min-height: 480px;
+
+      margin: 0;
+
+      overflow: hidden;
+
+      background: #071a18;
+    }
+
+
+
+    /* =========================================
+       WEBGL IMAGE
+       ========================================= */
+
+    #twistCanvas {
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      z-index: 1;
+    }
+
+
+
+    /* =========================================
+       FILM TITLE
+       ========================================= */
+
+    .hero-title {
+      position: absolute;
+
+      top: 50%;
+      left: 50%;
+
+      transform: translate(-50%, -50%);
+
+      margin: 0;
+
+      z-index: 2;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: clamp(90px, 14vw, 240px);
+      font-weight: 500;
+
+      line-height: 0.8;
+
+      letter-spacing: 5px;
+
+      color: white;
+
+      text-transform: uppercase;
+
+      pointer-events: none;
+    }
+
+
+
+    /* =========================================
+       CONTENT BELOW HERO
+       ========================================= */
+
+    .film-content {
+      width: 100%;
+
+      padding:
+        120px
+        7vw
+        160px;
+
+      background: #e7e7e7;
+    }
+
+
+    .intro {
+      max-width: 900px;
+
+      margin-bottom: 120px;
+    }
+
+
+    .section-label {
+      margin:
+        0
+        0
+        22px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 18px;
+
+      letter-spacing: 2px;
+
+      text-transform: uppercase;
+    }
+
+
+    .intro-text {
+      margin: 0;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size:
+        clamp(
+          28px,
+          3.3vw,
+          54px
+        );
+
+      line-height: 1.15;
+      font-weight: 400;
+    }
+
+
+
+    /* =========================================
+       PROJECT
+       ========================================= */
+
+    .project {
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        1fr;
+
+      gap: 70px;
+
+      padding:
+        70px
+        0;
+
+      border-top:
+        1px
+        solid
+        rgba(7, 26, 24, 0.35);
+    }
+
+
+    .project-number {
+      margin:
+        0
+        0
+        20px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 17px;
+
+      letter-spacing: 2px;
+    }
+
+
+    .project-title {
+      margin:
+        0
+        0
+        25px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size:
+        clamp(
+          40px,
+          5vw,
+          78px
+        );
+
+      font-weight: 500;
+
+      line-height: 0.95;
+
+      text-transform: uppercase;
+    }
+
+
+    .project-description {
+      max-width: 650px;
+
+      margin: 0;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 20px;
+
+      line-height: 1.55;
+    }
+
+
+    .project-placeholder {
+      min-height: 430px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border:
+        1px
+        solid
+        rgba(7, 26, 24, 0.35);
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 17px;
+
+      font-style: italic;
+    }
+
+
+
+    /* =========================================
+       MOBILE
+       ========================================= */
+
+    @media (max-width: 800px) {
+
+      .header {
+        height: 68px;
+
+        padding:
+          0
+          18px;
+      }
+
+
+      .name {
+        font-size: 28px;
+      }
+
+
+      .hero {
+        width: 100%;
+        height: 55vh;
+        min-height: 400px;
+        margin: 0;
+      }
+
+
+      .hero-title {
+        font-size: 19vw;
+      }
+
+
+      .film-content {
+        padding:
+          80px
+          28px
+          120px;
+      }
+
+
+      .project {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+      }
+
+    }
+
+
+  </style>
+
+</head>
+
+
+
+<body>
+
+
+  <!-- =======================================
+       HEADER
+       ======================================= -->
+
+  <header class="header">
+
+    <a
+      href="index.html"
+      class="name"
+    >
+      LINNEA RM
+    </a>
+
+  </header>
+
+
+
+  <!-- =======================================
+       INTERACTIVE HERO
+       ======================================= -->
+
+  <section class="hero">
+
+    <canvas id="twistCanvas"></canvas>
+
+    <h1 class="hero-title">
+      FILM & PHOTO
+    </h1>
+
+  </section>
+
+
+
+  <!-- =======================================
+       FILM CONTENT
+       ======================================= -->
+
+  <main class="film-content">
+
+
+    <section class="intro">
+
+      <p class="section-label">
+        Film + Photo
+      </p>
+
+      <p class="intro-text">
+        Exploring images, light, movement,
+        observation, and visual storytelling.
+      </p>
+
+    </section>
+
+
+
+    <!-- PROJECT 01 -->
+
+    <section class="project">
+
+      <div>
+
+        <p class="project-number">
+          01
+        </p>
+
+        <h2 class="project-title">
+          Film &
+          Photography
+          Project
+        </h2>
+
+        <p class="project-description">
+          This space can hold photography,
+          film, visual experiments,
+          documentation, and process.
+        </p>
+
+      </div>
+
+
+      <div class="project-placeholder">
+        film / photo / project
+      </div>
+
+    </section>
+
+
+
+    <!-- PROJECT 02 -->
+
+    <section class="project">
+
+      <div>
+
+        <p class="project-number">
+          02
+        </p>
+
+        <h2 class="project-title">
+          Next Visual
+          Project
+        </h2>
+
+        <p class="project-description">
+          This space can hold another film,
+          photography series, visual study,
+          or creative exploration.
+        </p>
+
+      </div>
+
+
+      <div class="project-placeholder">
+        film / photo / project
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+
+  <script>
 
   /* =========================================
      WEBGL SETUP
@@ -2370,3 +2876,6 @@
   animate();
 
 </script>
+
+</body>
+</html>
