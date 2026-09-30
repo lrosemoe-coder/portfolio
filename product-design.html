@@ -1737,7 +1737,32 @@ if (
       if (!imageLoaded) {
 
         return;
+const elapsedTime =
 
+  (
+    performance.now() -
+    startTime
+  )
+
+  / 1000;
+
+
+gl.uniform1f(
+  timeLocation,
+  elapsedTime
+);
+
+
+gl.uniform2fv(
+  ripplePointsLocation,
+  ripplePoints
+);
+
+
+gl.uniform1fv(
+  rippleTimesLocation,
+  rippleTimes
+);
       }
 
 
