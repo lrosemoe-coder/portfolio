@@ -568,6 +568,7 @@ const fragmentShaderSource = `
   uniform float u_strength;
   uniform float u_aspect;
   uniform float u_imageAspect;
+  uniform float u_time;
 
   varying vec2 v_texCoord;
 
@@ -591,7 +592,7 @@ const fragmentShaderSource = `
       result.y =
         (uv.y - 0.5) *
         scale +
-        0.5;
+        0.75;
 
     }
 
@@ -671,13 +672,13 @@ const fragmentShaderSource = `
       ========================================
     */
 
-    float ripple =
+float ripple =
 
-      sin(
-        dist * 42.0
-        -
-        u_strength * 1.4
-      );
+  sin(
+    dist * 32.0
+    -
+    u_time * 4.5
+  );
 
 
     /*
@@ -685,17 +686,17 @@ const fragmentShaderSource = `
       less mathematically perfect shape.
     */
 
-    float secondaryRipple =
+float secondaryRipple =
 
-      sin(
-        dist * 24.0
-        +
-        delta.x * 7.0
-        -
-        delta.y * 5.0
-        -
-        u_strength * 0.8
-      );
+  sin(
+    dist * 21.0
+    +
+    delta.x * 7.0
+    -
+    delta.y * 5.0
+    -
+    u_time * 3.2
+  );
 
 
     ripple =
@@ -1164,6 +1165,12 @@ const fragmentShaderSource = `
 
       );
 
+    const timeLocation =
+  gl.getUniformLocation(
+    program,
+    "u_time"
+  );
+
     const imageAspectLocation =
   gl.getUniformLocation(
     program,
@@ -1532,6 +1539,9 @@ const fragmentShaderSource = `
        ANIMATION
        ========================================= */
 
+    const startTime =
+  performance.now();
+    
     function animate() {
 
 
@@ -1646,6 +1656,18 @@ const fragmentShaderSource = `
         strength
 
       );
+
+      const elapsedTime =
+  (
+    performance.now() -
+    startTime
+  ) / 1000;
+
+
+gl.uniform1f(
+  timeLocation,
+  elapsedTime
+);
 
 
 
