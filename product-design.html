@@ -559,206 +559,398 @@
 
 
 
-    const fragmentShaderSource = `
+  const fragmentShaderSource = `
 
-      precision mediump float;
+  precision mediump float;
 
-      uniform sampler2D u_image;
+  uniform sampler2D u_image;
+  uniform vec2 u_mouse;
+  uniform float u_strength;
+  uniform float u_aspect;
+  uniform float u_imageAspect;
 
-      uniform vec2 u_mouse;
+  varying vec2 v_texCoord;
 
-      uniform float u_strength;
 
-      uniform float u_aspect;
+  /*
+    ========================================
+    OBJECT-FIT: COVER
+    ========================================
+  */
 
-      uniform float u_imageAspect;
+  vec2 coverImage(vec2 uv) {
 
-      varying vec2 v_texCoord;
+    vec2 result = uv;
 
+    if (u_aspect > u_imageAspect) {
 
-      void main() {
+      float scale =
+        u_imageAspect /
+        u_aspect;
 
-        vec2 uv =
-          v_texCoord;
+      result.y =
+        (uv.y - 0.5) *
+        scale +
+        0.5;
 
-          /*
-  KEEP IMAGE PROPORTIONS
-  Works like object-fit: cover
-*/
+    }
 
-vec2 coverUV = uv;
+    else {
 
-if (u_aspect > u_imageAspect) {
+      float scale =
+        u_aspect /
+        u_imageAspect;
 
-  float scale =
-    u_imageAspect /
-    u_aspect;
+      result.x =
+        (uv.x - 0.5) *
+        scale +
+        0.5;
 
-  coverUV.y =
-    (uv.y - 0.5) *
-    scale +
-    0.5;
+    }
 
-}
+    return result;
 
-else {
+  }
 
-  float scale =
-    u_aspect /
-    u_imageAspect;
 
-  coverUV.x =
-    (uv.x - 0.5) *
-    scale +
-    0.5;
 
-}
+  void main() {
 
-uv = coverUV;
+    vec2 uv =
+      v_texCoord;
 
 
-        vec2 delta =
-          uv -
-          u_mouse;
+    /*
+      ========================================
+      CURSOR / SURFACE POSITION
+      ========================================
+    */
 
+    vec2 delta =
+      uv -
+      u_mouse;
 
-        delta.x *=
-          u_aspect;
+    delta.x *=
+      u_aspect;
 
 
-        float distanceFromMouse =
-          length(delta);
+    float dist =
+      length(delta);
 
 
-        /*
-          SIZE OF THE SWIRL
 
-          Increase this number if you want
-          the affected area to be larger.
-        */
+    /*
+      ========================================
+      SIZE OF DEFORMATION
+      ========================================
+    */
 
-        float radius =
-          0.50;
+    float radius =
+      0.30;
 
 
-        float influence =
-          smoothstep(
-            radius,
-            0.0,
-            distanceFromMouse
-          );
+    float influence =
+      smoothstep(
+        radius,
+        0.0,
+        dist
+      );
 
 
-        float angle =
-          influence *
-          u_strength;
+    /*
+      Softer material falloff
+    */
 
+    float softInfluence =
 
-        float s =
-          sin(angle);
+      influence *
+      influence *
+      (3.0 - 2.0 * influence);
 
-        float c =
-          cos(angle);
 
 
-        vec2 rotated;
+    /*
+      ========================================
+      PHYSICAL DEFORMATION
 
+      Pull pixels toward the cursor,
+      creating the impression that the
+      surface is being pushed inward.
+      ========================================
+    */
 
-        rotated.x =
-          delta.x * c -
-          delta.y * s;
+    vec2 screenDelta =
+      uv -
+      u_mouse;
 
 
-        rotated.y =
-          delta.x * s +
-          delta.y * c;
+    float pressure =
 
+      0.10 +
 
-        rotated.x /=
-          u_aspect;
+      min(
+        abs(u_strength) * 0.018,
+        0.08
+      );
 
 
-        vec2 distortedUV =
-          u_mouse +
-          rotated;
+    vec2 distortedUV =
 
+      uv -
 
+      screenDelta *
 
-        /*
-          COLOR SEPARATION
-        */
+      softInfluence *
 
-        float separation =
+      pressure;
 
-          influence *
 
-          abs(u_strength) *
 
-          0.005;
+    /*
+      ========================================
+      MATERIAL RIM
 
+      Creates a raised-looking transition
+      around the pushed area.
+      ========================================
+    */
 
+    float rim =
 
-        vec4 red =
+      smoothstep(
+        radius * 0.35,
+        radius * 0.68,
+        dist
+      )
 
-          texture2D(
+      *
 
-            u_image,
+      (
+        1.0 -
 
-            distortedUV +
+        smoothstep(
+          radius * 0.68,
+          radius,
+          dist
+        )
+      );
 
-            vec2(
-              separation,
-              0.0
-            )
 
-          );
 
+    /*
+      Push the rim slightly outward.
+    */
 
+    vec2 direction =
 
-        vec4 green =
+      delta /
 
-          texture2D(
+      max(
+        dist,
+        0.001
+      );
 
-            u_image,
 
-            distortedUV
+    direction.x /=
+      u_aspect;
 
-          );
 
+    distortedUV +=
 
+      direction *
 
-        vec4 blue =
+      rim *
 
-          texture2D(
+      (
+        0.018 +
+        abs(u_strength) * 0.003
+      );
 
-            u_image,
 
-            distortedUV -
 
-            vec2(
-              separation,
-              0.0
-            )
+    /*
+      ========================================
+      SAMPLE IMAGE
+      ========================================
+    */
 
-          );
+    vec2 imageUV =
+      coverImage(
+        distortedUV
+      );
 
 
+    vec4 imageColor =
+      texture2D(
+        u_image,
+        imageUV
+      );
 
-        gl_FragColor =
 
-          vec4(
+    vec3 color =
+      imageColor.rgb;
 
-            red.r,
-            green.g,
-            blue.b,
-            1.0
 
-          );
 
-      }
+    /*
+      ========================================
+      FAKE 3D LIGHTING
 
-    `;
+      Imagine light coming from
+      the upper-left.
 
+      One side of the deformation gets
+      brighter; the opposite gets darker.
+      ========================================
+    */
+
+    vec2 lightDirection =
+      normalize(
+        vec2(
+          -0.7,
+          -0.7
+        )
+      );
+
+
+    float directionalLight =
+
+      dot(
+        normalize(
+          delta +
+          vec2(0.0001)
+        ),
+        lightDirection
+      );
+
+
+
+    /*
+      Raised highlight
+    */
+
+    float highlight =
+
+      rim *
+
+      max(
+        directionalLight,
+        0.0
+      );
+
+
+    /*
+      Opposite shadow
+    */
+
+    float shadow =
+
+      rim *
+
+      max(
+        -directionalLight,
+        0.0
+      );
+
+
+
+    /*
+      ========================================
+      APPLY MATERIAL LIGHTING
+      ========================================
+    */
+
+    color +=
+
+      highlight *
+
+      vec3(
+        0.20,
+        0.20,
+        0.20
+      );
+
+
+    color -=
+
+      shadow *
+
+      vec3(
+        0.16,
+        0.16,
+        0.16
+      );
+
+
+
+    /*
+      ========================================
+      SOFT CENTER SHADING
+
+      Gives the pushed-in center
+      a little more depth.
+      ========================================
+    */
+
+    float centerDepth =
+
+      pow(
+        influence,
+        2.2
+      );
+
+
+    color *=
+
+      1.0 -
+
+      centerDepth *
+      0.07;
+
+
+
+    /*
+      ========================================
+      SPECULAR EDGE
+
+      Tiny bright reflection that makes
+      the surface feel slightly synthetic.
+      ========================================
+    */
+
+    float specular =
+
+      pow(
+        max(
+          highlight,
+          0.0
+        ),
+        3.0
+      );
+
+
+    color +=
+
+      specular *
+
+      vec3(
+        0.30,
+        0.30,
+        0.30
+      );
+
+
+
+    gl_FragColor =
+
+      vec4(
+        color,
+        1.0
+      );
+
+  }
+
+`;
 
 
     /* =========================================
