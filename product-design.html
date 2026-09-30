@@ -582,8 +582,8 @@
         can exist at once.
       */
 
-      uniform vec2 u_ripplePoints[8];
-      uniform float u_rippleTimes[8];
+      uniform vec2 u_ripplePoints[24];
+      uniform float u_rippleTimes[24];
 
 
       varying vec2 v_texCoord;
@@ -678,7 +678,7 @@
 
         for (
           int i = 0;
-          i < 8;
+          i < 24;
           i++
         ) {
 
@@ -1360,7 +1360,7 @@
        ========================================= */
 
     const MAX_RIPPLES =
-      8;
+      24;
 
 
     const ripplePoints =
@@ -1572,7 +1572,7 @@
 
         if (
           distance >
-          0.055
+          0.035
         ) {
 
 
