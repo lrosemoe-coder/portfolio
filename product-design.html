@@ -1412,7 +1412,108 @@ const rippleTimesLocation =
           /
 
           rect.height;
+/*
+  NEW RIPPLE TRAIL CODE
+*/
 
+const rippleDX =
+  targetX -
+  lastRippleX;
+
+
+const rippleDY =
+  targetY -
+  lastRippleY;
+
+
+const rippleDistance =
+
+  Math.sqrt(
+
+    rippleDX * rippleDX +
+
+    rippleDY * rippleDY
+
+  );
+
+
+if (
+  rippleDistance >
+  0.055
+) {
+
+  createRipple(
+    targetX,
+    targetY
+  );
+
+
+  lastRippleX =
+    targetX;
+
+
+  lastRippleY =
+    targetY;
+
+}
+
+
+/*
+  YOUR EXISTING CODE CONTINUES HERE
+*/
+
+const dx =
+
+  targetX -
+  previousX;
+
+
+const dy =
+
+  targetY -
+  previousY;
+
+        function createRipple(
+  x,
+  y
+) {
+
+  const currentTime =
+
+    (
+      performance.now() -
+      startTime
+    )
+
+    / 1000;
+
+
+  ripplePoints[
+    rippleIndex * 2
+  ] = x;
+
+
+  ripplePoints[
+    rippleIndex * 2 + 1
+  ] = y;
+
+
+  rippleTimes[
+    rippleIndex
+  ] = currentTime;
+
+
+  rippleIndex =
+
+    (
+      rippleIndex + 1
+    )
+
+    %
+
+    MAX_RIPPLES;
+
+}
 
 
         const dx =
@@ -1438,7 +1539,57 @@ const rippleTimesLocation =
 
           );
 
+/*
+  Distance since our last ripple.
+*/
 
+const rippleDX =
+  targetX -
+  lastRippleX;
+
+
+const rippleDY =
+  targetY -
+  lastRippleY;
+
+
+const rippleDistance =
+
+  Math.sqrt(
+
+    rippleDX * rippleDX +
+
+    rippleDY * rippleDY
+
+  );
+
+
+/*
+  Only create another ripple after
+  we've moved a little bit.
+
+  Otherwise we'd generate hundreds.
+*/
+
+if (
+  rippleDistance >
+  0.055
+) {
+
+  createRipple(
+    targetX,
+    targetY
+  );
+
+
+  lastRippleX =
+    targetX;
+
+
+  lastRippleY =
+    targetY;
+
+}
 
         /*
           DRAMATIC SWIRL STRENGTH
