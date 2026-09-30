@@ -614,7 +614,7 @@
 
             scale +
 
-            0.75;
+            0.60;
 
         }
 
@@ -671,7 +671,28 @@
         float dist =
           length(delta);
 
+/* ========================================
+   POINTED / PLEATED RIPPLE SHAPE
+   ======================================== */
 
+float angle =
+  atan(
+    delta.y,
+    delta.x
+  );
+
+float spikes =
+  cos(
+    angle * 10.0 +
+    u_time * 0.35
+  );
+  
+float pointedDist =
+  dist *
+  (
+    1.0 +
+    spikes * 0.10
+  );
 
         /*
           Size of the fabric distortion area.
@@ -710,7 +731,7 @@
 
           sin(
 
-            dist * 30.0
+            pointedDist * 30.0
 
             -
 
@@ -735,7 +756,7 @@
 
           sin(
 
-            dist * 47.0
+            pointedDist * 47.0
 
             -
 
