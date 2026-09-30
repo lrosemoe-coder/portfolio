@@ -564,11 +564,17 @@ const fragmentShaderSource = `
   precision mediump float;
 
   uniform sampler2D u_image;
-  uniform vec2 u_mouse;
-  uniform float u_strength;
+
   uniform float u_aspect;
   uniform float u_imageAspect;
   uniform float u_time;
+
+  /*
+    We keep up to 8 previous cursor positions.
+  */
+
+  uniform vec2 u_ripplePoints[8];
+  uniform float u_rippleTimes[8];
 
   varying vec2 v_texCoord;
 
@@ -592,7 +598,7 @@ const fragmentShaderSource = `
       result.y =
         (uv.y - 0.5) *
         scale +
-        0.75;
+        0.65;
 
     }
 
@@ -621,161 +627,226 @@ const fragmentShaderSource = `
 
 
     /*
-      ========================================
-      DISTANCE FROM CURSOR
-      ========================================
+      Total distortion produced by
+      ALL of our ripple points.
     */
 
-    vec2 delta =
-      uv -
-      u_mouse;
+    vec2 totalDisplacement =
+      vec2(0.0);
 
-    delta.x *=
-      u_aspect;
-
-
-    float dist =
-      length(delta);
+    float totalLight =
+      0.0;
 
 
 
     /*
       ========================================
-      SIZE OF RIPPLE AREA
+      PROCESS EACH OLD CURSOR POSITION
       ========================================
     */
 
-    float radius =
-      0.48;
+    for (
+      int i = 0;
+      i < 8;
+      i++
+    ) {
+
+      vec2 point =
+        u_ripplePoints[i];
 
 
-    float fade =
+      float birthTime =
+        u_rippleTimes[i];
 
-      1.0 -
 
-      smoothstep(
-        0.04,
-        radius,
-        dist
-      );
+      /*
+        Negative means this ripple slot
+        hasn't been used yet.
+      */
+
+      if (birthTime >= 0.0) {
+
+        float age =
+          u_time -
+          birthTime;
+
+
+        /*
+          Each ripple lives for
+          about 3 seconds.
+        */
+
+        float life =
+          1.0 -
+          smoothstep(
+            0.0,
+            3.0,
+            age
+          );
+
+
+        vec2 delta =
+          uv -
+          point;
+
+
+        delta.x *=
+          u_aspect;
+
+
+        float dist =
+          length(delta);
+
+
+
+        /*
+          ====================================
+          EXPANDING WAVE FRONT
+
+          As age increases, the center
+          of the ripple travels outward.
+          ====================================
+        */
+
+        float wavePosition =
+          age * 0.16;
+
+
+        /*
+          Distance from this pixel
+          to the moving wave front.
+        */
+
+        float waveDistance =
+          abs(
+            dist -
+            wavePosition
+          );
+
+
+        /*
+          Controls thickness of the
+          expanding ripple band.
+        */
+
+        float waveEnvelope =
+
+          1.0 -
+
+          smoothstep(
+            0.0,
+            0.12,
+            waveDistance
+          );
+
+
+
+        /*
+          Multiple smaller waves exist
+          inside that moving region.
+        */
+
+        float wave =
+
+          sin(
+            (
+              dist -
+              wavePosition
+            )
+            *
+            55.0
+          );
+
+
+
+        /*
+          Fade the ripple as it ages.
+        */
+
+        float rippleStrength =
+
+          wave *
+          waveEnvelope *
+          life;
+
+
+
+        /*
+          Direction away from
+          the ripple origin.
+        */
+
+        vec2 direction =
+
+          delta /
+
+          max(
+            dist,
+            0.001
+          );
+
+
+        direction.x /=
+          u_aspect;
+
+
+
+        /*
+          Add this ripple to all
+          the previous ripples.
+        */
+
+        totalDisplacement +=
+
+          direction *
+
+          rippleStrength *
+
+          0.018;
+
+
+
+        /*
+          Tiny highlight on wave crest.
+        */
+
+        totalLight +=
+
+          max(
+            rippleStrength,
+            0.0
+          )
+
+          *
+
+          0.035;
+
+      }
+
+    }
 
 
 
     /*
       ========================================
-      RIPPLE WAVES
-
-      42.0 = number / tightness of waves
-
-      Lower = broad waves
-      Higher = lots of small ripples
+      DISTORT THE IMAGE
       ========================================
     */
-
-float ripple =
-
-  sin(
-    dist * 32.0
-    -
-    u_time * 4.5
-  );
-
-
-    /*
-      Give the waves a softer,
-      less mathematically perfect shape.
-    */
-
-float secondaryRipple =
-
-  sin(
-    dist * 21.0
-    +
-    delta.x * 7.0
-    -
-    delta.y * 5.0
-    -
-    u_time * 3.2
-  );
-
-
-    ripple =
-
-      ripple * 0.72 +
-
-      secondaryRipple * 0.28;
-
-
-
-    /*
-      ========================================
-      DIRECTION OF DISPLACEMENT
-      ========================================
-    */
-
-    vec2 direction =
-
-      delta /
-
-      max(
-        dist,
-        0.001
-      );
-
-
-    direction.x /=
-      u_aspect;
-
-
-
-    /*
-      ========================================
-      RIPPLE STRENGTH
-
-      This physically moves the photograph.
-      ========================================
-    */
-
-    float movementEnergy =
-
-      min(
-        abs(u_strength) / 5.0,
-        1.0
-      );
-
-
-    float displacement =
-
-      ripple *
-
-      fade *
-
-      (
-        0.010 +
-        movementEnergy * 0.018
-      );
-
-
 
     vec2 distortedUV =
 
       uv +
 
-      direction *
-      displacement;
+      totalDisplacement;
 
 
-
-    /*
-      ========================================
-      SAMPLE THE DISTORTED IMAGE
-      ========================================
-    */
 
     vec2 imageUV =
+
       coverImage(
         distortedUV
       );
+
 
 
     vec3 color =
@@ -788,65 +859,12 @@ float secondaryRipple =
 
 
     /*
-      ========================================
-      RIPPLE HIGHLIGHT
-
-      Very subtle light catching the
-      crest of each wave.
-
-      This helps the ripple feel dimensional.
-      ========================================
+      Add subtle light to the
+      raised parts of the ripples.
     */
-
-    float crest =
-
-      max(
-        ripple,
-        0.0
-      )
-
-      *
-
-      fade;
-
 
     color +=
-
-      crest *
-
-      (
-        0.025 +
-        movementEnergy * 0.025
-      );
-
-
-
-    /*
-      ========================================
-      RIPPLE SHADOW
-
-      Darkens the opposite side of
-      the wave slightly.
-      ========================================
-    */
-
-    float trough =
-
-      max(
-        -ripple,
-        0.0
-      )
-
-      *
-
-      fade;
-
-
-    color -=
-
-      trough *
-
-      0.018;
+      totalLight;
 
 
 
@@ -1169,6 +1187,19 @@ float secondaryRipple =
   gl.getUniformLocation(
     program,
     "u_time"
+  );
+
+    const ripplePointsLocation =
+  gl.getUniformLocation(
+    program,
+    "u_ripplePoints[0]"
+  );
+
+
+const rippleTimesLocation =
+  gl.getUniformLocation(
+    program,
+    "u_rippleTimes[0]"
   );
 
     const imageAspectLocation =
