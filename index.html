@@ -10,13 +10,13 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Linnea RM</title>
+  <title>Linnea Moe</title>
 
 
   <style>
 
     /* =========================================
-       PAGE SETUP
+       RESET
        ========================================= */
 
     * {
@@ -30,76 +30,40 @@
 
       width: 100%;
       min-height: 100%;
+
+      background: #e7e7e7;
     }
 
     body {
-      background-color: #0757e8;
-      color: white;
-
       overflow-x: hidden;
     }
 
 
 
     /* =========================================
-       NAME
+       SITE
        ========================================= */
 
-    .name {
-      position: absolute;
-
-      top: 20px;
-      left: 45px;
-
-      margin: 0;
-
-      font-family:
-        Impact,
-        "Arial Narrow",
-        sans-serif;
-
-      font-size: 38px;
-      font-weight: 500;
-
-      letter-spacing: 2px;
-
-      color: white;
-
-      text-transform: uppercase;
-
-      z-index: 10;
-    }
-
-
-
-    /* =========================================
-       MAIN HOMEPAGE
-       ========================================= */
-
-    .homepage {
+    .site {
       width: 100%;
-      height: 100vh;
+      min-height: 100vh;
+
+      background: #e7e7e7;
 
       display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      padding:
-        20px
-        3vw
-        300px;
+      flex-direction: column;
     }
 
 
 
     /* =========================================
-       SEAWEED ROW
+       TOP NAVIGATION
        ========================================= */
 
-    .categories {
+    .top-nav {
       width: 100%;
-      max-width: 1800px;
+
+      min-height: 76px;
 
       display: grid;
 
@@ -111,121 +75,205 @@
         0.95fr
         0.8fr;
 
-      align-items: end;
+      align-items: center;
 
       column-gap: 1.5vw;
+
+      padding:
+        0
+        22px;
+
+      background: #e7e7e7;
     }
 
 
 
-    /* =========================================
-       INDIVIDUAL CATEGORY
-       ========================================= */
-
-    .category {
-      display: flex;
-
-      flex-direction: column;
-
-      align-items: center;
-      justify-content: flex-end;
-
-      min-width: 0;
-
-      color: white;
+    .nav-link {
+      color: #0757e8;
 
       text-decoration: none;
 
-      cursor: pointer;
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size:
+        clamp(
+          17px,
+          1.65vw,
+          29px
+        );
+
+      font-weight: 500;
+
+      letter-spacing: 1px;
+
+      line-height: 1;
+
+      white-space: nowrap;
+
+      text-align: center;
+
+      transition:
+        opacity 0.25s ease;
+    }
+
+
+
+    .nav-link:hover {
+      opacity: 0.55;
     }
 
 
 
     /* =========================================
-       PLANT CONTAINER
+       HERO
        ========================================= */
 
-    .plant-container {
+    .hero {
+      position: relative;
+
       width: 100%;
 
-      height: 62vh;
+      flex: 1;
+
+      min-height: 0;
+
+      overflow: hidden;
+
+      background: #071a18;
+    }
+
+
+
+    /* =========================================
+       HERO IMAGE
+       ========================================= */
+
+    .hero-image {
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+      object-position: center;
+
+      display: block;
+
+      user-select: none;
+
+      pointer-events: none;
+    }
+
+
+
+    /* =========================================
+       VERY SUBTLE OVERLAY
+       ========================================= */
+
+    .image-overlay {
+      position: absolute;
+
+      inset: 0;
+
+      background:
+        rgba(
+          0,
+          0,
+          0,
+          0.035
+        );
+
+      pointer-events: none;
+
+      z-index: 2;
+    }
+
+
+
+    /* =========================================
+       TITLE WRAPPER
+       ========================================= */
+
+    .hero-title {
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      transform:
+        translate(
+          -50%,
+          -50%
+        );
+
+      width: 100%;
 
       display: flex;
 
       justify-content: center;
-      align-items: flex-end;
+      align-items: center;
+
+      white-space: nowrap;
+
+      pointer-events: none;
+
+      z-index: 3;
     }
 
 
 
     /* =========================================
-       PLANTS
+       INDIVIDUAL LETTERS
        ========================================= */
 
-    .plant {
-      display: block;
+    .hero-letter {
+      position: relative;
 
-      max-width: 100%;
-      max-height: 100%;
+      display: inline-block;
 
-      object-fit: contain;
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
 
-      /*
-        ORIGINAL POSITION
-        +
-        JAVASCRIPT PHYSICS VARIABLES
-      */
-
-      transform:
-        translate(
-          calc(
-            var(--x, 0px)
-            +
-            var(--current-x, 0px)
-          ),
-
-          calc(
-            var(--y, 0px)
-            +
-            var(--current-y, 0px)
-            +
-            var(--hover-y, 0px)
-          )
-        )
-
-        scale(
-          calc(
-            var(--scale, 1)
-            *
-            var(--hover-scale, 1)
-          )
-        )
-
-        rotate(
-          calc(
-            var(--current-rotation, 0deg)
-            +
-            var(--hover-rotation, 0deg)
-          )
+      font-size:
+        clamp(
+          90px,
+          16vw,
+          310px
         );
 
+      font-weight: 500;
 
-      /*
-        Seaweed grows from its base.
-      */
+      line-height: 0.78;
 
-      transform-origin:
-        bottom center;
+      letter-spacing:
+        -0.035em;
 
+      color: white;
 
-      /*
-        IMPORTANT:
+      text-transform: uppercase;
 
-        No CSS transition here.
+      transform-origin: center;
 
-        JavaScript is doing the smooth
-        spring animation now.
-      */
+      transform:
+        translateX(
+          var(--letter-x, 0px)
+        )
+        translateY(
+          var(--letter-y, 0px)
+        )
+        scaleX(
+          var(--letter-scale-x, 1)
+        )
+        scaleY(
+          var(--letter-scale-y, 1)
+        );
 
       will-change:
         transform;
@@ -234,153 +282,94 @@
 
 
     /* =========================================
-       INDIVIDUAL PLANT CONTROLS
+       SPACE BETWEEN FIRST + LAST NAME
        ========================================= */
 
+    .hero-space {
+      display: inline-block;
 
-    /* DATA ANALYTICS */
+      width:
+        clamp(
+          24px,
+          3.5vw,
+          70px
+        );
 
-    .data-science .plant {
-
-      width: 100%;
-
-      --scale: .88;
-
-      --x: 0px;
-      --y: 0px;
-
-      --tilt: -2deg;
-    }
-
-
-
-    /* RESEARCH */
-
-    .research .plant {
-
-      width: 100%;
-
-      --scale: .88;
-
-      --x: 0px;
-      --y: 0px;
-
-      --tilt: 1.5deg;
-    }
-
-
-
-    /* FILM / PHOTO */
-
-    .film-photo .plant {
-
-      width: 100%;
-
-      --scale: .88;
-
-      --x: 0px;
-      --y: 0px;
-
-      --tilt: -1.5deg;
-    }
-
-
-
-    /* PRODUCT DESIGN */
-
-    .product-design .plant {
-
-      width: 100%;
-
-      --scale: .88;
-
-      --x: 0px;
-      --y: 0px;
-
-      --tilt: 1.5deg;
-    }
-
-
-
-    /* FASHION */
-
-    .fashion .plant {
-
-      width: 100%;
-
-      --scale: .88;
-
-      --x: 0px;
-      --y: 0px;
-
-      --tilt: -1.5deg;
-    }
-
-
-
-    /* ART */
-
-    .art .plant {
-
-      width: 100%;
-
-      --scale: .88;
-
-      --x: 0px;
-      --y: 0px;
-
-      --tilt: 2deg;
+      flex-shrink: 0;
     }
 
 
 
     /* =========================================
-       LABELS
+       BOTTOM BAR
        ========================================= */
 
-    .label {
+    .bottom-bar {
       width: 100%;
 
-      margin-top: 24px;
+      min-height: 62px;
 
-      text-align: center;
+      display: flex;
 
+      align-items: center;
+      justify-content: flex-end;
+
+      padding:
+        0
+        22px;
+
+      background: #e7e7e7;
+    }
+
+
+
+    .contact {
       font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
+        Impact,
+        "Arial Narrow",
+        sans-serif;
 
       font-size:
         clamp(
-          19px,
+          18px,
           1.65vw,
-          31px
+          29px
         );
 
-      font-weight: 400;
+      font-weight: 500;
 
-      line-height: 1.1;
+      letter-spacing: 1px;
 
-      color: white;
+      line-height: 1;
 
-      white-space: nowrap;
+      color: #0757e8;
+
+      text-decoration: none;
+
+      text-transform: uppercase;
 
       transition:
-        transform
-        0.4s
-        ease;
+        opacity 0.25s ease;
+    }
+
+
+
+    .contact:hover {
+      opacity: 0.55;
     }
 
 
 
     /* =========================================
-       CLICK
+       DESKTOP
        ========================================= */
 
-    .category:active .plant {
+    @media (min-width: 1001px) {
 
-      --hover-y: -10px;
-      --hover-scale: 1.04;
+      .site {
+        height: 100vh;
+      }
+
     }
 
 
@@ -391,40 +380,49 @@
 
     @media (max-width: 1000px) {
 
-      .homepage {
-
-        height: auto;
-
-        min-height: 100vh;
-
-        padding:
-          110px
-          45px
-          70px;
-      }
-
-
-      .categories {
+      .top-nav {
+        min-height: auto;
 
         grid-template-columns:
-          repeat(2, 1fr);
+          repeat(3, 1fr);
 
-        column-gap: 50px;
-        row-gap: 80px;
+        row-gap: 18px;
+
+        padding:
+          18px
+          14px;
       }
 
 
-      .plant-container {
-
-        height: 45vh;
-
-        min-height: 300px;
+      .nav-link {
+        font-size: 22px;
       }
 
 
-      .label {
+      .hero {
+        height: 72vh;
+        min-height: 520px;
 
-        font-size: 26px;
+        flex: none;
+      }
+
+
+      .hero-letter {
+        font-size:
+          clamp(
+            70px,
+            15vw,
+            170px
+          );
+      }
+
+
+      .bottom-bar {
+        min-height: 60px;
+
+        padding:
+          0
+          18px;
       }
 
     }
@@ -437,45 +435,83 @@
 
     @media (max-width: 600px) {
 
-      .name {
+      .top-nav {
+        grid-template-columns:
+          repeat(2, 1fr);
 
-        top: 20px;
-        left: 25px;
-
-        font-size: 28px;
-      }
-
-
-      .homepage {
-
-        height: auto;
+        column-gap: 10px;
+        row-gap: 14px;
 
         padding:
-          100px
-          35px
-          60px;
+          16px
+          8px;
       }
 
 
-      .categories {
-
-        grid-template-columns: 1fr;
-
-        row-gap: 80px;
+      .nav-link {
+        font-size: 19px;
       }
 
 
-      .plant-container {
-
-        height: 55vh;
-
-        min-height: 320px;
+      .hero {
+        height: 70vh;
+        min-height: 500px;
       }
 
 
-      .label {
+      .hero-title {
+        transform:
+          translate(
+            -50%,
+            -50%
+          )
+          scale(0.92);
+      }
 
-        font-size: 27px;
+
+      .hero-letter {
+        font-size:
+          clamp(
+            55px,
+            16vw,
+            95px
+          );
+      }
+
+
+      .hero-space {
+        width: 14px;
+      }
+
+
+      .bottom-bar {
+        min-height: 55px;
+
+        padding:
+          0
+          12px;
+      }
+
+
+      .contact {
+        font-size: 20px;
+      }
+
+    }
+
+
+
+    /* =========================================
+       REDUCED MOTION
+       ========================================= */
+
+    @media (
+      prefers-reduced-motion:
+      reduce
+    ) {
+
+      .hero-letter {
+        transform: none !important;
       }
 
     }
@@ -490,323 +526,238 @@
 <body>
 
 
-  <!-- =======================================
-       NAME
-       ======================================= -->
-
-  <h1 class="name">
-    LINNEA RM
-  </h1>
+  <div class="site">
 
 
 
-  <!-- =======================================
-       HOMEPAGE
-       ======================================= -->
+    <!-- =======================================
+         TOP NAVIGATION
+         ======================================= -->
 
-  <main class="homepage">
+    <nav class="top-nav">
 
-
-    <div class="categories">
-
-
-
-      <!-- DATA ANALYTICS -->
 
       <a
         href="data-analytics.html"
-        class="category data-science"
+        class="nav-link"
       >
-
-        <div class="plant-container">
-
-          <img
-            src="data-science.png"
-            class="plant"
-            alt="Data Analytics"
-          >
-
-        </div>
-
-        <div class="label">
-          data analytics
-        </div>
-
+        data analytics
       </a>
 
-
-
-      <!-- RESEARCH -->
 
       <a
         href="research.html"
-        class="category research"
+        class="nav-link"
       >
-
-        <div class="plant-container">
-
-          <img
-            src="research.png"
-            class="plant"
-            alt="Research"
-          >
-
-        </div>
-
-        <div class="label">
-          research
-        </div>
-
+        research
       </a>
 
-
-
-      <!-- FILM / PHOTO -->
 
       <a
         href="film-photo.html"
-        class="category film-photo"
+        class="nav-link"
       >
-
-        <div class="plant-container">
-
-          <img
-            src="film-photo.png"
-            class="plant"
-            alt="Film and Photo"
-          >
-
-        </div>
-
-        <div class="label">
-          film/photo
-        </div>
-
+        film & photo
       </a>
 
-
-
-      <!-- PRODUCT DESIGN -->
 
       <a
         href="product-design.html"
-        class="category product-design"
+        class="nav-link"
       >
-
-        <div class="plant-container">
-
-          <img
-            src="product-design.png"
-            class="plant"
-            alt="Product Design"
-          >
-
-        </div>
-
-        <div class="label">
-          product design
-        </div>
-
+        product design
       </a>
 
-
-
-      <!-- FASHION -->
 
       <a
         href="fashion.html"
-        class="category fashion"
+        class="nav-link"
       >
-
-        <div class="plant-container">
-
-          <img
-            src="fashion.png"
-            class="plant"
-            alt="Fashion"
-          >
-
-        </div>
-
-        <div class="label">
-          fashion
-        </div>
-
+        fashion
       </a>
 
-
-
-      <!-- ART -->
 
       <a
         href="art.html"
-        class="category art"
+        class="nav-link"
       >
-
-        <div class="plant-container">
-
-          <img
-            src="art.png"
-            class="plant"
-            alt="Art"
-          >
-
-        </div>
-
-        <div class="label">
-          art
-        </div>
-
+        art
       </a>
 
 
-    </div>
+    </nav>
 
 
-  </main>
+
+    <!-- =======================================
+         HERO
+         ======================================= -->
+
+    <main class="hero">
+
+
+      <!-- =====================================
+           HERO IMAGE
+
+           CHANGE "home-image.jpg"
+           BELOW IF YOUR FILE HAS
+           A DIFFERENT NAME
+           ===================================== -->
+
+      <img
+        src="home-image.jpg"
+        class="hero-image"
+        alt=""
+      >
+
+
+
+      <div class="image-overlay"></div>
+
+
+
+      <!-- =====================================
+           GEOMETRIC TITLE
+           ===================================== -->
+
+      <div
+        class="hero-title"
+        aria-label="Linnea Moe"
+      >
+
+
+        <span class="hero-letter">
+          L
+        </span>
+
+        <span class="hero-letter">
+          I
+        </span>
+
+        <span class="hero-letter">
+          N
+        </span>
+
+        <span class="hero-letter">
+          N
+        </span>
+
+        <span class="hero-letter">
+          E
+        </span>
+
+        <span class="hero-letter">
+          A
+        </span>
+
+
+        <span class="hero-space"></span>
+
+
+        <span class="hero-letter">
+          M
+        </span>
+
+        <span class="hero-letter">
+          O
+        </span>
+
+        <span class="hero-letter">
+          E
+        </span>
+
+
+      </div>
+
+
+    </main>
+
+
+
+    <!-- =======================================
+         BOTTOM
+         ======================================= -->
+
+    <footer class="bottom-bar">
+
+
+      <a
+        class="contact"
+        href="mailto:YOUR-EMAIL-HERE"
+      >
+        CONTACT
+      </a>
+
+
+    </footer>
+
+
+  </div>
 
 
 
   <script>
 
     /* =========================================
-       UNDERWATER CURRENT PHYSICS
+       GEOMETRIC TITLE EXPANSION
        ========================================= */
 
 
-    /*
-      Grab every seaweed.
-    */
+    const hero =
+      document.querySelector(
+        ".hero"
+      );
 
-    const plantElements =
+
+    const letters =
       Array.from(
         document.querySelectorAll(
-          ".plant"
+          ".hero-letter"
         )
       );
 
 
 
     /*
-      Every seaweed gets its own physics.
+      Each letter has its own current
+      animation state.
 
-      stiffness:
-      how strongly it wants to return home
-
-      damping:
-      how quickly movement settles
-
-      sensitivity:
-      how strongly it reacts to currents
-
-      idleSpeed:
-      speed of tiny background sway
+      This lets everything glide rather
+      than snapping directly to the mouse.
     */
 
-    const personalities = [
-
-      /* DATA ANALYTICS */
-      {
-        stiffness: 0.030,
-        damping: 0.88,
-        sensitivity: 0.82,
-        idleSpeed: 0.65,
-        idleAmount: 0.65
-      },
-
-      /* RESEARCH */
-      {
-        stiffness: 0.022,
-        damping: 0.91,
-        sensitivity: 1.05,
-        idleSpeed: 0.48,
-        idleAmount: 1.00
-      },
-
-      /* FILM / PHOTO */
-      {
-        stiffness: 0.026,
-        damping: 0.89,
-        sensitivity: 1.20,
-        idleSpeed: 0.82,
-        idleAmount: 0.90
-      },
-
-      /* PRODUCT DESIGN */
-      {
-        stiffness: 0.036,
-        damping: 0.87,
-        sensitivity: 0.95,
-        idleSpeed: 0.72,
-        idleAmount: 0.72
-      },
-
-      /* FASHION */
-      {
-        stiffness: 0.020,
-        damping: 0.92,
-        sensitivity: 1.28,
-        idleSpeed: 0.60,
-        idleAmount: 1.12
-      },
-
-      /* ART */
-      {
-        stiffness: 0.018,
-        damping: 0.925,
-        sensitivity: 1.35,
-        idleSpeed: 0.52,
-        idleAmount: 1.20
-      }
-
-    ];
-
-
-
-    /*
-      Create physics state for every plant.
-    */
-
-    const plants =
-      plantElements.map(
-        (element, index) => {
-
-          const personality =
-            personalities[index];
-
+    const letterStates =
+      letters.map(
+        (letter) => {
 
           return {
 
-            element,
+            element:
+              letter,
 
-            index,
+            x:
+              0,
 
-            rotation: 0,
-            rotationVelocity: 0,
+            y:
+              0,
 
-            x: 0,
-            xVelocity: 0,
+            scaleX:
+              1,
 
-            y: 0,
-            yVelocity: 0,
+            scaleY:
+              1,
 
-            stiffness:
-              personality.stiffness,
+            targetX:
+              0,
 
-            damping:
-              personality.damping,
+            targetY:
+              0,
 
-            sensitivity:
-              personality.sensitivity,
+            targetScaleX:
+              1,
 
-            idleSpeed:
-              personality.idleSpeed,
-
-            idleAmount:
-              personality.idleAmount,
-
-            phase:
-              index * 1.37
+            targetScaleY:
+              1
 
           };
 
@@ -815,166 +766,16 @@
 
 
 
-    /* =========================================
-       CURRENT TRAIL
-       ========================================= */
-
-
-    /*
-      These are little invisible pieces
-      of water left behind by the mouse.
-    */
-
-    const currents =
-      [];
-
-
-    /*
-      Maximum number of current particles.
-
-      Increase this for a longer wake.
-    */
-
-    const MAX_CURRENTS =
-      32;
-
-
-
     let mouseX =
-      window.innerWidth * 0.5;
+      window.innerWidth / 2;
 
 
     let mouseY =
-      window.innerHeight * 0.5;
+      window.innerHeight / 2;
 
 
-    let previousMouseX =
-      mouseX;
-
-
-    let previousMouseY =
-      mouseY;
-
-
-    let lastCurrentX =
-      mouseX;
-
-
-    let lastCurrentY =
-      mouseY;
-
-
-    let mouseActive =
+    let mouseInside =
       false;
-
-
-
-    /* =========================================
-       CREATE CURRENT
-       ========================================= */
-
-    function createCurrent(
-      x,
-      y,
-      vx,
-      vy
-    ) {
-
-
-      const speed =
-        Math.sqrt(
-          vx * vx +
-          vy * vy
-        );
-
-
-      /*
-        Ignore microscopic mouse movement.
-      */
-
-      if (
-        speed < 0.8
-      ) {
-
-        return;
-
-      }
-
-
-
-      /*
-        Limit enormous jumps.
-      */
-
-      const maxSpeed =
-        70;
-
-
-      const limitedSpeed =
-        Math.min(
-          speed,
-          maxSpeed
-        );
-
-
-      const directionX =
-        vx /
-        Math.max(
-          speed,
-          0.001
-        );
-
-
-      const directionY =
-        vy /
-        Math.max(
-          speed,
-          0.001
-        );
-
-
-
-      currents.unshift({
-
-        x,
-        y,
-
-        vx:
-          directionX *
-          limitedSpeed,
-
-        vy:
-          directionY *
-          limitedSpeed,
-
-        strength:
-          Math.min(
-            1.0,
-            0.22 +
-            limitedSpeed / 35
-          ),
-
-        age: 0
-
-      });
-
-
-
-      /*
-        Remove oldest currents.
-      */
-
-      if (
-        currents.length >
-        MAX_CURRENTS
-      ) {
-
-        currents.length =
-          MAX_CURRENTS;
-
-      }
-
-    }
 
 
 
@@ -982,14 +783,14 @@
        MOUSE MOVEMENT
        ========================================= */
 
-    window.addEventListener(
+    hero.addEventListener(
 
       "mousemove",
 
       (event) => {
 
 
-        mouseActive =
+        mouseInside =
           true;
 
 
@@ -1002,74 +803,7 @@
 
 
 
-        const dx =
-          mouseX -
-          previousMouseX;
-
-
-        const dy =
-          mouseY -
-          previousMouseY;
-
-
-
-        const distanceFromLastCurrent =
-          Math.sqrt(
-
-            Math.pow(
-              mouseX -
-              lastCurrentX,
-              2
-            )
-
-            +
-
-            Math.pow(
-              mouseY -
-              lastCurrentY,
-              2
-            )
-
-          );
-
-
-
-        /*
-          Add current particles as the mouse
-          travels through the page.
-        */
-
-        if (
-          distanceFromLastCurrent >
-          12
-        ) {
-
-
-          createCurrent(
-            mouseX,
-            mouseY,
-            dx,
-            dy
-          );
-
-
-          lastCurrentX =
-            mouseX;
-
-
-          lastCurrentY =
-            mouseY;
-
-        }
-
-
-
-        previousMouseX =
-          mouseX;
-
-
-        previousMouseY =
-          mouseY;
+        updateTargets();
 
       }
 
@@ -1077,14 +811,33 @@
 
 
 
-    window.addEventListener(
+    hero.addEventListener(
+
+      "mouseenter",
+
+      () => {
+
+        mouseInside =
+          true;
+
+      }
+
+    );
+
+
+
+    hero.addEventListener(
 
       "mouseleave",
 
       () => {
 
-        mouseActive =
+
+        mouseInside =
           false;
+
+
+        resetTargets();
 
       }
 
@@ -1093,79 +846,41 @@
 
 
     /* =========================================
-       FIND PLANT INTERACTION POINT
+       CALCULATE LETTER TARGETS
        ========================================= */
 
-    function getPlantPoint(
-      plant
-    ) {
+    function updateTargets() {
 
 
-      const rect =
-        plant.element.getBoundingClientRect();
+      letterStates.forEach(
+        (state) => {
 
 
-      /*
-        We don't use the very bottom because
-        the plant is anchored there.
-
-        The current affects roughly the
-        upper-middle part of the seaweed.
-      */
-
-      return {
-
-        x:
-          rect.left +
-          rect.width * 0.5,
-
-        y:
-          rect.top +
-          rect.height * 0.42
-
-      };
-
-    }
+          const rect =
+            state.element
+              .getBoundingClientRect();
 
 
-
-    /* =========================================
-       CURRENT → PLANT FORCE
-       ========================================= */
-
-    function applyCurrents(
-      plant
-    ) {
+          const centerX =
+            rect.left +
+            rect.width / 2;
 
 
-      const point =
-        getPlantPoint(
-          plant
-        );
+          const centerY =
+            rect.top +
+            rect.height / 2;
 
-
-
-      let forceX =
-        0;
-
-
-      let forceY =
-        0;
-
-
-
-      currents.forEach(
-        (current) => {
 
 
           const dx =
-            point.x -
-            current.x;
+            centerX -
+            mouseX;
 
 
           const dy =
-            point.y -
-            current.y;
+            centerY -
+            mouseY;
+
 
 
           const distance =
@@ -1177,383 +892,157 @@
 
 
           /*
-            Radius of each piece of current.
+            How far the effect reaches.
 
-            This is intentionally quite large
-            so the water can propagate between
-            neighboring seaweeds.
+            Increase this if you want the
+            whole word reacting at once.
           */
 
           const radius =
-            330;
+            420;
 
 
 
-          if (
-            distance <
-            radius
-          ) {
+          let influence =
+            1 -
+            distance /
+            radius;
 
 
-            /*
-              Smooth falloff.
-
-              1 = very close
-              0 = outside radius
-            */
-
-            let influence =
-              1 -
-              distance /
-              radius;
-
-
-            influence =
-              influence *
-              influence;
+          influence =
+            Math.max(
+              0,
+              Math.min(
+                1,
+                influence
+              )
+            );
 
 
 
-            /*
-              Older water gradually loses power.
-            */
+          /*
+            Smooth geometric falloff.
+          */
 
-            const life =
-              Math.max(
-                0,
-                1 -
-                current.age
-              );
-
-
-
-            influence *=
-              life *
-              current.strength *
-              plant.sensitivity;
+          influence =
+            influence *
+            influence *
+            (
+              3 -
+              2 * influence
+            );
 
 
 
-            forceX +=
-              current.vx *
-              influence;
+          /*
+            Direction AWAY from cursor.
+          */
+
+          const safeDistance =
+            Math.max(
+              distance,
+              1
+            );
 
 
-            forceY +=
-              current.vy *
-              influence;
+          const directionX =
+            dx /
+            safeDistance;
 
-          }
+
+          const directionY =
+            dy /
+            safeDistance;
+
+
+
+          /* ===================================
+             HORIZONTAL EXPANSION
+
+             This is the main effect.
+             =================================== */
+
+
+          state.targetScaleX =
+            1 +
+            influence *
+            0.42;
+
+
+
+          /* ===================================
+             VERTICAL COMPRESSION
+
+             As a letter expands sideways,
+             it compresses very slightly
+             vertically.
+
+             This makes the movement feel
+             more geometric.
+             =================================== */
+
+
+          state.targetScaleY =
+            1 -
+            influence *
+            0.07;
+
+
+
+          /* ===================================
+             PUSH LETTERS APART
+             =================================== */
+
+
+          state.targetX =
+            directionX *
+            influence *
+            75;
+
+
+
+          state.targetY =
+            directionY *
+            influence *
+            8;
+
 
         }
 
       );
 
-
-
-      /*
-        Horizontal movement matters much more
-        for seaweed bending.
-
-        Vertical movement gives a smaller
-        lift / sink response.
-      */
-
-      plant.rotationVelocity +=
-        forceX *
-        0.012;
-
-
-      plant.xVelocity +=
-        forceX *
-        0.025;
-
-
-      plant.yVelocity +=
-        forceY *
-        0.008;
-
     }
 
 
 
     /* =========================================
-       UPDATE CURRENT PARTICLES
+       RESET
        ========================================= */
 
-    function updateCurrents() {
+    function resetTargets() {
 
 
-      for (
-        let i =
-          currents.length - 1;
-
-        i >= 0;
-
-        i--
-      ) {
+      letterStates.forEach(
+        (state) => {
 
 
-        const current =
-          currents[i];
+          state.targetX =
+            0;
 
 
-
-        /*
-          The current itself drifts slightly
-          forward after the mouse has passed.
-        */
-
-        current.x +=
-          current.vx *
-          0.18;
+          state.targetY =
+            0;
 
 
-        current.y +=
-          current.vy *
-          0.18;
+          state.targetScaleX =
+            1;
 
 
+          state.targetScaleY =
+            1;
 
-        /*
-          Water slows down.
-        */
-
-        current.vx *=
-          0.965;
-
-
-        current.vy *=
-          0.965;
-
-
-
-        /*
-          Water ages.
-        */
-
-        current.age +=
-          0.018;
-
-
-
-        /*
-          Remove fully faded current.
-        */
-
-        if (
-          current.age >= 1
-        ) {
-
-          currents.splice(
-            i,
-            1
-          );
 
         }
-
-      }
-
-    }
-
-
-
-    /* =========================================
-       SPRING PHYSICS
-       ========================================= */
-
-    function updatePlant(
-      plant,
-      time
-    ) {
-
-
-      /*
-        Apply mouse-generated water.
-      */
-
-      applyCurrents(
-        plant
-      );
-
-
-
-      /* =======================================
-         NATURAL IDLE SWAY
-         ======================================= */
-
-
-      const idle =
-        Math.sin(
-          time *
-          plant.idleSpeed +
-          plant.phase
-        )
-        *
-        plant.idleAmount;
-
-
-
-      const idleSecondary =
-        Math.sin(
-          time *
-          plant.idleSpeed *
-          0.43 +
-          plant.phase * 1.8
-        )
-        *
-        plant.idleAmount *
-        0.45;
-
-
-
-      const idleRotation =
-        idle +
-        idleSecondary;
-
-
-
-      /* =======================================
-         SPRING BACK TO CENTER
-         ======================================= */
-
-
-      plant.rotationVelocity +=
-        (
-          -plant.rotation
-        )
-        *
-        plant.stiffness;
-
-
-      plant.xVelocity +=
-        (
-          -plant.x
-        )
-        *
-        plant.stiffness *
-        0.8;
-
-
-      plant.yVelocity +=
-        (
-          -plant.y
-        )
-        *
-        plant.stiffness *
-        0.9;
-
-
-
-      /* =======================================
-         DAMPING
-         ======================================= */
-
-
-      plant.rotationVelocity *=
-        plant.damping;
-
-
-      plant.xVelocity *=
-        plant.damping;
-
-
-      plant.yVelocity *=
-        plant.damping;
-
-
-
-      /* =======================================
-         MOVE
-         ======================================= */
-
-
-      plant.rotation +=
-        plant.rotationVelocity;
-
-
-      plant.x +=
-        plant.xVelocity;
-
-
-      plant.y +=
-        plant.yVelocity;
-
-
-
-      /* =======================================
-         LIMIT EXTREME MOVEMENT
-         ======================================= */
-
-
-      plant.rotation =
-        Math.max(
-          -16,
-          Math.min(
-            16,
-            plant.rotation
-          )
-        );
-
-
-      plant.x =
-        Math.max(
-          -28,
-          Math.min(
-            28,
-            plant.x
-          )
-        );
-
-
-      plant.y =
-        Math.max(
-          -12,
-          Math.min(
-            12,
-            plant.y
-          )
-        );
-
-
-
-      /* =======================================
-         SEND MOVEMENT TO CSS
-         ======================================= */
-
-
-      plant.element.style.setProperty(
-
-        "--current-rotation",
-
-        (
-          plant.rotation +
-          idleRotation
-        ) +
-        "deg"
-
-      );
-
-
-
-      plant.element.style.setProperty(
-
-        "--current-x",
-
-        plant.x +
-        "px"
-
-      );
-
-
-
-      plant.element.style.setProperty(
-
-        "--current-y",
-
-        plant.y +
-        "px"
-
       );
 
     }
@@ -1561,39 +1050,112 @@
 
 
     /* =========================================
-       ANIMATION LOOP
+       ANIMATION
        ========================================= */
 
-    function animate(
-      timestamp
-    ) {
+    function animate() {
 
 
-      const time =
-        timestamp /
-        1000;
+      letterStates.forEach(
+        (state) => {
+
+
+          /*
+            Smoothly approach target.
+
+            Smaller number = slower / silkier.
+            Larger number = faster.
+          */
+
+          const smoothing =
+            0.095;
 
 
 
-      /*
-        Move/fade invisible water.
-      */
+          state.x +=
+            (
+              state.targetX -
+              state.x
+            )
+            *
+            smoothing;
 
-      updateCurrents();
+
+
+          state.y +=
+            (
+              state.targetY -
+              state.y
+            )
+            *
+            smoothing;
 
 
 
-      /*
-        Update every seaweed independently.
-      */
+          state.scaleX +=
+            (
+              state.targetScaleX -
+              state.scaleX
+            )
+            *
+            smoothing;
 
-      plants.forEach(
-        (plant) => {
 
-          updatePlant(
-            plant,
-            time
-          );
+
+          state.scaleY +=
+            (
+              state.targetScaleY -
+              state.scaleY
+            )
+            *
+            smoothing;
+
+
+
+          state.element.style
+            .setProperty(
+
+              "--letter-x",
+
+              state.x +
+              "px"
+
+            );
+
+
+
+          state.element.style
+            .setProperty(
+
+              "--letter-y",
+
+              state.y +
+              "px"
+
+            );
+
+
+
+          state.element.style
+            .setProperty(
+
+              "--letter-scale-x",
+
+              state.scaleX
+
+            );
+
+
+
+          state.element.style
+            .setProperty(
+
+              "--letter-scale-y",
+
+              state.scaleY
+
+            );
+
 
         }
       );
@@ -1608,9 +1170,7 @@
 
 
 
-    requestAnimationFrame(
-      animate
-    );
+    animate();
 
 
   </script>
