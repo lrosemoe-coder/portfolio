@@ -85,11 +85,6 @@
       align-items: center;
       justify-content: center;
 
-      /*
-        Extra padding on the bottom nudges the
-        entire composition slightly upward.
-      */
-
       padding:
         20px
         3vw
@@ -176,30 +171,64 @@
       object-fit: contain;
 
       /*
-        These variables allow every seaweed
-        to have its own size and position.
+        ORIGINAL POSITION
+        +
+        JAVASCRIPT PHYSICS VARIABLES
       */
 
       transform:
         translate(
-          var(--x, 0px),
-          var(--y, 0px)
+          calc(
+            var(--x, 0px)
+            +
+            var(--current-x, 0px)
+          ),
+
+          calc(
+            var(--y, 0px)
+            +
+            var(--current-y, 0px)
+            +
+            var(--hover-y, 0px)
+          )
         )
-        scale(var(--scale, 1))
-        rotate(0deg);
+
+        scale(
+          calc(
+            var(--scale, 1)
+            *
+            var(--hover-scale, 1)
+          )
+        )
+
+        rotate(
+          calc(
+            var(--current-rotation, 0deg)
+            +
+            var(--hover-rotation, 0deg)
+          )
+        );
+
 
       /*
-        Makes the plant feel like it is
-        growing/swaying from its base.
+        Seaweed grows from its base.
       */
 
-      transform-origin: bottom center;
+      transform-origin:
+        bottom center;
 
-      transition:
-        transform
-        0.55s
-        cubic-bezier(.2, .8, .2, 1);
 
+      /*
+        IMPORTANT:
+
+        No CSS transition here.
+
+        JavaScript is doing the smooth
+        spring animation now.
+      */
+
+      will-change:
+        transform;
     }
 
 
@@ -345,34 +374,17 @@
 
 
     /* =========================================
-       HOVER — ORGANIC SEAWEED MOVEMENT
+       HOVER
        ========================================= */
 
     .category:has(.plant:hover, .label:hover) .plant {
 
-      transform:
-
-        translate(
-          var(--x, 0px),
-          calc(
-            var(--y, 0px) - 22px
-          )
-        )
-
-        scale(
-          calc(
-            var(--scale, 1) * 1.08
-          )
-        )
-
-        rotate(
-          var(--tilt, 0deg)
-        );
+      --hover-y: -22px;
+      --hover-scale: 1.08;
+      --hover-rotation: var(--tilt, 0deg);
     }
 
 
-
-    /* LABEL MOVES SLIGHTLY TOO */
 
     .category:has(.plant:hover, .label:hover) .label {
 
@@ -388,26 +400,8 @@
 
     .category:active .plant {
 
-      transform:
-
-        translate(
-          var(--x, 0px),
-          calc(
-            var(--y, 0px) - 10px
-          )
-        )
-
-        scale(
-          calc(
-            var(--scale, 1) * 1.04
-          )
-        )
-
-        rotate(
-          calc(
-            var(--tilt, 0deg) * 0.5
-          )
-        );
+      --hover-y: -10px;
+      --hover-scale: 1.04;
     }
 
 
@@ -540,8 +534,8 @@
 
       <!-- DATA ANALYTICS -->
 
-      <div
-       
+      <a
+        href="data-analytics.html"
         class="category data-science"
       >
 
@@ -559,14 +553,14 @@
           data analytics
         </div>
 
-      </div> 
+      </a>
 
 
 
       <!-- RESEARCH -->
 
-      <div
-        
+      <a
+        href="research.html"
         class="category research"
       >
 
@@ -584,13 +578,14 @@
           research
         </div>
 
-      </div>
+      </a>
 
 
 
       <!-- FILM / PHOTO -->
 
-      <div
+      <a
+        href="film-photo.html"
         class="category film-photo"
       >
 
@@ -608,14 +603,14 @@
           film/photo
         </div>
 
-      </div>
+      </a>
 
 
 
       <!-- PRODUCT DESIGN -->
 
-      <div
-        
+      <a
+        href="product-design.html"
         class="category product-design"
       >
 
@@ -633,14 +628,14 @@
           product design
         </div>
 
-      </div>
+      </a>
 
 
 
       <!-- FASHION -->
 
-      <div
-        
+      <a
+        href="fashion.html"
         class="category fashion"
       >
 
@@ -658,14 +653,14 @@
           fashion
         </div>
 
-      </div>
+      </a>
 
 
 
       <!-- ART -->
 
-      <div
-        
+      <a
+        href="art.html"
         class="category art"
       >
 
@@ -683,13 +678,964 @@
           art
         </div>
 
-      </div>
+      </a>
 
 
     </div>
 
 
   </main>
+
+
+
+  <script>
+
+    /* =========================================
+       UNDERWATER CURRENT PHYSICS
+       ========================================= */
+
+
+    /*
+      Grab every seaweed.
+    */
+
+    const plantElements =
+      Array.from(
+        document.querySelectorAll(
+          ".plant"
+        )
+      );
+
+
+
+    /*
+      Every seaweed gets its own physics.
+
+      stiffness:
+      how strongly it wants to return home
+
+      damping:
+      how quickly movement settles
+
+      sensitivity:
+      how strongly it reacts to currents
+
+      idleSpeed:
+      speed of tiny background sway
+    */
+
+    const personalities = [
+
+      /* DATA ANALYTICS */
+      {
+        stiffness: 0.030,
+        damping: 0.88,
+        sensitivity: 0.82,
+        idleSpeed: 0.65,
+        idleAmount: 0.65
+      },
+
+      /* RESEARCH */
+      {
+        stiffness: 0.022,
+        damping: 0.91,
+        sensitivity: 1.05,
+        idleSpeed: 0.48,
+        idleAmount: 1.00
+      },
+
+      /* FILM / PHOTO */
+      {
+        stiffness: 0.026,
+        damping: 0.89,
+        sensitivity: 1.20,
+        idleSpeed: 0.82,
+        idleAmount: 0.90
+      },
+
+      /* PRODUCT DESIGN */
+      {
+        stiffness: 0.036,
+        damping: 0.87,
+        sensitivity: 0.95,
+        idleSpeed: 0.72,
+        idleAmount: 0.72
+      },
+
+      /* FASHION */
+      {
+        stiffness: 0.020,
+        damping: 0.92,
+        sensitivity: 1.28,
+        idleSpeed: 0.60,
+        idleAmount: 1.12
+      },
+
+      /* ART */
+      {
+        stiffness: 0.018,
+        damping: 0.925,
+        sensitivity: 1.35,
+        idleSpeed: 0.52,
+        idleAmount: 1.20
+      }
+
+    ];
+
+
+
+    /*
+      Create physics state for every plant.
+    */
+
+    const plants =
+      plantElements.map(
+        (element, index) => {
+
+          const personality =
+            personalities[index];
+
+
+          return {
+
+            element,
+
+            index,
+
+            rotation: 0,
+            rotationVelocity: 0,
+
+            x: 0,
+            xVelocity: 0,
+
+            y: 0,
+            yVelocity: 0,
+
+            stiffness:
+              personality.stiffness,
+
+            damping:
+              personality.damping,
+
+            sensitivity:
+              personality.sensitivity,
+
+            idleSpeed:
+              personality.idleSpeed,
+
+            idleAmount:
+              personality.idleAmount,
+
+            phase:
+              index * 1.37
+
+          };
+
+        }
+      );
+
+
+
+    /* =========================================
+       CURRENT TRAIL
+       ========================================= */
+
+
+    /*
+      These are little invisible pieces
+      of water left behind by the mouse.
+    */
+
+    const currents =
+      [];
+
+
+    /*
+      Maximum number of current particles.
+
+      Increase this for a longer wake.
+    */
+
+    const MAX_CURRENTS =
+      32;
+
+
+
+    let mouseX =
+      window.innerWidth * 0.5;
+
+
+    let mouseY =
+      window.innerHeight * 0.5;
+
+
+    let previousMouseX =
+      mouseX;
+
+
+    let previousMouseY =
+      mouseY;
+
+
+    let lastCurrentX =
+      mouseX;
+
+
+    let lastCurrentY =
+      mouseY;
+
+
+    let mouseActive =
+      false;
+
+
+
+    /* =========================================
+       CREATE CURRENT
+       ========================================= */
+
+    function createCurrent(
+      x,
+      y,
+      vx,
+      vy
+    ) {
+
+
+      const speed =
+        Math.sqrt(
+          vx * vx +
+          vy * vy
+        );
+
+
+      /*
+        Ignore microscopic mouse movement.
+      */
+
+      if (
+        speed < 0.8
+      ) {
+
+        return;
+
+      }
+
+
+
+      /*
+        Limit enormous jumps.
+      */
+
+      const maxSpeed =
+        70;
+
+
+      const limitedSpeed =
+        Math.min(
+          speed,
+          maxSpeed
+        );
+
+
+      const directionX =
+        vx /
+        Math.max(
+          speed,
+          0.001
+        );
+
+
+      const directionY =
+        vy /
+        Math.max(
+          speed,
+          0.001
+        );
+
+
+
+      currents.unshift({
+
+        x,
+        y,
+
+        vx:
+          directionX *
+          limitedSpeed,
+
+        vy:
+          directionY *
+          limitedSpeed,
+
+        strength:
+          Math.min(
+            1.0,
+            0.22 +
+            limitedSpeed / 35
+          ),
+
+        age: 0
+
+      });
+
+
+
+      /*
+        Remove oldest currents.
+      */
+
+      if (
+        currents.length >
+        MAX_CURRENTS
+      ) {
+
+        currents.length =
+          MAX_CURRENTS;
+
+      }
+
+    }
+
+
+
+    /* =========================================
+       MOUSE MOVEMENT
+       ========================================= */
+
+    window.addEventListener(
+
+      "mousemove",
+
+      (event) => {
+
+
+        mouseActive =
+          true;
+
+
+        mouseX =
+          event.clientX;
+
+
+        mouseY =
+          event.clientY;
+
+
+
+        const dx =
+          mouseX -
+          previousMouseX;
+
+
+        const dy =
+          mouseY -
+          previousMouseY;
+
+
+
+        const distanceFromLastCurrent =
+          Math.sqrt(
+
+            Math.pow(
+              mouseX -
+              lastCurrentX,
+              2
+            )
+
+            +
+
+            Math.pow(
+              mouseY -
+              lastCurrentY,
+              2
+            )
+
+          );
+
+
+
+        /*
+          Add current particles as the mouse
+          travels through the page.
+        */
+
+        if (
+          distanceFromLastCurrent >
+          12
+        ) {
+
+
+          createCurrent(
+            mouseX,
+            mouseY,
+            dx,
+            dy
+          );
+
+
+          lastCurrentX =
+            mouseX;
+
+
+          lastCurrentY =
+            mouseY;
+
+        }
+
+
+
+        previousMouseX =
+          mouseX;
+
+
+        previousMouseY =
+          mouseY;
+
+      }
+
+    );
+
+
+
+    window.addEventListener(
+
+      "mouseleave",
+
+      () => {
+
+        mouseActive =
+          false;
+
+      }
+
+    );
+
+
+
+    /* =========================================
+       FIND PLANT INTERACTION POINT
+       ========================================= */
+
+    function getPlantPoint(
+      plant
+    ) {
+
+
+      const rect =
+        plant.element.getBoundingClientRect();
+
+
+      /*
+        We don't use the very bottom because
+        the plant is anchored there.
+
+        The current affects roughly the
+        upper-middle part of the seaweed.
+      */
+
+      return {
+
+        x:
+          rect.left +
+          rect.width * 0.5,
+
+        y:
+          rect.top +
+          rect.height * 0.42
+
+      };
+
+    }
+
+
+
+    /* =========================================
+       CURRENT → PLANT FORCE
+       ========================================= */
+
+    function applyCurrents(
+      plant
+    ) {
+
+
+      const point =
+        getPlantPoint(
+          plant
+        );
+
+
+
+      let forceX =
+        0;
+
+
+      let forceY =
+        0;
+
+
+
+      currents.forEach(
+        (current) => {
+
+
+          const dx =
+            point.x -
+            current.x;
+
+
+          const dy =
+            point.y -
+            current.y;
+
+
+          const distance =
+            Math.sqrt(
+              dx * dx +
+              dy * dy
+            );
+
+
+
+          /*
+            Radius of each piece of current.
+
+            This is intentionally quite large
+            so the water can propagate between
+            neighboring seaweeds.
+          */
+
+          const radius =
+            330;
+
+
+
+          if (
+            distance <
+            radius
+          ) {
+
+
+            /*
+              Smooth falloff.
+
+              1 = very close
+              0 = outside radius
+            */
+
+            let influence =
+              1 -
+              distance /
+              radius;
+
+
+            influence =
+              influence *
+              influence;
+
+
+
+            /*
+              Older water gradually loses power.
+            */
+
+            const life =
+              Math.max(
+                0,
+                1 -
+                current.age
+              );
+
+
+
+            influence *=
+              life *
+              current.strength *
+              plant.sensitivity;
+
+
+
+            forceX +=
+              current.vx *
+              influence;
+
+
+            forceY +=
+              current.vy *
+              influence;
+
+          }
+
+        }
+
+      );
+
+
+
+      /*
+        Horizontal movement matters much more
+        for seaweed bending.
+
+        Vertical movement gives a smaller
+        lift / sink response.
+      */
+
+      plant.rotationVelocity +=
+        forceX *
+        0.012;
+
+
+      plant.xVelocity +=
+        forceX *
+        0.025;
+
+
+      plant.yVelocity +=
+        forceY *
+        0.008;
+
+    }
+
+
+
+    /* =========================================
+       UPDATE CURRENT PARTICLES
+       ========================================= */
+
+    function updateCurrents() {
+
+
+      for (
+        let i =
+          currents.length - 1;
+
+        i >= 0;
+
+        i--
+      ) {
+
+
+        const current =
+          currents[i];
+
+
+
+        /*
+          The current itself drifts slightly
+          forward after the mouse has passed.
+        */
+
+        current.x +=
+          current.vx *
+          0.18;
+
+
+        current.y +=
+          current.vy *
+          0.18;
+
+
+
+        /*
+          Water slows down.
+        */
+
+        current.vx *=
+          0.965;
+
+
+        current.vy *=
+          0.965;
+
+
+
+        /*
+          Water ages.
+        */
+
+        current.age +=
+          0.018;
+
+
+
+        /*
+          Remove fully faded current.
+        */
+
+        if (
+          current.age >= 1
+        ) {
+
+          currents.splice(
+            i,
+            1
+          );
+
+        }
+
+      }
+
+    }
+
+
+
+    /* =========================================
+       SPRING PHYSICS
+       ========================================= */
+
+    function updatePlant(
+      plant,
+      time
+    ) {
+
+
+      /*
+        Apply mouse-generated water.
+      */
+
+      applyCurrents(
+        plant
+      );
+
+
+
+      /* =======================================
+         NATURAL IDLE SWAY
+         ======================================= */
+
+
+      const idle =
+        Math.sin(
+          time *
+          plant.idleSpeed +
+          plant.phase
+        )
+        *
+        plant.idleAmount;
+
+
+
+      const idleSecondary =
+        Math.sin(
+          time *
+          plant.idleSpeed *
+          0.43 +
+          plant.phase * 1.8
+        )
+        *
+        plant.idleAmount *
+        0.45;
+
+
+
+      const idleRotation =
+        idle +
+        idleSecondary;
+
+
+
+      /* =======================================
+         SPRING BACK TO CENTER
+         ======================================= */
+
+
+      plant.rotationVelocity +=
+        (
+          -plant.rotation
+        )
+        *
+        plant.stiffness;
+
+
+      plant.xVelocity +=
+        (
+          -plant.x
+        )
+        *
+        plant.stiffness *
+        0.8;
+
+
+      plant.yVelocity +=
+        (
+          -plant.y
+        )
+        *
+        plant.stiffness *
+        0.9;
+
+
+
+      /* =======================================
+         DAMPING
+         ======================================= */
+
+
+      plant.rotationVelocity *=
+        plant.damping;
+
+
+      plant.xVelocity *=
+        plant.damping;
+
+
+      plant.yVelocity *=
+        plant.damping;
+
+
+
+      /* =======================================
+         MOVE
+         ======================================= */
+
+
+      plant.rotation +=
+        plant.rotationVelocity;
+
+
+      plant.x +=
+        plant.xVelocity;
+
+
+      plant.y +=
+        plant.yVelocity;
+
+
+
+      /* =======================================
+         LIMIT EXTREME MOVEMENT
+         ======================================= */
+
+
+      plant.rotation =
+        Math.max(
+          -16,
+          Math.min(
+            16,
+            plant.rotation
+          )
+        );
+
+
+      plant.x =
+        Math.max(
+          -28,
+          Math.min(
+            28,
+            plant.x
+          )
+        );
+
+
+      plant.y =
+        Math.max(
+          -12,
+          Math.min(
+            12,
+            plant.y
+          )
+        );
+
+
+
+      /* =======================================
+         SEND MOVEMENT TO CSS
+         ======================================= */
+
+
+      plant.element.style.setProperty(
+
+        "--current-rotation",
+
+        (
+          plant.rotation +
+          idleRotation
+        ) +
+        "deg"
+
+      );
+
+
+
+      plant.element.style.setProperty(
+
+        "--current-x",
+
+        plant.x +
+        "px"
+
+      );
+
+
+
+      plant.element.style.setProperty(
+
+        "--current-y",
+
+        plant.y +
+        "px"
+
+      );
+
+    }
+
+
+
+    /* =========================================
+       ANIMATION LOOP
+       ========================================= */
+
+    function animate(
+      timestamp
+    ) {
+
+
+      const time =
+        timestamp /
+        1000;
+
+
+
+      /*
+        Move/fade invisible water.
+      */
+
+      updateCurrents();
+
+
+
+      /*
+        Update every seaweed independently.
+      */
+
+      plants.forEach(
+        (plant) => {
+
+          updatePlant(
+            plant,
+            time
+          );
+
+        }
+      );
+
+
+
+      requestAnimationFrame(
+        animate
+      );
+
+    }
+
+
+
+    requestAnimationFrame(
+      animate
+    );
+
+
+  </script>
+
 
 </body>
 
