@@ -49,9 +49,6 @@
       min-height: 100vh;
 
       background: #e7e7e7;
-
-      display: flex;
-      flex-direction: column;
     }
 
 
@@ -62,8 +59,7 @@
 
     .top-nav {
       width: 100%;
-
-      min-height: 76px;
+      height: 76px;
 
       display: grid;
 
@@ -136,9 +132,17 @@
 
       width: 100%;
 
-      flex: 1;
+      /*
+        Explicit height makes sure the
+        image always has space to display.
+      */
 
-      min-height: 0;
+      height:
+        calc(
+          100vh - 138px
+        );
+
+      min-height: 500px;
 
       overflow: hidden;
 
@@ -154,15 +158,27 @@
     .hero-image {
       position: absolute;
 
-      inset: 0;
+      top: 0;
+      left: 0;
 
       width: 100%;
       height: 100%;
 
+      /*
+        COVER = fill the entire hero.
+
+        The image may crop slightly depending
+        on the browser dimensions, but there
+        will be no empty space.
+      */
+
       object-fit: cover;
+
       object-position: center;
 
       display: block;
+
+      z-index: 1;
 
       user-select: none;
 
@@ -172,7 +188,7 @@
 
 
     /* =========================================
-       VERY SUBTLE OVERLAY
+       SUBTLE IMAGE OVERLAY
        ========================================= */
 
     .image-overlay {
@@ -196,7 +212,7 @@
 
 
     /* =========================================
-       TITLE WRAPPER
+       TITLE
        ========================================= */
 
     .hero-title {
@@ -228,7 +244,7 @@
 
 
     /* =========================================
-       INDIVIDUAL LETTERS
+       INDIVIDUAL TITLE LETTERS
        ========================================= */
 
     .hero-letter {
@@ -265,24 +281,26 @@
         translateX(
           var(--letter-x, 0px)
         )
+
         translateY(
           var(--letter-y, 0px)
         )
+
         scaleX(
           var(--letter-scale-x, 1)
         )
+
         scaleY(
           var(--letter-scale-y, 1)
         );
 
-      will-change:
-        transform;
+      will-change: transform;
     }
 
 
 
     /* =========================================
-       SPACE BETWEEN FIRST + LAST NAME
+       SPACE BETWEEN LINNEA + MOE
        ========================================= */
 
     .hero-space {
@@ -306,12 +324,12 @@
 
     .bottom-bar {
       width: 100%;
-
-      min-height: 62px;
+      height: 62px;
 
       display: flex;
 
       align-items: center;
+
       justify-content: flex-end;
 
       padding:
@@ -322,6 +340,10 @@
     }
 
 
+
+    /* =========================================
+       CONTACT
+       ========================================= */
 
     .contact {
       font-family:
@@ -361,27 +383,13 @@
 
 
     /* =========================================
-       DESKTOP
-       ========================================= */
-
-    @media (min-width: 1001px) {
-
-      .site {
-        height: 100vh;
-      }
-
-    }
-
-
-
-    /* =========================================
        TABLET
        ========================================= */
 
     @media (max-width: 1000px) {
 
       .top-nav {
-        min-height: auto;
+        height: auto;
 
         grid-template-columns:
           repeat(3, 1fr);
@@ -401,9 +409,8 @@
 
       .hero {
         height: 72vh;
-        min-height: 520px;
 
-        flex: none;
+        min-height: 520px;
       }
 
 
@@ -418,7 +425,7 @@
 
 
       .bottom-bar {
-        min-height: 60px;
+        height: 60px;
 
         padding:
           0
@@ -455,6 +462,7 @@
 
       .hero {
         height: 70vh;
+
         min-height: 500px;
       }
 
@@ -485,7 +493,7 @@
 
 
       .bottom-bar {
-        min-height: 55px;
+        height: 55px;
 
         padding:
           0
@@ -597,27 +605,27 @@
 
 
       <!-- =====================================
-           HERO IMAGE
-
-           CHANGE "home-image.jpg"
-           BELOW IF YOUR FILE HAS
-           A DIFFERENT NAME
+           IMAGE
            ===================================== -->
 
       <img
         src="./home-image.jpg"
         class="hero-image"
-        alt=""
+        alt="Linnea Moe portfolio"
       >
 
 
+
+      <!-- =====================================
+           SUBTLE OVERLAY
+           ===================================== -->
 
       <div class="image-overlay"></div>
 
 
 
       <!-- =====================================
-           GEOMETRIC TITLE
+           INTERACTIVE TITLE
            ===================================== -->
 
       <div
@@ -630,37 +638,46 @@
           L
         </span>
 
+
         <span class="hero-letter">
           I
         </span>
 
-        <span class="hero-letter">
-          N
-        </span>
 
         <span class="hero-letter">
           N
         </span>
+
+
+        <span class="hero-letter">
+          N
+        </span>
+
 
         <span class="hero-letter">
           E
         </span>
+
 
         <span class="hero-letter">
           A
         </span>
 
 
+
         <span class="hero-space"></span>
+
 
 
         <span class="hero-letter">
           M
         </span>
 
+
         <span class="hero-letter">
           O
         </span>
+
 
         <span class="hero-letter">
           E
@@ -718,13 +735,9 @@
 
 
 
-    /*
-      Each letter has its own current
-      animation state.
-
-      This lets everything glide rather
-      than snapping directly to the mouse.
-    */
+    /* =========================================
+       LETTER STATES
+       ========================================= */
 
     const letterStates =
       letters.map(
@@ -766,6 +779,10 @@
 
 
 
+    /* =========================================
+       MOUSE
+       ========================================= */
+
     let mouseX =
       window.innerWidth / 2;
 
@@ -774,24 +791,12 @@
       window.innerHeight / 2;
 
 
-    let mouseInside =
-      false;
-
-
-
-    /* =========================================
-       MOUSE MOVEMENT
-       ========================================= */
 
     hero.addEventListener(
 
       "mousemove",
 
       (event) => {
-
-
-        mouseInside =
-          true;
 
 
         mouseX =
@@ -802,23 +807,7 @@
           event.clientY;
 
 
-
         updateTargets();
-
-      }
-
-    );
-
-
-
-    hero.addEventListener(
-
-      "mouseenter",
-
-      () => {
-
-        mouseInside =
-          true;
 
       }
 
@@ -832,11 +821,6 @@
 
       () => {
 
-
-        mouseInside =
-          false;
-
-
         resetTargets();
 
       }
@@ -846,7 +830,7 @@
 
 
     /* =========================================
-       CALCULATE LETTER TARGETS
+       CALCULATE GEOMETRIC EXPANSION
        ========================================= */
 
     function updateTargets() {
@@ -891,12 +875,9 @@
 
 
 
-          /*
-            How far the effect reaches.
-
-            Increase this if you want the
-            whole word reacting at once.
-          */
+          /* ===================================
+             INTERACTION RADIUS
+             =================================== */
 
           const radius =
             420;
@@ -907,6 +888,7 @@
             1 -
             distance /
             radius;
+
 
 
           influence =
@@ -920,9 +902,9 @@
 
 
 
-          /*
-            Smooth geometric falloff.
-          */
+          /* ===================================
+             SMOOTH FALLOFF
+             =================================== */
 
           influence =
             influence *
@@ -934,9 +916,9 @@
 
 
 
-          /*
-            Direction AWAY from cursor.
-          */
+          /* ===================================
+             DIRECTION
+             =================================== */
 
           const safeDistance =
             Math.max(
@@ -958,10 +940,7 @@
 
           /* ===================================
              HORIZONTAL EXPANSION
-
-             This is the main effect.
              =================================== */
-
 
           state.targetScaleX =
             1 +
@@ -971,16 +950,8 @@
 
 
           /* ===================================
-             VERTICAL COMPRESSION
-
-             As a letter expands sideways,
-             it compresses very slightly
-             vertically.
-
-             This makes the movement feel
-             more geometric.
+             SLIGHT VERTICAL COMPRESSION
              =================================== */
-
 
           state.targetScaleY =
             1 -
@@ -990,15 +961,13 @@
 
 
           /* ===================================
-             PUSH LETTERS APART
+             PUSH LETTERS AWAY
              =================================== */
-
 
           state.targetX =
             directionX *
             influence *
-            90;
-
+            38;
 
 
           state.targetY =
@@ -1008,7 +977,6 @@
 
 
         }
-
       );
 
     }
@@ -1016,7 +984,7 @@
 
 
     /* =========================================
-       RESET
+       RESET TITLE
        ========================================= */
 
     function resetTargets() {
@@ -1050,7 +1018,7 @@
 
 
     /* =========================================
-       ANIMATION
+       ANIMATION LOOP
        ========================================= */
 
     function animate() {
@@ -1061,10 +1029,8 @@
 
 
           /*
-            Smoothly approach target.
-
-            Smaller number = slower / silkier.
-            Larger number = faster.
+            Lower = smoother/slower
+            Higher = quicker
           */
 
           const smoothing =
@@ -1111,6 +1077,10 @@
             smoothing;
 
 
+
+          /* ===================================
+             SEND VALUES TO CSS
+             =================================== */
 
           state.element.style
             .setProperty(
