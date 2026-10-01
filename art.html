@@ -541,7 +541,7 @@
 
 
     /* =========================================
-       ART / PAINT SMEAR SHADER
+       ART / LIQUID MARBLE SHADER
        ========================================= */
 
     const fragmentShaderSource = `
@@ -616,7 +616,7 @@
 
 
       /* ========================================
-         DISTANCE TO LINE SEGMENT
+         DISTANCE TO LINE
          ======================================== */
 
       float segmentDistance(
@@ -679,10 +679,7 @@
 
 
         /*
-          Total image displacement.
-
-          Every part of the stored mouse
-          path contributes to this.
+          MAIN IMAGE DISPLACEMENT
         */
 
         vec2 displacement =
@@ -693,9 +690,13 @@
           0.0;
 
 
+        float ribbonInfluence =
+          0.0;
+
+
 
         /* ========================================
-           FOLLOW THE MOUSE PATH
+           FOLLOW THE 24-POINT MOUSE PATH
            ======================================== */
 
         for (
@@ -721,6 +722,40 @@
 
 
 
+          /* ======================================
+             PATH DIRECTION
+             ====================================== */
+
+          vec2 pathVector =
+            b - a;
+
+
+          float pathLength =
+            length(
+              pathVector
+            );
+
+
+          vec2 tangent =
+            pathVector /
+            max(
+              pathLength,
+              0.0001
+            );
+
+
+          vec2 normal =
+            vec2(
+              -tangent.y,
+              tangent.x
+            );
+
+
+
+          /* ======================================
+             MAIN STREAK DISTANCE
+             ====================================== */
+
           float along =
             0.0;
 
@@ -736,10 +771,7 @@
 
 
           /*
-            Newest streaks are strongest.
-
-            Older streaks remain visible
-            but progressively weaken.
+            Newest parts are strongest.
           */
 
           float age =
@@ -747,39 +779,25 @@
             (
               float(i) +
               along
-            ) /
+            )
+            /
             23.0;
 
 
           age =
             pow(
-              max(age, 0.0),
-              0.75
+              max(
+                age,
+                0.0
+              ),
+              0.72
             );
 
 
 
-          /*
-            Width of the dragged paint area.
-          */
-
-          float influence =
-            1.0 -
-            smoothstep(
-              0.0,
-              0.105,
-              d
-            );
-
-
-          influence *=
-            age;
-
-
-
-          /*
-            Mouse movement direction.
-          */
+          /* ======================================
+             VELOCITY
+             ====================================== */
 
           vec2 velocity =
             u_velocities[i];
@@ -803,14 +821,6 @@
             );
 
 
-
-          /*
-            Perpendicular direction.
-
-            This is what gives us the
-            swirling / curling quality.
-          */
-
           vec2 perpendicular =
             vec2(
               -direction.y,
@@ -819,100 +829,486 @@
 
 
 
-          /*
-            Organic streak breakup.
+          /* ======================================
+             MAIN THICK LIQUID STREAK
+             ====================================== */
 
-            Instead of a smooth blur,
-            the image breaks into multiple
-            paint-like strands.
-          */
-
-          float streaks =
-            sin(
-              d * 180.0
-              -
-              float(i) * 1.7
-              +
-              u_time * 0.7
+          float mainInfluence =
+            1.0 -
+            smoothstep(
+              0.0,
+              0.095,
+              d
             );
 
 
-          streaks =
-            0.55 +
-            0.45 *
-            streaks;
+          mainInfluence *=
+            age;
+
+
+
+          /* ======================================
+             SMALL SIDE STREAKS
+
+             These follow beside the main stroke.
+             ====================================== */
+
+          float sideWobble =
+            sin(
+              float(i) * 0.73
+              +
+              along * 6.0
+              -
+              u_time * 0.42
+            )
+            *
+            0.009;
+
+
+          float sideOffset =
+            0.042 +
+            sideWobble;
 
 
 
           /*
-            Curl changes across the path.
+            LEFT SMALL STREAK
           */
 
-          float curl =
-            sin(
-              d * 42.0
-              +
-              float(i) * 0.72
-              -
-              u_time * 0.45
+          vec2 aLeft =
+            a +
+            normal *
+            sideOffset;
+
+
+          vec2 bLeft =
+            b +
+            normal *
+            sideOffset;
+
+
+
+          /*
+            RIGHT SMALL STREAK
+          */
+
+          vec2 aRight =
+            a -
+            normal *
+            sideOffset;
+
+
+          vec2 bRight =
+            b -
+            normal *
+            sideOffset;
+
+
+
+          float alongLeft =
+            0.0;
+
+
+          float alongRight =
+            0.0;
+
+
+
+          float dLeft =
+            segmentDistance(
+              p,
+              aLeft,
+              bLeft,
+              alongLeft
+            );
+
+
+          float dRight =
+            segmentDistance(
+              p,
+              aRight,
+              bRight,
+              alongRight
             );
 
 
 
           /*
-            Drag the image backward along
-            the direction the mouse moved.
+            These are deliberately thinner
+            than the main streak.
           */
+
+          float leftRibbon =
+            1.0 -
+            smoothstep(
+              0.0,
+              0.025,
+              dLeft
+            );
+
+
+          float rightRibbon =
+            1.0 -
+            smoothstep(
+              0.0,
+              0.021,
+              dRight
+            );
+
+
+
+          /* ======================================
+             EXTRA FINE OUTER STRANDS
+             ====================================== */
+
+          float outerOffset =
+            0.071
+            +
+            sin(
+              float(i) * 1.13
+              -
+              along * 4.0
+              +
+              u_time * 0.31
+            )
+            *
+            0.008;
+
+
+
+          vec2 aOuterLeft =
+            a +
+            normal *
+            outerOffset;
+
+
+          vec2 bOuterLeft =
+            b +
+            normal *
+            outerOffset;
+
+
+          vec2 aOuterRight =
+            a -
+            normal *
+            outerOffset;
+
+
+          vec2 bOuterRight =
+            b -
+            normal *
+            outerOffset;
+
+
+
+          float alongOuterLeft =
+            0.0;
+
+
+          float alongOuterRight =
+            0.0;
+
+
+
+          float dOuterLeft =
+            segmentDistance(
+              p,
+              aOuterLeft,
+              bOuterLeft,
+              alongOuterLeft
+            );
+
+
+          float dOuterRight =
+            segmentDistance(
+              p,
+              aOuterRight,
+              bOuterRight,
+              alongOuterRight
+            );
+
+
+
+          float outerLeft =
+            1.0 -
+            smoothstep(
+              0.0,
+              0.012,
+              dOuterLeft
+            );
+
+
+          float outerRight =
+            1.0 -
+            smoothstep(
+              0.0,
+              0.010,
+              dOuterRight
+            );
+
+
+
+          /*
+            Combine all of the smaller
+            side streaks.
+          */
+
+          float sideInfluence =
+            (
+              leftRibbon * 0.70
+              +
+              rightRibbon * 0.62
+              +
+              outerLeft * 0.42
+              +
+              outerRight * 0.34
+            )
+            *
+            age;
+
+
+
+          /* ======================================
+             MARBLE VEINS
+             ====================================== */
+
+          float marbleOne =
+            sin(
+              d * 150.0
+              +
+              along * 8.0
+              -
+              float(i) * 0.82
+              +
+              u_time * 0.48
+            );
+
+
+          float marbleTwo =
+            sin(
+              d * 285.0
+              -
+              along * 13.0
+              +
+              float(i) * 1.27
+              -
+              u_time * 0.31
+            );
+
+
+          float marbleThree =
+            cos(
+              d * 72.0
+              +
+              along * 17.0
+              +
+              float(i) * 0.43
+              +
+              u_time * 0.22
+            );
+
+
+
+          float marble =
+            0.50
+            +
+            marbleOne * 0.24
+            +
+            marbleTwo * 0.15
+            +
+            marbleThree * 0.11;
+
+
+
+          /* ======================================
+             LIQUID EDDIES
+             ====================================== */
+
+          float eddy =
+            sin(
+              along * 10.0
+              +
+              float(i) * 0.65
+              -
+              u_time * 0.38
+            );
+
+
+          float crossEddy =
+            cos(
+              d * 58.0
+              -
+              float(i) * 0.51
+              +
+              u_time * 0.29
+            );
+
+
+
+          /* ======================================
+             MAIN DRAG
+             ====================================== */
 
           vec2 drag =
-            -direction *
-            influence *
-            streaks *
+            -direction
+            *
+            mainInfluence
+            *
             (
-              0.010 +
+              0.012
+              +
+              velocityLength * 0.82
+            )
+            *
+            (
+              0.62
+              +
+              marble * 0.62
+            );
+
+
+
+          /* ======================================
+             MAIN SWIRL
+             ====================================== */
+
+          vec2 swirl =
+            perpendicular
+            *
+            mainInfluence
+            *
+            (
+              eddy * 0.010
+              +
+              crossEddy * 0.006
+              +
               velocityLength *
-              0.70
+              0.27 *
+              eddy
+            );
+
+
+
+          /* ======================================
+             SIDE-STREAK DRAG
+             ====================================== */
+
+          vec2 sideDrag =
+            -direction
+            *
+            sideInfluence
+            *
+            (
+              0.008
+              +
+              velocityLength * 0.58
             );
 
 
 
           /*
-            Twist sideways around the trail.
+            Give the little side strands
+            their own curl.
           */
 
-          vec2 swirl =
-            perpendicular *
-            curl *
-            influence *
+          vec2 sideCurl =
+            perpendicular
+            *
+            sideInfluence
+            *
             (
-              0.004 +
-              velocityLength *
-              0.24
+              0.0045
+              *
+              sin(
+                along * 15.0
+                +
+                float(i)
+                -
+                u_time * 0.55
+              )
             );
 
 
 
           displacement +=
-            drag +
-            swirl;
+            drag
+            +
+            swirl
+            +
+            sideDrag
+            +
+            sideCurl;
+
 
 
           totalInfluence +=
-            influence;
+            mainInfluence;
+
+
+          ribbonInfluence +=
+            sideInfluence;
 
         }
 
 
 
         /* ========================================
-           KEEP EFFECT UNDER CONTROL
+           LARGE LIQUID WARP
+
+           Prevents the streaks from feeling
+           perfectly mechanical.
+           ======================================== */
+
+        float liquidWarp =
+          sin(
+            uv.x * 24.0
+            +
+            uv.y * 17.0
+            +
+            u_time * 0.34
+          )
+          *
+          sin(
+            uv.y * 31.0
+            -
+            uv.x * 11.0
+            -
+            u_time * 0.27
+          );
+
+
+
+        vec2 liquidNormal =
+          vec2(
+            -displacement.y,
+            displacement.x
+          );
+
+
+
+        displacement +=
+          liquidNormal
+          *
+          liquidWarp
+          *
+          clamp(
+            totalInfluence *
+            0.0035,
+            0.0,
+            0.018
+          );
+
+
+
+        /* ========================================
+           LIMIT DISPLACEMENT
            ======================================== */
 
         displacement =
           clamp(
             displacement,
-            vec2(-0.12),
-            vec2(0.12)
+            vec2(-0.15),
+            vec2(0.15)
           );
 
 
@@ -922,146 +1318,153 @@
 
 
         /* ========================================
-           PRIMARY SMEARED IMAGE
+           PRIMARY LIQUID IMAGE
            ======================================== */
 
         vec2 distortedUV =
-          uv +
+          uv
+          +
           displacement *
           u_energy;
 
-
-        vec2 imageUV =
-          coverImage(
-            distortedUV
-          );
 
 
         vec4 base =
           texture2D(
             u_image,
-            imageUV
+            coverImage(
+              distortedUV
+            )
           );
 
 
 
         /* ========================================
-           EXTRA PAINT STREAK SAMPLES
+           MULTIPLE MARBLE SAMPLES
 
-           Several slightly different samples
-           stretch the actual colors from the
-           photograph along the path.
+           These stretch the actual colors
+           from your photograph into the streak.
            ======================================== */
 
-        vec2 smearOne =
-          coverImage(
-            uv +
-            displacement *
-            0.72 *
-            u_energy
-          );
-
-
-        vec2 smearTwo =
-          coverImage(
-            uv +
-            displacement *
-            1.32 *
-            u_energy
-          );
-
-
-        vec2 smearThree =
-          coverImage(
-            uv -
-            displacement *
-            0.38 *
-            u_energy
-          );
-
-
-        vec4 sampleOne =
+        vec3 sampleNear =
           texture2D(
             u_image,
-            smearOne
-          );
+            coverImage(
+              uv
+              +
+              displacement *
+              0.46 *
+              u_energy
+            )
+          ).rgb;
 
 
-        vec4 sampleTwo =
+
+        vec3 sampleMid =
           texture2D(
             u_image,
-            smearTwo
-          );
+            coverImage(
+              uv
+              +
+              displacement *
+              0.92 *
+              u_energy
+            )
+          ).rgb;
 
 
-        vec4 sampleThree =
+
+        vec3 sampleFar =
           texture2D(
             u_image,
-            smearThree
-          );
+            coverImage(
+              uv
+              +
+              displacement *
+              1.55 *
+              u_energy
+            )
+          ).rgb;
 
 
 
-        /*
-          The stronger the trail influence,
-          the more the samples blend together.
-        */
+        vec3 sampleReverse =
+          texture2D(
+            u_image,
+            coverImage(
+              uv
+              -
+              displacement *
+              0.48 *
+              u_energy
+            )
+          ).rgb;
 
-        float smearAmount =
+
+
+        float marbleAmount =
           clamp(
-            totalInfluence *
-            0.10 *
+            (
+              totalInfluence * 0.085
+              +
+              ribbonInfluence * 0.075
+            )
+            *
             u_energy,
             0.0,
-            0.72
+            0.78
           );
 
 
-        vec3 smearedColor =
+
+        vec3 color =
+          base.rgb;
+
+
+
+        color =
           mix(
-            base.rgb,
-            sampleOne.rgb,
-            smearAmount * 0.45
+            color,
+            sampleNear,
+            marbleAmount * 0.30
           );
 
 
-        smearedColor =
+        color =
           mix(
-            smearedColor,
-            sampleTwo.rgb,
-            smearAmount * 0.30
+            color,
+            sampleMid,
+            marbleAmount * 0.28
           );
 
 
-        smearedColor =
+        color =
           mix(
-            smearedColor,
-            sampleThree.rgb,
-            smearAmount * 0.18
+            color,
+            sampleFar,
+            marbleAmount * 0.22
+          );
+
+
+        color =
+          mix(
+            color,
+            sampleReverse,
+            marbleAmount * 0.16
           );
 
 
 
         /* ========================================
-           SUBTLE COLOR DRAG
+           SUBTLE WET COLOR SEPARATION
 
-           This gives the streak edges a
-           painterly chromatic separation.
+           Much smaller than Film + Photo.
            ======================================== */
-
-        float colorShift =
-          clamp(
-            totalInfluence *
-            0.0008 *
-            u_energy,
-            0.0,
-            0.008
-          );
-
 
         vec2 shiftDirection =
           normalize(
-            displacement +
+            displacement
+            +
             vec2(
               0.00001,
               0.0
@@ -1069,56 +1472,70 @@
           );
 
 
-        vec2 redUV =
-          coverImage(
-            distortedUV +
-            shiftDirection *
-            colorShift
+
+        float edgeShift =
+          clamp(
+            (
+              totalInfluence
+              +
+              ribbonInfluence
+            )
+            *
+            0.00042
+            *
+            u_energy,
+            0.0,
+            0.0045
           );
 
-
-        vec2 blueUV =
-          coverImage(
-            distortedUV -
-            shiftDirection *
-            colorShift
-          );
 
 
         float red =
           texture2D(
             u_image,
-            redUV
+            coverImage(
+              distortedUV
+              +
+              shiftDirection *
+              edgeShift
+            )
           ).r;
+
 
 
         float blue =
           texture2D(
             u_image,
-            blueUV
+            coverImage(
+              distortedUV
+              -
+              shiftDirection *
+              edgeShift
+            )
           ).b;
 
 
-        smearedColor.r =
+
+        color.r =
           mix(
-            smearedColor.r,
+            color.r,
             red,
-            smearAmount * 0.35
+            marbleAmount * 0.28
           );
 
 
-        smearedColor.b =
+        color.b =
           mix(
-            smearedColor.b,
+            color.b,
             blue,
-            smearAmount * 0.35
+            marbleAmount * 0.28
           );
 
 
 
         gl_FragColor =
           vec4(
-            smearedColor,
+            color,
             1.0
           );
 
@@ -1254,6 +1671,7 @@
       ]);
 
 
+
     const texCoords =
       new Float32Array([
 
@@ -1268,6 +1686,10 @@
       ]);
 
 
+
+    /* =========================================
+       POSITION BUFFER
+       ========================================= */
 
     const positionBuffer =
       gl.createBuffer();
@@ -1308,6 +1730,10 @@
     );
 
 
+
+    /* =========================================
+       TEXTURE COORDINATES
+       ========================================= */
 
     const texCoordBuffer =
       gl.createBuffer();
@@ -1438,14 +1864,10 @@
     );
 
 
+
     const image =
       new Image();
 
-
-    /*
-      CHANGE THIS if your Art image
-      has a different filename.
-    */
 
     image.src =
       "./art-twist.jpeg";
@@ -1455,8 +1877,10 @@
       false;
 
 
+
     image.onload =
       () => {
+
 
         gl.bindTexture(
           gl.TEXTURE_2D,
@@ -1498,9 +1922,13 @@
       24;
 
 
+
     const points =
       Array.from(
-        { length: POINT_COUNT },
+        {
+          length:
+            POINT_COUNT
+        },
         () => ({
           x: 0.5,
           y: 0.5
@@ -1508,14 +1936,19 @@
       );
 
 
+
     const velocities =
       Array.from(
-        { length: POINT_COUNT },
+        {
+          length:
+            POINT_COUNT
+        },
         () => ({
           x: 0.0,
           y: 0.0
         })
       );
+
 
 
     const pointData =
@@ -1528,6 +1961,7 @@
       new Float32Array(
         POINT_COUNT * 2
       );
+
 
 
     let targetX =
@@ -1577,8 +2011,10 @@
 
       (event) => {
 
+
         const rect =
           canvas.getBoundingClientRect();
+
 
 
         targetX =
@@ -1590,6 +2026,7 @@
           rect.width;
 
 
+
         targetY =
           (
             event.clientY -
@@ -1599,12 +2036,14 @@
           rect.height;
 
 
+
         inside =
           true;
 
       }
 
     );
+
 
 
     canvas.addEventListener(
@@ -1619,6 +2058,7 @@
       }
 
     );
+
 
 
     canvas.addEventListener(
@@ -1642,6 +2082,7 @@
 
     function updateTrail() {
 
+
       const dx =
         mouseX -
         lastStoredX;
@@ -1652,6 +2093,7 @@
         lastStoredY;
 
 
+
       const distance =
         Math.sqrt(
           dx * dx +
@@ -1659,15 +2101,20 @@
         );
 
 
+
       /*
-        Only create a new streak point
-        when the mouse actually moves.
+        Only add a point once the mouse
+        has moved enough.
+
+        Smaller number =
+        denser/smoother trail.
       */
 
       if (
         distance >
-        0.006
+        0.005
       ) {
+
 
         for (
           let i =
@@ -1676,12 +2123,14 @@
           i--
         ) {
 
+
           points[i].x =
             points[i - 1].x;
 
 
           points[i].y =
             points[i - 1].y;
+
 
 
           velocities[i].x =
@@ -1723,13 +2172,14 @@
 
 
         /*
-          Movement adds paint energy.
+          Moving builds liquid energy.
         */
 
         targetEnergy =
           Math.min(
-            targetEnergy +
-            distance * 7.0,
+            targetEnergy
+            +
+            distance * 8.5,
             1.0
           );
 
@@ -1745,8 +2195,10 @@
 
     function resize() {
 
+
       const rect =
         canvas.getBoundingClientRect();
+
 
 
       const pixelRatio =
@@ -1754,6 +2206,7 @@
           window.devicePixelRatio,
           2
         );
+
 
 
       canvas.width =
@@ -1770,6 +2223,7 @@
         );
 
 
+
       gl.viewport(
         0,
         0,
@@ -1778,6 +2232,7 @@
       );
 
     }
+
 
 
     window.addEventListener(
@@ -1795,7 +2250,9 @@
       performance.now();
 
 
+
     function animate() {
+
 
       requestAnimationFrame(
         animate
@@ -1803,14 +2260,16 @@
 
 
       if (!imageLoaded) {
+
         return;
+
       }
 
 
 
-      /*
-        Smooth cursor movement.
-      */
+      /* =========================================
+         SMOOTH MOUSE
+         ========================================= */
 
       mouseX +=
         (
@@ -1818,7 +2277,7 @@
           mouseX
         )
         *
-        0.12;
+        0.11;
 
 
       mouseY +=
@@ -1827,7 +2286,7 @@
           mouseY
         )
         *
-        0.12;
+        0.11;
 
 
 
@@ -1835,10 +2294,9 @@
 
 
 
-      /*
-        Trail intensity rises quickly
-        and then slowly fades.
-      */
+      /* =========================================
+         LIQUID ENERGY
+         ========================================= */
 
       energy +=
         (
@@ -1846,28 +2304,32 @@
           energy
         )
         *
-        0.12;
+        0.11;
 
+
+
+      /*
+        Slow fade gives the streaks time
+        to remain visible behind you.
+      */
 
       targetEnergy *=
-        0.985;
+        0.988;
+
 
 
       if (!inside) {
 
         targetEnergy *=
-          0.96;
+          0.97;
 
       }
 
 
 
-      /*
-        Slowly relax the stored velocity.
-
-        This makes old streaks settle
-        instead of disappearing instantly.
-      */
+      /* =========================================
+         RELAX OLD VELOCITY
+         ========================================= */
 
       for (
         let i = 0;
@@ -1875,12 +2337,14 @@
         i++
       ) {
 
+
         velocities[i].x *=
-          0.995;
+          0.996;
 
 
         velocities[i].y *=
-          0.995;
+          0.996;
+
 
 
         pointData[
@@ -1893,6 +2357,7 @@
           i * 2 + 1
         ] =
           points[i].y;
+
 
 
         velocityData[
@@ -1910,6 +2375,10 @@
 
 
 
+      /* =========================================
+         TIME
+         ========================================= */
+
       const elapsedTime =
         (
           performance.now() -
@@ -1919,6 +2388,10 @@
         1000;
 
 
+
+      /* =========================================
+         SEND VALUES TO SHADER
+         ========================================= */
 
       gl.uniform1f(
         timeLocation,
@@ -1957,6 +2430,11 @@
         energy
       );
 
+
+
+      /* =========================================
+         DRAW
+         ========================================= */
 
       gl.drawArrays(
         gl.TRIANGLES,
