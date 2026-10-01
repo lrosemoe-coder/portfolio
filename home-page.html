@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Linnea Moe</title>
+
+
+  <style>
+
+    /* =========================================
+       RESET
+       ========================================= */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+
+      width: 100%;
+      min-height: 100%;
+
+      background: #0757e8;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+
+
+    /* =========================================
+       PAGE FRAME
+       ========================================= */
+
+    .site {
+      width: 100%;
+      min-height: 100vh;
+
+      background: #0757e8;
+
+      padding:
+        14px
+        18px
+        14px;
+
+      display: flex;
+      flex-direction: column;
+    }
+
+
+
+    /* =========================================
+       TOP NAVIGATION
+       ========================================= */
+
+    .top-nav {
+      width: 100%;
+
+      min-height: 52px;
+
+      display: grid;
+
+      grid-template-columns:
+        1.15fr
+        0.8fr
+        1.25fr
+        0.95fr
+        0.95fr
+        0.8fr;
+
+      align-items: center;
+
+      column-gap: 1.5vw;
+
+      padding:
+        0
+        5px;
+    }
+
+
+
+    .nav-link {
+      color: white;
+
+      text-decoration: none;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size:
+        clamp(
+          17px,
+          1.65vw,
+          29px
+        );
+
+      font-weight: 500;
+
+      letter-spacing: 1px;
+
+      line-height: 1;
+
+      white-space: nowrap;
+
+      text-align: center;
+
+      transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+    }
+
+
+
+    /* =========================================
+       NAV HOVER
+       ========================================= */
+
+    .nav-link:hover {
+      opacity: 0.62;
+
+      transform:
+        scaleX(1.04);
+    }
+
+
+
+    /* =========================================
+       HERO
+       ========================================= */
+
+    .hero {
+      position: relative;
+
+      width: 100%;
+
+      flex: 1;
+
+      min-height: 0;
+
+      overflow: hidden;
+
+      background: #071a18;
+    }
+
+
+
+    /* =========================================
+       VIDEO
+       ========================================= */
+
+    .hero-video {
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      object-position: center;
+
+      display: block;
+    }
+
+
+
+    /* =========================================
+       VERY SUBTLE VIDEO OVERLAY
+
+       This helps the giant white type remain
+       readable without making the video dark.
+       ========================================= */
+
+    .video-overlay {
+      position: absolute;
+
+      inset: 0;
+
+      background:
+        rgba(
+          0,
+          0,
+          0,
+          0.04
+        );
+
+      pointer-events: none;
+
+      z-index: 2;
+    }
+
+
+
+    /* =========================================
+       GIANT NAME
+       ========================================= */
+
+    .hero-name {
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      transform:
+        translate(
+          -50%,
+          -50%
+        );
+
+      margin: 0;
+
+      width: 100%;
+
+      padding:
+        0
+        2vw;
+
+      text-align: center;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size:
+        clamp(
+          90px,
+          17vw,
+          330px
+        );
+
+      font-weight: 500;
+
+      letter-spacing:
+        -0.015em;
+
+      line-height: 0.78;
+
+      color: white;
+
+      white-space: nowrap;
+
+      text-transform: uppercase;
+
+      pointer-events: none;
+
+      z-index: 3;
+    }
+
+
+
+    /* =========================================
+       BOTTOM BAR
+       ========================================= */
+
+    .bottom-bar {
+      width: 100%;
+
+      min-height: 50px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      padding:
+        0
+        6px;
+    }
+
+
+
+    .bottom-name,
+    .contact {
+      margin: 0;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size:
+        clamp(
+          18px,
+          1.65vw,
+          29px
+        );
+
+      font-weight: 500;
+
+      letter-spacing: 1px;
+
+      line-height: 1;
+
+      color: white;
+
+      text-transform: uppercase;
+    }
+
+
+
+    .contact {
+      text-decoration: none;
+
+      transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+    }
+
+
+
+    .contact:hover {
+      opacity: 0.62;
+
+      transform:
+        translateX(-3px);
+    }
+
+
+
+    /* =========================================
+       DESKTOP HEIGHT CONTROL
+
+       Keeps the composition almost completely
+       inside one browser screen.
+       ========================================= */
+
+    @media (min-width: 1001px) {
+
+      .site {
+        height: 100vh;
+      }
+
+    }
+
+
+
+    /* =========================================
+       TABLET
+       ========================================= */
+
+    @media (max-width: 1000px) {
+
+      .site {
+        padding:
+          12px;
+      }
+
+
+      .top-nav {
+        min-height: auto;
+
+        grid-template-columns:
+          repeat(3, 1fr);
+
+        row-gap: 18px;
+
+        padding:
+          15px
+          4px
+          18px;
+      }
+
+
+      .nav-link {
+        font-size: 22px;
+      }
+
+
+      .hero {
+        height: 72vh;
+        min-height: 520px;
+
+        flex: none;
+      }
+
+
+      .hero-name {
+        font-size:
+          clamp(
+            80px,
+            16vw,
+            190px
+          );
+      }
+
+
+      .bottom-bar {
+        min-height: 60px;
+      }
+
+    }
+
+
+
+    /* =========================================
+       PHONE
+       ========================================= */
+
+    @media (max-width: 600px) {
+
+      .site {
+        padding:
+          9px;
+      }
+
+
+      .top-nav {
+        grid-template-columns:
+          repeat(2, 1fr);
+
+        column-gap: 10px;
+        row-gap: 14px;
+
+        padding:
+          14px
+          2px
+          17px;
+      }
+
+
+      .nav-link {
+        font-size: 19px;
+      }
+
+
+      .hero {
+        height: 70vh;
+
+        min-height: 500px;
+      }
+
+
+      .hero-name {
+        width: 100%;
+
+        padding:
+          0
+          12px;
+
+        font-size:
+          clamp(
+            70px,
+            21vw,
+            130px
+          );
+
+        white-space: normal;
+
+        line-height: 0.82;
+      }
+
+
+      .bottom-bar {
+        min-height: 55px;
+
+        padding:
+          0
+          3px;
+      }
+
+
+      .bottom-name,
+      .contact {
+        font-size: 20px;
+      }
+
+    }
+
+
+  </style>
+
+</head>
+
+
+
+<body>
+
+
+  <div class="site">
+
+
+
+    <!-- =======================================
+         TOP NAVIGATION
+         ======================================= -->
+
+    <nav class="top-nav">
+
+
+      <a
+        href="data-analytics.html"
+        class="nav-link"
+      >
+        data analytics
+      </a>
+
+
+      <a
+        href="research.html"
+        class="nav-link"
+      >
+        research
+      </a>
+
+
+      <a
+        href="film-photo.html"
+        class="nav-link"
+      >
+        film & photo
+      </a>
+
+
+      <a
+        href="product-design.html"
+        class="nav-link"
+      >
+        product design
+      </a>
+
+
+      <a
+        href="fashion.html"
+        class="nav-link"
+      >
+        fashion
+      </a>
+
+
+      <a
+        href="art.html"
+        class="nav-link"
+      >
+        art
+      </a>
+
+
+    </nav>
+
+
+
+    <!-- =======================================
+         HERO
+         ======================================= -->
+
+    <main class="hero">
+
+
+      <!-- VIDEO -->
+
+      <video
+        class="hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+      >
+
+        <source
+          src="home-video.mp4"
+          type="video/mp4"
+        >
+
+      </video>
+
+
+
+      <!-- SUBTLE OVERLAY -->
+
+      <div class="video-overlay"></div>
+
+
+
+      <!-- GIANT NAME -->
+
+      <h1 class="hero-name">
+        LINNEA MOE
+      </h1>
+
+
+    </main>
+
+
+
+    <!-- =======================================
+         BOTTOM BAR
+         ======================================= -->
+
+    <footer class="bottom-bar">
+
+
+      <p class="bottom-name">
+        LINNEA RM
+      </p>
+
+
+      <!--
+        Replace the email below with whichever
+        email address you want displayed.
+      -->
+
+      <a
+        class="contact"
+        href="mailto:YOUR-EMAIL-HERE"
+      >
+        CONTACT
+      </a>
+
+
+    </footer>
+
+
+  </div>
+
+
+</body>
+
+</html>
