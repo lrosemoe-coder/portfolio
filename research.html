@@ -561,7 +561,7 @@
      smoother trail.
      ========================================= */
 
-  const SWIRL_COUNT = 12;
+  const SWIRL_COUNT = 24;
 
 
 
@@ -619,15 +619,15 @@
        12 STORED SWIRLS
        ======================================= */
 
-    uniform vec2 u_swirlPosition[12];
+    uniform vec2 u_swirlPosition[24];
 
-    uniform float u_swirlAge[12];
+    uniform float u_swirlAge[24];
 
-    uniform float u_swirlDirection[12];
+    uniform float u_swirlDirection[24];
 
-    uniform float u_swirlStrength[12];
+    uniform float u_swirlStrength[24];
 
-    uniform float u_swirlVariation[12];
+    uniform float u_swirlVariation[24];
 
 
     varying vec2 v_texCoord;
@@ -726,7 +726,7 @@
 
       for (
         int i = 0;
-        i < 12;
+        i < 24;
         i++
       ) {
 
