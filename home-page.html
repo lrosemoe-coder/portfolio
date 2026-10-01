@@ -31,7 +31,7 @@
       width: 100%;
       min-height: 100%;
 
-      background: #0757e8;
+      background: #e7e7e7;
     }
 
     body {
@@ -41,19 +41,14 @@
 
 
     /* =========================================
-       PAGE FRAME
+       SITE
        ========================================= */
 
     .site {
       width: 100%;
       min-height: 100vh;
 
-      background: #0757e8;
-
-      padding:
-        14px
-        18px
-        14px;
+      background: #e7e7e7;
 
       display: flex;
       flex-direction: column;
@@ -68,7 +63,7 @@
     .top-nav {
       width: 100%;
 
-      min-height: 52px;
+      min-height: 76px;
 
       display: grid;
 
@@ -86,13 +81,15 @@
 
       padding:
         0
-        5px;
+        22px;
+
+      background: #e7e7e7;
     }
 
 
 
     .nav-link {
-      color: white;
+      color: #0757e8;
 
       text-decoration: none;
 
@@ -119,21 +116,13 @@
       text-align: center;
 
       transition:
-        opacity 0.25s ease,
-        transform 0.25s ease;
+        opacity 0.25s ease;
     }
 
 
 
-    /* =========================================
-       NAV HOVER
-       ========================================= */
-
     .nav-link:hover {
-      opacity: 0.62;
-
-      transform:
-        scaleX(1.04);
+      opacity: 0.55;
     }
 
 
@@ -159,35 +148,34 @@
 
 
     /* =========================================
-       VIDEO
+       HERO IMAGE
        ========================================= */
 
-    .hero-video {
+    .hero-image {
       position: absolute;
 
-      top: 0;
-      left: 0;
+      inset: 0;
 
       width: 100%;
       height: 100%;
 
       object-fit: cover;
-
       object-position: center;
 
       display: block;
+
+      user-select: none;
+
+      pointer-events: none;
     }
 
 
 
     /* =========================================
-       VERY SUBTLE VIDEO OVERLAY
-
-       This helps the giant white type remain
-       readable without making the video dark.
+       VERY SUBTLE OVERLAY
        ========================================= */
 
-    .video-overlay {
+    .image-overlay {
       position: absolute;
 
       inset: 0;
@@ -197,7 +185,7 @@
           0,
           0,
           0,
-          0.04
+          0.035
         );
 
       pointer-events: none;
@@ -208,10 +196,10 @@
 
 
     /* =========================================
-       GIANT NAME
+       TITLE WRAPPER
        ========================================= */
 
-    .hero-name {
+    .hero-title {
       position: absolute;
 
       left: 50%;
@@ -223,15 +211,30 @@
           -50%
         );
 
-      margin: 0;
-
       width: 100%;
 
-      padding:
-        0
-        2vw;
+      display: flex;
 
-      text-align: center;
+      justify-content: center;
+      align-items: center;
+
+      white-space: nowrap;
+
+      pointer-events: none;
+
+      z-index: 3;
+    }
+
+
+
+    /* =========================================
+       INDIVIDUAL LETTERS
+       ========================================= */
+
+    .hero-letter {
+      position: relative;
+
+      display: inline-block;
 
       font-family:
         Impact,
@@ -241,26 +244,58 @@
       font-size:
         clamp(
           90px,
-          17vw,
-          330px
+          16vw,
+          310px
         );
 
       font-weight: 500;
 
-      letter-spacing:
-        -0.015em;
-
       line-height: 0.78;
+
+      letter-spacing:
+        -0.035em;
 
       color: white;
 
-      white-space: nowrap;
-
       text-transform: uppercase;
 
-      pointer-events: none;
+      transform-origin: center;
 
-      z-index: 3;
+      transform:
+        translateX(
+          var(--letter-x, 0px)
+        )
+        translateY(
+          var(--letter-y, 0px)
+        )
+        scaleX(
+          var(--letter-scale-x, 1)
+        )
+        scaleY(
+          var(--letter-scale-y, 1)
+        );
+
+      will-change:
+        transform;
+    }
+
+
+
+    /* =========================================
+       SPACE BETWEEN FIRST + LAST NAME
+       ========================================= */
+
+    .hero-space {
+      display: inline-block;
+
+      width:
+        clamp(
+          24px,
+          3.5vw,
+          70px
+        );
+
+      flex-shrink: 0;
     }
 
 
@@ -272,25 +307,23 @@
     .bottom-bar {
       width: 100%;
 
-      min-height: 50px;
+      min-height: 62px;
 
       display: flex;
 
       align-items: center;
-
-      justify-content: space-between;
+      justify-content: flex-end;
 
       padding:
         0
-        6px;
+        22px;
+
+      background: #e7e7e7;
     }
 
 
 
-    .bottom-name,
     .contact {
-      margin: 0;
-
       font-family:
         Impact,
         "Arial Narrow",
@@ -309,37 +342,26 @@
 
       line-height: 1;
 
-      color: white;
+      color: #0757e8;
 
-      text-transform: uppercase;
-    }
-
-
-
-    .contact {
       text-decoration: none;
 
+      text-transform: uppercase;
+
       transition:
-        opacity 0.25s ease,
-        transform 0.25s ease;
+        opacity 0.25s ease;
     }
 
 
 
     .contact:hover {
-      opacity: 0.62;
-
-      transform:
-        translateX(-3px);
+      opacity: 0.55;
     }
 
 
 
     /* =========================================
-       DESKTOP HEIGHT CONTROL
-
-       Keeps the composition almost completely
-       inside one browser screen.
+       DESKTOP
        ========================================= */
 
     @media (min-width: 1001px) {
@@ -358,12 +380,6 @@
 
     @media (max-width: 1000px) {
 
-      .site {
-        padding:
-          12px;
-      }
-
-
       .top-nav {
         min-height: auto;
 
@@ -373,9 +389,8 @@
         row-gap: 18px;
 
         padding:
-          15px
-          4px
-          18px;
+          18px
+          14px;
       }
 
 
@@ -392,18 +407,22 @@
       }
 
 
-      .hero-name {
+      .hero-letter {
         font-size:
           clamp(
-            80px,
-            16vw,
-            190px
+            70px,
+            15vw,
+            170px
           );
       }
 
 
       .bottom-bar {
         min-height: 60px;
+
+        padding:
+          0
+          18px;
       }
 
     }
@@ -416,12 +435,6 @@
 
     @media (max-width: 600px) {
 
-      .site {
-        padding:
-          9px;
-      }
-
-
       .top-nav {
         grid-template-columns:
           repeat(2, 1fr);
@@ -430,9 +443,8 @@
         row-gap: 14px;
 
         padding:
-          14px
-          2px
-          17px;
+          16px
+          8px;
       }
 
 
@@ -443,28 +455,32 @@
 
       .hero {
         height: 70vh;
-
         min-height: 500px;
       }
 
 
-      .hero-name {
-        width: 100%;
+      .hero-title {
+        transform:
+          translate(
+            -50%,
+            -50%
+          )
+          scale(0.92);
+      }
 
-        padding:
-          0
-          12px;
 
+      .hero-letter {
         font-size:
           clamp(
-            70px,
-            21vw,
-            130px
+            55px,
+            16vw,
+            95px
           );
+      }
 
-        white-space: normal;
 
-        line-height: 0.82;
+      .hero-space {
+        width: 14px;
       }
 
 
@@ -473,13 +489,29 @@
 
         padding:
           0
-          3px;
+          12px;
       }
 
 
-      .bottom-name,
       .contact {
         font-size: 20px;
+      }
+
+    }
+
+
+
+    /* =========================================
+       REDUCED MOTION
+       ========================================= */
+
+    @media (
+      prefers-reduced-motion:
+      reduce
+    ) {
+
+      .hero-letter {
+        transform: none !important;
       }
 
     }
@@ -564,37 +596,78 @@
     <main class="hero">
 
 
-      <!-- VIDEO -->
+      <!-- =====================================
+           HERO IMAGE
 
-      <video
-        class="hero-video"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="auto"
+           CHANGE "home-image.jpg"
+           BELOW IF YOUR FILE HAS
+           A DIFFERENT NAME
+           ===================================== -->
+
+      <img
+        src="home-image.jpg"
+        class="hero-image"
+        alt=""
       >
 
-        <source
-          src="home-page.jpg"
-         
-        >
 
-      </video>
+
+      <div class="image-overlay"></div>
 
 
 
-      <!-- SUBTLE OVERLAY -->
+      <!-- =====================================
+           GEOMETRIC TITLE
+           ===================================== -->
 
-      <div class="video-overlay"></div>
+      <div
+        class="hero-title"
+        aria-label="Linnea Moe"
+      >
 
 
+        <span class="hero-letter">
+          L
+        </span>
 
-      <!-- GIANT NAME -->
+        <span class="hero-letter">
+          I
+        </span>
 
-      <h1 class="hero-name">
-        LINNEA MOE
-      </h1>
+        <span class="hero-letter">
+          N
+        </span>
+
+        <span class="hero-letter">
+          N
+        </span>
+
+        <span class="hero-letter">
+          E
+        </span>
+
+        <span class="hero-letter">
+          A
+        </span>
+
+
+        <span class="hero-space"></span>
+
+
+        <span class="hero-letter">
+          M
+        </span>
+
+        <span class="hero-letter">
+          O
+        </span>
+
+        <span class="hero-letter">
+          E
+        </span>
+
+
+      </div>
 
 
     </main>
@@ -602,21 +675,11 @@
 
 
     <!-- =======================================
-         BOTTOM BAR
+         BOTTOM
          ======================================= -->
 
     <footer class="bottom-bar">
 
-
-      <p class="bottom-name">
-        LINNEA RM
-      </p>
-
-
-      <!--
-        Replace the email below with whichever
-        email address you want displayed.
-      -->
 
       <a
         class="contact"
@@ -630,6 +693,487 @@
 
 
   </div>
+
+
+
+  <script>
+
+    /* =========================================
+       GEOMETRIC TITLE EXPANSION
+       ========================================= */
+
+
+    const hero =
+      document.querySelector(
+        ".hero"
+      );
+
+
+    const letters =
+      Array.from(
+        document.querySelectorAll(
+          ".hero-letter"
+        )
+      );
+
+
+
+    /*
+      Each letter has its own current
+      animation state.
+
+      This lets everything glide rather
+      than snapping directly to the mouse.
+    */
+
+    const letterStates =
+      letters.map(
+        (letter) => {
+
+          return {
+
+            element:
+              letter,
+
+            x:
+              0,
+
+            y:
+              0,
+
+            scaleX:
+              1,
+
+            scaleY:
+              1,
+
+            targetX:
+              0,
+
+            targetY:
+              0,
+
+            targetScaleX:
+              1,
+
+            targetScaleY:
+              1
+
+          };
+
+        }
+      );
+
+
+
+    let mouseX =
+      window.innerWidth / 2;
+
+
+    let mouseY =
+      window.innerHeight / 2;
+
+
+    let mouseInside =
+      false;
+
+
+
+    /* =========================================
+       MOUSE MOVEMENT
+       ========================================= */
+
+    hero.addEventListener(
+
+      "mousemove",
+
+      (event) => {
+
+
+        mouseInside =
+          true;
+
+
+        mouseX =
+          event.clientX;
+
+
+        mouseY =
+          event.clientY;
+
+
+
+        updateTargets();
+
+      }
+
+    );
+
+
+
+    hero.addEventListener(
+
+      "mouseenter",
+
+      () => {
+
+        mouseInside =
+          true;
+
+      }
+
+    );
+
+
+
+    hero.addEventListener(
+
+      "mouseleave",
+
+      () => {
+
+
+        mouseInside =
+          false;
+
+
+        resetTargets();
+
+      }
+
+    );
+
+
+
+    /* =========================================
+       CALCULATE LETTER TARGETS
+       ========================================= */
+
+    function updateTargets() {
+
+
+      letterStates.forEach(
+        (state) => {
+
+
+          const rect =
+            state.element
+              .getBoundingClientRect();
+
+
+          const centerX =
+            rect.left +
+            rect.width / 2;
+
+
+          const centerY =
+            rect.top +
+            rect.height / 2;
+
+
+
+          const dx =
+            centerX -
+            mouseX;
+
+
+          const dy =
+            centerY -
+            mouseY;
+
+
+
+          const distance =
+            Math.sqrt(
+              dx * dx +
+              dy * dy
+            );
+
+
+
+          /*
+            How far the effect reaches.
+
+            Increase this if you want the
+            whole word reacting at once.
+          */
+
+          const radius =
+            420;
+
+
+
+          let influence =
+            1 -
+            distance /
+            radius;
+
+
+          influence =
+            Math.max(
+              0,
+              Math.min(
+                1,
+                influence
+              )
+            );
+
+
+
+          /*
+            Smooth geometric falloff.
+          */
+
+          influence =
+            influence *
+            influence *
+            (
+              3 -
+              2 * influence
+            );
+
+
+
+          /*
+            Direction AWAY from cursor.
+          */
+
+          const safeDistance =
+            Math.max(
+              distance,
+              1
+            );
+
+
+          const directionX =
+            dx /
+            safeDistance;
+
+
+          const directionY =
+            dy /
+            safeDistance;
+
+
+
+          /* ===================================
+             HORIZONTAL EXPANSION
+
+             This is the main effect.
+             =================================== */
+
+
+          state.targetScaleX =
+            1 +
+            influence *
+            0.42;
+
+
+
+          /* ===================================
+             VERTICAL COMPRESSION
+
+             As a letter expands sideways,
+             it compresses very slightly
+             vertically.
+
+             This makes the movement feel
+             more geometric.
+             =================================== */
+
+
+          state.targetScaleY =
+            1 -
+            influence *
+            0.07;
+
+
+
+          /* ===================================
+             PUSH LETTERS APART
+             =================================== */
+
+
+          state.targetX =
+            directionX *
+            influence *
+            38;
+
+
+
+          state.targetY =
+            directionY *
+            influence *
+            8;
+
+
+        }
+
+      );
+
+    }
+
+
+
+    /* =========================================
+       RESET
+       ========================================= */
+
+    function resetTargets() {
+
+
+      letterStates.forEach(
+        (state) => {
+
+
+          state.targetX =
+            0;
+
+
+          state.targetY =
+            0;
+
+
+          state.targetScaleX =
+            1;
+
+
+          state.targetScaleY =
+            1;
+
+
+        }
+      );
+
+    }
+
+
+
+    /* =========================================
+       ANIMATION
+       ========================================= */
+
+    function animate() {
+
+
+      letterStates.forEach(
+        (state) => {
+
+
+          /*
+            Smoothly approach target.
+
+            Smaller number = slower / silkier.
+            Larger number = faster.
+          */
+
+          const smoothing =
+            0.095;
+
+
+
+          state.x +=
+            (
+              state.targetX -
+              state.x
+            )
+            *
+            smoothing;
+
+
+
+          state.y +=
+            (
+              state.targetY -
+              state.y
+            )
+            *
+            smoothing;
+
+
+
+          state.scaleX +=
+            (
+              state.targetScaleX -
+              state.scaleX
+            )
+            *
+            smoothing;
+
+
+
+          state.scaleY +=
+            (
+              state.targetScaleY -
+              state.scaleY
+            )
+            *
+            smoothing;
+
+
+
+          state.element.style
+            .setProperty(
+
+              "--letter-x",
+
+              state.x +
+              "px"
+
+            );
+
+
+
+          state.element.style
+            .setProperty(
+
+              "--letter-y",
+
+              state.y +
+              "px"
+
+            );
+
+
+
+          state.element.style
+            .setProperty(
+
+              "--letter-scale-x",
+
+              state.scaleX
+
+            );
+
+
+
+          state.element.style
+            .setProperty(
+
+              "--letter-scale-y",
+
+              state.scaleY
+
+            );
+
+
+        }
+      );
+
+
+
+      requestAnimationFrame(
+        animate
+      );
+
+    }
+
+
+
+    animate();
+
+
+  </script>
 
 
 </body>
