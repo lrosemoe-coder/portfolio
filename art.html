@@ -1,1 +1,1977 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Art — Linnea RM</title>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+
+    body {
+      background: #e7e7e7;
+      color: #071a18;
+    }
+
+
+
+    /* =========================================
+       HEADER
+       ========================================= */
+
+    .header {
+      height: 78px;
+
+      display: flex;
+      align-items: center;
+
+      padding: 0 28px;
+
+      background: #e7e7e7;
+    }
+
+
+    .name {
+      margin: 0;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 38px;
+      font-weight: 500;
+
+      letter-spacing: 2px;
+
+      color: #071a18;
+
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+
+
+    /* =========================================
+       HERO
+       ========================================= */
+
+    .hero {
+      position: relative;
+
+      width: 100%;
+      height: 62vh;
+      min-height: 480px;
+
+      margin: 0;
+
+      overflow: hidden;
+
+      background: #071a18;
+    }
+
+
+    #artCanvas {
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      z-index: 1;
+    }
+
+
+    .hero-title {
+      position: absolute;
+
+      top: 50%;
+      left: 50%;
+
+      transform:
+        translate(-50%, -50%);
+
+      margin: 0;
+
+      z-index: 2;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size:
+        clamp(
+          100px,
+          18vw,
+          280px
+        );
+
+      font-weight: 500;
+
+      line-height: 0.8;
+
+      letter-spacing: 5px;
+
+      color: white;
+
+      text-transform: uppercase;
+
+      pointer-events: none;
+    }
+
+
+
+    /* =========================================
+       CONTENT
+       ========================================= */
+
+    .art-content {
+      width: 100%;
+
+      padding:
+        120px
+        7vw
+        160px;
+
+      background: #e7e7e7;
+    }
+
+
+    .intro {
+      max-width: 900px;
+
+      margin-bottom: 120px;
+    }
+
+
+    .section-label {
+      margin:
+        0
+        0
+        22px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 18px;
+
+      letter-spacing: 2px;
+
+      text-transform: uppercase;
+    }
+
+
+    .intro-text {
+      margin: 0;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size:
+        clamp(
+          28px,
+          3.3vw,
+          54px
+        );
+
+      line-height: 1.15;
+    }
+
+
+
+    /* =========================================
+       PROJECTS
+       ========================================= */
+
+    .project {
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        1fr;
+
+      gap: 70px;
+
+      padding:
+        70px
+        0;
+
+      border-top:
+        1px
+        solid
+        rgba(7, 26, 24, 0.35);
+    }
+
+
+    .project-number {
+      margin:
+        0
+        0
+        20px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 17px;
+
+      letter-spacing: 2px;
+    }
+
+
+    .project-title {
+      margin:
+        0
+        0
+        25px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size:
+        clamp(
+          40px,
+          5vw,
+          78px
+        );
+
+      font-weight: 500;
+
+      line-height: 0.95;
+
+      text-transform: uppercase;
+    }
+
+
+    .project-description {
+      max-width: 650px;
+
+      margin: 0;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 20px;
+
+      line-height: 1.55;
+    }
+
+
+    .project-placeholder {
+      min-height: 430px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border:
+        1px
+        solid
+        rgba(7, 26, 24, 0.35);
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 17px;
+
+      font-style: italic;
+    }
+
+
+
+    /* =========================================
+       MOBILE
+       ========================================= */
+
+    @media (max-width: 800px) {
+
+      .header {
+        height: 68px;
+
+        padding:
+          0
+          18px;
+      }
+
+
+      .name {
+        font-size: 28px;
+      }
+
+
+      .hero {
+        height: 55vh;
+        min-height: 400px;
+      }
+
+
+      .hero-title {
+        font-size: 28vw;
+      }
+
+
+      .art-content {
+        padding:
+          80px
+          28px
+          120px;
+      }
+
+
+      .project {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- =========================================
+       HEADER
+       ========================================= -->
+
+  <header class="header">
+
+    <a
+      href="index.html"
+      class="name"
+    >
+      LINNEA RM
+    </a>
+
+  </header>
+
+
+
+  <!-- =========================================
+       ART HERO
+       ========================================= -->
+
+  <section class="hero">
+
+    <canvas id="artCanvas"></canvas>
+
+    <h1 class="hero-title">
+      ART
+    </h1>
+
+  </section>
+
+
+
+  <!-- =========================================
+       CONTENT
+       ========================================= -->
+
+  <main class="art-content">
+
+    <section class="intro">
+
+      <p class="section-label">
+        Art
+      </p>
+
+      <p class="intro-text">
+        Experiments in form, color, material,
+        movement, and making.
+      </p>
+
+    </section>
+
+
+    <section class="project">
+
+      <div>
+
+        <p class="project-number">
+          01
+        </p>
+
+        <h2 class="project-title">
+          Art
+          Project
+        </h2>
+
+        <p class="project-description">
+          This space can hold artwork,
+          experiments, process, and
+          visual studies.
+        </p>
+
+      </div>
+
+
+      <div class="project-placeholder">
+        artwork / process / project
+      </div>
+
+    </section>
+
+
+    <section class="project">
+
+      <div>
+
+        <p class="project-number">
+          02
+        </p>
+
+        <h2 class="project-title">
+          Next Art
+          Project
+        </h2>
+
+        <p class="project-description">
+          This space can hold another artwork,
+          series, experiment, or creative
+          exploration.
+        </p>
+
+      </div>
+
+
+      <div class="project-placeholder">
+        artwork / process / project
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <script>
+
+    /* =========================================
+       WEBGL
+       ========================================= */
+
+    const canvas =
+      document.getElementById("artCanvas");
+
+
+    const gl =
+      canvas.getContext("webgl");
+
+
+    if (!gl) {
+
+      alert(
+        "WebGL is not supported in this browser."
+      );
+
+    }
+
+
+
+    /* =========================================
+       VERTEX SHADER
+       ========================================= */
+
+    const vertexShaderSource = `
+
+      attribute vec2 a_position;
+      attribute vec2 a_texCoord;
+
+      varying vec2 v_texCoord;
+
+
+      void main() {
+
+        gl_Position =
+          vec4(
+            a_position,
+            0.0,
+            1.0
+          );
+
+
+        v_texCoord =
+          a_texCoord;
+
+      }
+
+    `;
+
+
+
+    /* =========================================
+       ART / PAINT SMEAR SHADER
+       ========================================= */
+
+    const fragmentShaderSource = `
+
+      precision highp float;
+
+
+      uniform sampler2D u_image;
+
+      uniform float u_aspect;
+      uniform float u_imageAspect;
+      uniform float u_time;
+
+      uniform vec2 u_points[24];
+      uniform vec2 u_velocities[24];
+
+      uniform float u_energy;
+
+
+      varying vec2 v_texCoord;
+
+
+
+      /* ========================================
+         IMAGE COVER
+         ======================================== */
+
+      vec2 coverImage(
+        vec2 uv
+      ) {
+
+        vec2 result =
+          uv;
+
+
+        if (
+          u_aspect >
+          u_imageAspect
+        ) {
+
+          float scale =
+            u_imageAspect /
+            u_aspect;
+
+
+          result.y =
+            (uv.y - 0.5) *
+            scale +
+            0.5;
+
+        }
+
+        else {
+
+          float scale =
+            u_aspect /
+            u_imageAspect;
+
+
+          result.x =
+            (uv.x - 0.5) *
+            scale +
+            0.5;
+
+        }
+
+
+        return result;
+
+      }
+
+
+
+      /* ========================================
+         DISTANCE TO LINE SEGMENT
+         ======================================== */
+
+      float segmentDistance(
+        vec2 p,
+        vec2 a,
+        vec2 b,
+        out float along
+      ) {
+
+        vec2 pa =
+          p - a;
+
+
+        vec2 ba =
+          b - a;
+
+
+        float denominator =
+          max(
+            dot(ba, ba),
+            0.000001
+          );
+
+
+        along =
+          clamp(
+            dot(pa, ba) /
+            denominator,
+            0.0,
+            1.0
+          );
+
+
+        return length(
+          pa -
+          ba * along
+        );
+
+      }
+
+
+
+      /* ========================================
+         MAIN
+         ======================================== */
+
+      void main() {
+
+        vec2 uv =
+          v_texCoord;
+
+
+        vec2 p =
+          uv;
+
+
+        p.x *=
+          u_aspect;
+
+
+
+        /*
+          Total image displacement.
+
+          Every part of the stored mouse
+          path contributes to this.
+        */
+
+        vec2 displacement =
+          vec2(0.0);
+
+
+        float totalInfluence =
+          0.0;
+
+
+
+        /* ========================================
+           FOLLOW THE MOUSE PATH
+           ======================================== */
+
+        for (
+          int i = 0;
+          i < 23;
+          i++
+        ) {
+
+          vec2 a =
+            u_points[i];
+
+
+          vec2 b =
+            u_points[i + 1];
+
+
+          a.x *=
+            u_aspect;
+
+
+          b.x *=
+            u_aspect;
+
+
+
+          float along =
+            0.0;
+
+
+          float d =
+            segmentDistance(
+              p,
+              a,
+              b,
+              along
+            );
+
+
+
+          /*
+            Newest streaks are strongest.
+
+            Older streaks remain visible
+            but progressively weaken.
+          */
+
+          float age =
+            1.0 -
+            (
+              float(i) +
+              along
+            ) /
+            23.0;
+
+
+          age =
+            pow(
+              max(age, 0.0),
+              0.75
+            );
+
+
+
+          /*
+            Width of the dragged paint area.
+          */
+
+          float influence =
+            1.0 -
+            smoothstep(
+              0.0,
+              0.105,
+              d
+            );
+
+
+          influence *=
+            age;
+
+
+
+          /*
+            Mouse movement direction.
+          */
+
+          vec2 velocity =
+            u_velocities[i];
+
+
+          velocity.x *=
+            u_aspect;
+
+
+          float velocityLength =
+            length(
+              velocity
+            );
+
+
+          vec2 direction =
+            velocity /
+            max(
+              velocityLength,
+              0.0001
+            );
+
+
+
+          /*
+            Perpendicular direction.
+
+            This is what gives us the
+            swirling / curling quality.
+          */
+
+          vec2 perpendicular =
+            vec2(
+              -direction.y,
+              direction.x
+            );
+
+
+
+          /*
+            Organic streak breakup.
+
+            Instead of a smooth blur,
+            the image breaks into multiple
+            paint-like strands.
+          */
+
+          float streaks =
+            sin(
+              d * 180.0
+              -
+              float(i) * 1.7
+              +
+              u_time * 0.7
+            );
+
+
+          streaks =
+            0.55 +
+            0.45 *
+            streaks;
+
+
+
+          /*
+            Curl changes across the path.
+          */
+
+          float curl =
+            sin(
+              d * 42.0
+              +
+              float(i) * 0.72
+              -
+              u_time * 0.45
+            );
+
+
+
+          /*
+            Drag the image backward along
+            the direction the mouse moved.
+          */
+
+          vec2 drag =
+            -direction *
+            influence *
+            streaks *
+            (
+              0.010 +
+              velocityLength *
+              0.70
+            );
+
+
+
+          /*
+            Twist sideways around the trail.
+          */
+
+          vec2 swirl =
+            perpendicular *
+            curl *
+            influence *
+            (
+              0.004 +
+              velocityLength *
+              0.24
+            );
+
+
+
+          displacement +=
+            drag +
+            swirl;
+
+
+          totalInfluence +=
+            influence;
+
+        }
+
+
+
+        /* ========================================
+           KEEP EFFECT UNDER CONTROL
+           ======================================== */
+
+        displacement =
+          clamp(
+            displacement,
+            vec2(-0.12),
+            vec2(0.12)
+          );
+
+
+        displacement.x /=
+          u_aspect;
+
+
+
+        /* ========================================
+           PRIMARY SMEARED IMAGE
+           ======================================== */
+
+        vec2 distortedUV =
+          uv +
+          displacement *
+          u_energy;
+
+
+        vec2 imageUV =
+          coverImage(
+            distortedUV
+          );
+
+
+        vec4 base =
+          texture2D(
+            u_image,
+            imageUV
+          );
+
+
+
+        /* ========================================
+           EXTRA PAINT STREAK SAMPLES
+
+           Several slightly different samples
+           stretch the actual colors from the
+           photograph along the path.
+           ======================================== */
+
+        vec2 smearOne =
+          coverImage(
+            uv +
+            displacement *
+            0.72 *
+            u_energy
+          );
+
+
+        vec2 smearTwo =
+          coverImage(
+            uv +
+            displacement *
+            1.32 *
+            u_energy
+          );
+
+
+        vec2 smearThree =
+          coverImage(
+            uv -
+            displacement *
+            0.38 *
+            u_energy
+          );
+
+
+        vec4 sampleOne =
+          texture2D(
+            u_image,
+            smearOne
+          );
+
+
+        vec4 sampleTwo =
+          texture2D(
+            u_image,
+            smearTwo
+          );
+
+
+        vec4 sampleThree =
+          texture2D(
+            u_image,
+            smearThree
+          );
+
+
+
+        /*
+          The stronger the trail influence,
+          the more the samples blend together.
+        */
+
+        float smearAmount =
+          clamp(
+            totalInfluence *
+            0.10 *
+            u_energy,
+            0.0,
+            0.72
+          );
+
+
+        vec3 smearedColor =
+          mix(
+            base.rgb,
+            sampleOne.rgb,
+            smearAmount * 0.45
+          );
+
+
+        smearedColor =
+          mix(
+            smearedColor,
+            sampleTwo.rgb,
+            smearAmount * 0.30
+          );
+
+
+        smearedColor =
+          mix(
+            smearedColor,
+            sampleThree.rgb,
+            smearAmount * 0.18
+          );
+
+
+
+        /* ========================================
+           SUBTLE COLOR DRAG
+
+           This gives the streak edges a
+           painterly chromatic separation.
+           ======================================== */
+
+        float colorShift =
+          clamp(
+            totalInfluence *
+            0.0008 *
+            u_energy,
+            0.0,
+            0.008
+          );
+
+
+        vec2 shiftDirection =
+          normalize(
+            displacement +
+            vec2(
+              0.00001,
+              0.0
+            )
+          );
+
+
+        vec2 redUV =
+          coverImage(
+            distortedUV +
+            shiftDirection *
+            colorShift
+          );
+
+
+        vec2 blueUV =
+          coverImage(
+            distortedUV -
+            shiftDirection *
+            colorShift
+          );
+
+
+        float red =
+          texture2D(
+            u_image,
+            redUV
+          ).r;
+
+
+        float blue =
+          texture2D(
+            u_image,
+            blueUV
+          ).b;
+
+
+        smearedColor.r =
+          mix(
+            smearedColor.r,
+            red,
+            smearAmount * 0.35
+          );
+
+
+        smearedColor.b =
+          mix(
+            smearedColor.b,
+            blue,
+            smearAmount * 0.35
+          );
+
+
+
+        gl_FragColor =
+          vec4(
+            smearedColor,
+            1.0
+          );
+
+      }
+
+    `;
+
+
+
+    /* =========================================
+       CREATE SHADER
+       ========================================= */
+
+    function createShader(
+      type,
+      source
+    ) {
+
+      const shader =
+        gl.createShader(type);
+
+
+      gl.shaderSource(
+        shader,
+        source
+      );
+
+
+      gl.compileShader(
+        shader
+      );
+
+
+      if (
+        !gl.getShaderParameter(
+          shader,
+          gl.COMPILE_STATUS
+        )
+      ) {
+
+        console.error(
+          gl.getShaderInfoLog(
+            shader
+          )
+        );
+
+      }
+
+
+      return shader;
+
+    }
+
+
+
+    const vertexShader =
+      createShader(
+        gl.VERTEX_SHADER,
+        vertexShaderSource
+      );
+
+
+    const fragmentShader =
+      createShader(
+        gl.FRAGMENT_SHADER,
+        fragmentShaderSource
+      );
+
+
+
+    /* =========================================
+       PROGRAM
+       ========================================= */
+
+    const program =
+      gl.createProgram();
+
+
+    gl.attachShader(
+      program,
+      vertexShader
+    );
+
+
+    gl.attachShader(
+      program,
+      fragmentShader
+    );
+
+
+    gl.linkProgram(
+      program
+    );
+
+
+    if (
+      !gl.getProgramParameter(
+        program,
+        gl.LINK_STATUS
+      )
+    ) {
+
+      console.error(
+        gl.getProgramInfoLog(
+          program
+        )
+      );
+
+    }
+
+
+    gl.useProgram(
+      program
+    );
+
+
+
+    /* =========================================
+       RECTANGLE
+       ========================================= */
+
+    const positions =
+      new Float32Array([
+
+        -1, -1,
+         1, -1,
+        -1,  1,
+
+        -1,  1,
+         1, -1,
+         1,  1
+
+      ]);
+
+
+    const texCoords =
+      new Float32Array([
+
+        0, 1,
+        1, 1,
+        0, 0,
+
+        0, 0,
+        1, 1,
+        1, 0
+
+      ]);
+
+
+
+    const positionBuffer =
+      gl.createBuffer();
+
+
+    gl.bindBuffer(
+      gl.ARRAY_BUFFER,
+      positionBuffer
+    );
+
+
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      positions,
+      gl.STATIC_DRAW
+    );
+
+
+    const positionLocation =
+      gl.getAttribLocation(
+        program,
+        "a_position"
+      );
+
+
+    gl.enableVertexAttribArray(
+      positionLocation
+    );
+
+
+    gl.vertexAttribPointer(
+      positionLocation,
+      2,
+      gl.FLOAT,
+      false,
+      0,
+      0
+    );
+
+
+
+    const texCoordBuffer =
+      gl.createBuffer();
+
+
+    gl.bindBuffer(
+      gl.ARRAY_BUFFER,
+      texCoordBuffer
+    );
+
+
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      texCoords,
+      gl.STATIC_DRAW
+    );
+
+
+    const texCoordLocation =
+      gl.getAttribLocation(
+        program,
+        "a_texCoord"
+      );
+
+
+    gl.enableVertexAttribArray(
+      texCoordLocation
+    );
+
+
+    gl.vertexAttribPointer(
+      texCoordLocation,
+      2,
+      gl.FLOAT,
+      false,
+      0,
+      0
+    );
+
+
+
+    /* =========================================
+       UNIFORMS
+       ========================================= */
+
+    const aspectLocation =
+      gl.getUniformLocation(
+        program,
+        "u_aspect"
+      );
+
+
+    const imageAspectLocation =
+      gl.getUniformLocation(
+        program,
+        "u_imageAspect"
+      );
+
+
+    const timeLocation =
+      gl.getUniformLocation(
+        program,
+        "u_time"
+      );
+
+
+    const pointsLocation =
+      gl.getUniformLocation(
+        program,
+        "u_points[0]"
+      );
+
+
+    const velocitiesLocation =
+      gl.getUniformLocation(
+        program,
+        "u_velocities[0]"
+      );
+
+
+    const energyLocation =
+      gl.getUniformLocation(
+        program,
+        "u_energy"
+      );
+
+
+
+    /* =========================================
+       IMAGE
+       ========================================= */
+
+    const texture =
+      gl.createTexture();
+
+
+    gl.bindTexture(
+      gl.TEXTURE_2D,
+      texture
+    );
+
+
+    gl.texParameteri(
+      gl.TEXTURE_2D,
+      gl.TEXTURE_WRAP_S,
+      gl.CLAMP_TO_EDGE
+    );
+
+
+    gl.texParameteri(
+      gl.TEXTURE_2D,
+      gl.TEXTURE_WRAP_T,
+      gl.CLAMP_TO_EDGE
+    );
+
+
+    gl.texParameteri(
+      gl.TEXTURE_2D,
+      gl.TEXTURE_MIN_FILTER,
+      gl.LINEAR
+    );
+
+
+    gl.texParameteri(
+      gl.TEXTURE_2D,
+      gl.TEXTURE_MAG_FILTER,
+      gl.LINEAR
+    );
+
+
+    const image =
+      new Image();
+
+
+    /*
+      CHANGE THIS if your Art image
+      has a different filename.
+    */
+
+    image.src =
+      "./art-twist.jpeg";
+
+
+    let imageLoaded =
+      false;
+
+
+    image.onload =
+      () => {
+
+        gl.bindTexture(
+          gl.TEXTURE_2D,
+          texture
+        );
+
+
+        gl.pixelStorei(
+          gl.UNPACK_FLIP_Y_WEBGL,
+          false
+        );
+
+
+        gl.texImage2D(
+          gl.TEXTURE_2D,
+          0,
+          gl.RGBA,
+          gl.RGBA,
+          gl.UNSIGNED_BYTE,
+          image
+        );
+
+
+        imageLoaded =
+          true;
+
+
+        resize();
+
+      };
+
+
+
+    /* =========================================
+       MOUSE TRAIL
+       ========================================= */
+
+    const POINT_COUNT =
+      24;
+
+
+    const points =
+      Array.from(
+        { length: POINT_COUNT },
+        () => ({
+          x: 0.5,
+          y: 0.5
+        })
+      );
+
+
+    const velocities =
+      Array.from(
+        { length: POINT_COUNT },
+        () => ({
+          x: 0.0,
+          y: 0.0
+        })
+      );
+
+
+    const pointData =
+      new Float32Array(
+        POINT_COUNT * 2
+      );
+
+
+    const velocityData =
+      new Float32Array(
+        POINT_COUNT * 2
+      );
+
+
+    let targetX =
+      0.5;
+
+
+    let targetY =
+      0.5;
+
+
+    let mouseX =
+      0.5;
+
+
+    let mouseY =
+      0.5;
+
+
+    let lastStoredX =
+      0.5;
+
+
+    let lastStoredY =
+      0.5;
+
+
+    let energy =
+      0;
+
+
+    let targetEnergy =
+      0;
+
+
+    let inside =
+      false;
+
+
+
+    /* =========================================
+       MOUSE MOVE
+       ========================================= */
+
+    canvas.addEventListener(
+
+      "mousemove",
+
+      (event) => {
+
+        const rect =
+          canvas.getBoundingClientRect();
+
+
+        targetX =
+          (
+            event.clientX -
+            rect.left
+          )
+          /
+          rect.width;
+
+
+        targetY =
+          (
+            event.clientY -
+            rect.top
+          )
+          /
+          rect.height;
+
+
+        inside =
+          true;
+
+      }
+
+    );
+
+
+    canvas.addEventListener(
+
+      "mouseenter",
+
+      () => {
+
+        inside =
+          true;
+
+      }
+
+    );
+
+
+    canvas.addEventListener(
+
+      "mouseleave",
+
+      () => {
+
+        inside =
+          false;
+
+      }
+
+    );
+
+
+
+    /* =========================================
+       STORE MOUSE PATH
+       ========================================= */
+
+    function updateTrail() {
+
+      const dx =
+        mouseX -
+        lastStoredX;
+
+
+      const dy =
+        mouseY -
+        lastStoredY;
+
+
+      const distance =
+        Math.sqrt(
+          dx * dx +
+          dy * dy
+        );
+
+
+      /*
+        Only create a new streak point
+        when the mouse actually moves.
+      */
+
+      if (
+        distance >
+        0.006
+      ) {
+
+        for (
+          let i =
+            POINT_COUNT - 1;
+          i > 0;
+          i--
+        ) {
+
+          points[i].x =
+            points[i - 1].x;
+
+
+          points[i].y =
+            points[i - 1].y;
+
+
+          velocities[i].x =
+            velocities[i - 1].x;
+
+
+          velocities[i].y =
+            velocities[i - 1].y;
+
+        }
+
+
+
+        points[0].x =
+          mouseX;
+
+
+        points[0].y =
+          mouseY;
+
+
+
+        velocities[0].x =
+          dx;
+
+
+        velocities[0].y =
+          dy;
+
+
+
+        lastStoredX =
+          mouseX;
+
+
+        lastStoredY =
+          mouseY;
+
+
+
+        /*
+          Movement adds paint energy.
+        */
+
+        targetEnergy =
+          Math.min(
+            targetEnergy +
+            distance * 7.0,
+            1.0
+          );
+
+      }
+
+    }
+
+
+
+    /* =========================================
+       RESIZE
+       ========================================= */
+
+    function resize() {
+
+      const rect =
+        canvas.getBoundingClientRect();
+
+
+      const pixelRatio =
+        Math.min(
+          window.devicePixelRatio,
+          2
+        );
+
+
+      canvas.width =
+        Math.round(
+          rect.width *
+          pixelRatio
+        );
+
+
+      canvas.height =
+        Math.round(
+          rect.height *
+          pixelRatio
+        );
+
+
+      gl.viewport(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+    }
+
+
+    window.addEventListener(
+      "resize",
+      resize
+    );
+
+
+
+    /* =========================================
+       ANIMATION
+       ========================================= */
+
+    const startTime =
+      performance.now();
+
+
+    function animate() {
+
+      requestAnimationFrame(
+        animate
+      );
+
+
+      if (!imageLoaded) {
+        return;
+      }
+
+
+
+      /*
+        Smooth cursor movement.
+      */
+
+      mouseX +=
+        (
+          targetX -
+          mouseX
+        )
+        *
+        0.12;
+
+
+      mouseY +=
+        (
+          targetY -
+          mouseY
+        )
+        *
+        0.12;
+
+
+
+      updateTrail();
+
+
+
+      /*
+        Trail intensity rises quickly
+        and then slowly fades.
+      */
+
+      energy +=
+        (
+          targetEnergy -
+          energy
+        )
+        *
+        0.12;
+
+
+      targetEnergy *=
+        0.985;
+
+
+      if (!inside) {
+
+        targetEnergy *=
+          0.96;
+
+      }
+
+
+
+      /*
+        Slowly relax the stored velocity.
+
+        This makes old streaks settle
+        instead of disappearing instantly.
+      */
+
+      for (
+        let i = 0;
+        i < POINT_COUNT;
+        i++
+      ) {
+
+        velocities[i].x *=
+          0.995;
+
+
+        velocities[i].y *=
+          0.995;
+
+
+        pointData[
+          i * 2
+        ] =
+          points[i].x;
+
+
+        pointData[
+          i * 2 + 1
+        ] =
+          points[i].y;
+
+
+        velocityData[
+          i * 2
+        ] =
+          velocities[i].x;
+
+
+        velocityData[
+          i * 2 + 1
+        ] =
+          velocities[i].y;
+
+      }
+
+
+
+      const elapsedTime =
+        (
+          performance.now() -
+          startTime
+        )
+        /
+        1000;
+
+
+
+      gl.uniform1f(
+        timeLocation,
+        elapsedTime
+      );
+
+
+      gl.uniform1f(
+        aspectLocation,
+        canvas.width /
+        canvas.height
+      );
+
+
+      gl.uniform1f(
+        imageAspectLocation,
+        image.width /
+        image.height
+      );
+
+
+      gl.uniform2fv(
+        pointsLocation,
+        pointData
+      );
+
+
+      gl.uniform2fv(
+        velocitiesLocation,
+        velocityData
+      );
+
+
+      gl.uniform1f(
+        energyLocation,
+        energy
+      );
+
+
+      gl.drawArrays(
+        gl.TRIANGLES,
+        0,
+        6
+      );
+
+    }
+
+
+
+    animate();
+
+  </script>
+
+
+</body>
+</html>
