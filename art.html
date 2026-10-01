@@ -833,241 +833,351 @@
              MAIN THICK LIQUID STREAK
              ====================================== */
 
-          float mainInfluence =
-            1.0 -
-            smoothstep(
-              0.0,
-              0.095,
-              d
-            );
-
-
-          mainInfluence *=
-            age;
-
-
-
           /* ======================================
-             SMALL SIDE STREAKS
+   LARGE MARBLED CENTER STREAK
+   ====================================== */
+
+/*
+  Bigger center area.
+
+  OLD: 0.095
+  NEW: 0.145
+*/
+
+float mainInfluence =
+  1.0 -
+  smoothstep(
+    0.0,
+    0.145,
+    d
+  );
+
+
+mainInfluence *=
+  age;
+
+
+
+/* ======================================
+   INTERNAL MARBLE CORE
+
+   These create several thin flowing
+   channels INSIDE the large center stroke.
+   ====================================== */
+
+float coreWaveOne =
+  sin(
+    d * 115.0
+    +
+    along * 10.0
+    -
+    float(i) * 0.72
+    +
+    u_time * 0.42
+  );
+
 
-             These follow beside the main stroke.
-             ====================================== */
+float coreWaveTwo =
+  sin(
+    d * 235.0
+    -
+    along * 16.0
+    +
+    float(i) * 1.15
+    -
+    u_time * 0.31
+  );
 
-          float sideWobble =
-            sin(
-              float(i) * 0.73
-              +
-              along * 6.0
-              -
-              u_time * 0.42
-            )
-            *
-            0.009;
 
+float coreWaveThree =
+  cos(
+    d * 360.0
+    +
+    along * 21.0
+    -
+    float(i) * 0.91
+    +
+    u_time * 0.22
+  );
 
-          float sideOffset =
-            0.042 +
-            sideWobble;
 
+float coreMarble =
+  0.52
+  +
+  coreWaveOne * 0.23
+  +
+  coreWaveTwo * 0.16
+  +
+  coreWaveThree * 0.09;
 
 
-          /*
-            LEFT SMALL STREAK
-          */
+/*
+  Keep it within a useful range.
+*/
 
-          vec2 aLeft =
-            a +
-            normal *
-            sideOffset;
+coreMarble =
+  clamp(
+    coreMarble,
+    0.08,
+    1.0
+  );
 
 
-          vec2 bLeft =
-            b +
-            normal *
-            sideOffset;
 
+/* ======================================
+   SIDE STREAKS
 
+   Push these FARTHER away from the
+   center so they are clearly visible.
+   ====================================== */
 
-          /*
-            RIGHT SMALL STREAK
-          */
+float sideWobble =
+  sin(
+    float(i) * 0.73
+    +
+    along * 7.0
+    -
+    u_time * 0.48
+  )
+  *
+  0.012;
 
-          vec2 aRight =
-            a -
-            normal *
-            sideOffset;
 
+/*
+  OLD: around 0.042
+  NEW: around 0.105
 
-          vec2 bRight =
-            b -
-            normal *
-            sideOffset;
+  This is the big change that gets the
+  side streaks out from under the center.
+*/
 
+float sideOffset =
+  0.105
+  +
+  sideWobble;
 
 
-          float alongLeft =
-            0.0;
 
+/* ======================================
+   LEFT SIDE STREAK
+   ====================================== */
 
-          float alongRight =
-            0.0;
+vec2 aLeft =
+  a
+  +
+  normal *
+  sideOffset;
 
 
+vec2 bLeft =
+  b
+  +
+  normal *
+  sideOffset;
 
-          float dLeft =
-            segmentDistance(
-              p,
-              aLeft,
-              bLeft,
-              alongLeft
-            );
 
 
-          float dRight =
-            segmentDistance(
-              p,
-              aRight,
-              bRight,
-              alongRight
-            );
+/* ======================================
+   RIGHT SIDE STREAK
+   ====================================== */
 
+vec2 aRight =
+  a
+  -
+  normal *
+  sideOffset;
 
 
-          /*
-            These are deliberately thinner
-            than the main streak.
-          */
+vec2 bRight =
+  b
+  -
+  normal *
+  sideOffset;
 
-          float leftRibbon =
-            1.0 -
-            smoothstep(
-              0.0,
-              0.025,
-              dLeft
-            );
 
 
-          float rightRibbon =
-            1.0 -
-            smoothstep(
-              0.0,
-              0.021,
-              dRight
-            );
+float alongLeft =
+  0.0;
 
 
+float alongRight =
+  0.0;
 
-          /* ======================================
-             EXTRA FINE OUTER STRANDS
-             ====================================== */
 
-          float outerOffset =
-            0.071
-            +
-            sin(
-              float(i) * 1.13
-              -
-              along * 4.0
-              +
-              u_time * 0.31
-            )
-            *
-            0.008;
 
+float dLeft =
+  segmentDistance(
+    p,
+    aLeft,
+    bLeft,
+    alongLeft
+  );
 
 
-          vec2 aOuterLeft =
-            a +
-            normal *
-            outerOffset;
+float dRight =
+  segmentDistance(
+    p,
+    aRight,
+    bRight,
+    alongRight
+  );
 
 
-          vec2 bOuterLeft =
-            b +
-            normal *
-            outerOffset;
 
+/*
+  Thin, defined side streaks.
+*/
 
-          vec2 aOuterRight =
-            a -
-            normal *
-            outerOffset;
+float leftRibbon =
+  1.0 -
+  smoothstep(
+    0.0,
+    0.031,
+    dLeft
+  );
 
 
-          vec2 bOuterRight =
-            b -
-            normal *
-            outerOffset;
+float rightRibbon =
+  1.0 -
+  smoothstep(
+    0.0,
+    0.027,
+    dRight
+  );
 
 
 
-          float alongOuterLeft =
-            0.0;
+/* ======================================
+   SECOND SET OF TINY STREAKS
+   ====================================== */
 
+float outerOffset =
+  0.155
+  +
+  sin(
+    float(i) * 1.18
+    -
+    along * 5.0
+    +
+    u_time * 0.36
+  )
+  *
+  0.012;
 
-          float alongOuterRight =
-            0.0;
 
 
+vec2 aOuterLeft =
+  a
+  +
+  normal *
+  outerOffset;
 
-          float dOuterLeft =
-            segmentDistance(
-              p,
-              aOuterLeft,
-              bOuterLeft,
-              alongOuterLeft
-            );
 
+vec2 bOuterLeft =
+  b
+  +
+  normal *
+  outerOffset;
 
-          float dOuterRight =
-            segmentDistance(
-              p,
-              aOuterRight,
-              bOuterRight,
-              alongOuterRight
-            );
 
 
+vec2 aOuterRight =
+  a
+  -
+  normal *
+  outerOffset;
 
-          float outerLeft =
-            1.0 -
-            smoothstep(
-              0.0,
-              0.012,
-              dOuterLeft
-            );
 
+vec2 bOuterRight =
+  b
+  -
+  normal *
+  outerOffset;
 
-          float outerRight =
-            1.0 -
-            smoothstep(
-              0.0,
-              0.010,
-              dOuterRight
-            );
 
 
+float alongOuterLeft =
+  0.0;
 
-          /*
-            Combine all of the smaller
-            side streaks.
-          */
 
-          float sideInfluence =
-            (
-              leftRibbon * 0.70
-              +
-              rightRibbon * 0.62
-              +
-              outerLeft * 0.42
-              +
-              outerRight * 0.34
-            )
-            *
-            age;
+float alongOuterRight =
+  0.0;
 
 
 
+float dOuterLeft =
+  segmentDistance(
+    p,
+    aOuterLeft,
+    bOuterLeft,
+    alongOuterLeft
+  );
+
+
+float dOuterRight =
+  segmentDistance(
+    p,
+    aOuterRight,
+    bOuterRight,
+    alongOuterRight
+  );
+
+
+
+float outerLeft =
+  1.0 -
+  smoothstep(
+    0.0,
+    0.017,
+    dOuterLeft
+  );
+
+
+float outerRight =
+  1.0 -
+  smoothstep(
+    0.0,
+    0.014,
+    dOuterRight
+  );
+
+
+
+/* ======================================
+   BREAK UP THE SIDE STREAKS
+
+   Makes them look like little wisps
+   trailing beside the big liquid stroke.
+   ====================================== */
+
+float sideTexture =
+  0.70
+  +
+  0.30 *
+  sin(
+    along * 22.0
+    +
+    float(i) * 1.7
+    -
+    u_time * 0.8
+  );
+
+
+
+float sideInfluence =
+  (
+    leftRibbon * 1.10
+    +
+    rightRibbon * 0.95
+    +
+    outerLeft * 0.72
+    +
+    outerRight * 0.60
+  )
+  *
+  sideTexture
+  *
+  age;
           /* ======================================
              MARBLE VEINS
              ====================================== */
@@ -1149,22 +1259,24 @@
              MAIN DRAG
              ====================================== */
 
-          vec2 drag =
-            -direction
-            *
-            mainInfluence
-            *
-            (
-              0.012
-              +
-              velocityLength * 0.82
-            )
-            *
-            (
-              0.62
-              +
-              marble * 0.62
-            );
+vec2 drag =
+  -direction
+  *
+  mainInfluence
+  *
+  (
+    0.018
+    +
+    velocityLength * 1.05
+  )
+  *
+  (
+    0.40
+    +
+    marble * 0.45
+    +
+    coreMarble * 0.95
+  );
 
 
 
@@ -1172,20 +1284,22 @@
              MAIN SWIRL
              ====================================== */
 
-          vec2 swirl =
-            perpendicular
-            *
-            mainInfluence
-            *
-            (
-              eddy * 0.010
-              +
-              crossEddy * 0.006
-              +
-              velocityLength *
-              0.27 *
-              eddy
-            );
+vec2 swirl =
+  perpendicular
+  *
+  mainInfluence
+  *
+  (
+    eddy * 0.017
+    +
+    crossEddy * 0.011
+    +
+    coreMarble * 0.010
+    +
+    velocityLength *
+    0.38 *
+    eddy
+  );
 
 
 
