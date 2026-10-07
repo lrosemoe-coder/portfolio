@@ -1,0 +1,2827 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Film & Photo — Linnea RM</title>
+
+
+  <style>
+
+    /* =========================================
+       PAGE SETUP
+       ========================================= */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    body {
+      background: #e7e7e7;
+      color: #0757e8;
+    }
+
+
+
+    /* =========================================
+       HEADER
+       ========================================= */
+
+    .header {
+      height: 78px;
+
+      display: flex;
+      align-items: center;
+
+      padding: 0 28px;
+
+      background: #e7e7e7;
+    }
+
+
+    .name {
+      margin: 0;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 38px;
+      font-weight: 500;
+
+      letter-spacing: 2px;
+
+      color: #0757e8;
+
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+
+
+    /* =========================================
+       HERO
+       ========================================= */
+
+    .hero {
+      position: relative;
+
+      width: 100%;
+      height: 62vh;
+      min-height: 480px;
+
+      margin: 0;
+
+      overflow: hidden;
+
+      background: #071a18;
+    }
+
+
+
+    /* =========================================
+       WEBGL IMAGE
+       ========================================= */
+
+    #twistCanvas {
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      z-index: 1;
+    }
+
+
+
+    /* =========================================
+       FILM TITLE
+       ========================================= */
+
+    .hero-title {
+      position: absolute;
+
+      top: 50%;
+      left: 50%;
+
+      transform: translate(-50%, -50%);
+
+      margin: 0;
+
+      z-index: 2;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: clamp(90px, 14vw, 240px);
+      font-weight: 500;
+
+      line-height: 0.8;
+
+      letter-spacing: 5px;
+
+      color: #e7e7e7;
+
+      text-transform: uppercase;
+
+      pointer-events: none;
+    }
+
+
+
+    /* =========================================
+       CONTENT BELOW HERO
+       ========================================= */
+
+    .film-content {
+      width: 100%;
+
+      padding:
+        120px
+        7vw
+        160px;
+
+      background: #e7e7e7;
+    }
+
+
+    .intro {
+      max-width: 900px;
+
+      margin-bottom: 120px;
+    }
+
+
+    .section-label {
+      margin:
+        0
+        0
+        22px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 18px;
+
+      letter-spacing: 2px;
+
+      text-transform: uppercase;
+    }
+
+
+    .intro-text {
+      margin: 0;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size:
+        clamp(
+          28px,
+          3.3vw,
+          54px
+        );
+
+      line-height: 1.15;
+      font-weight: 400;
+    }
+
+
+
+    /* =========================================
+       PROJECT
+       ========================================= */
+
+    .project {
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        1fr;
+
+      gap: 70px;
+
+      padding:
+        70px
+        0;
+
+      border-top:
+        1px
+        solid
+        rgba(7, 87, 232, 0.35);
+    }
+
+
+    .project-number {
+      margin:
+        0
+        0
+        20px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 17px;
+
+      letter-spacing: 2px;
+    }
+
+
+    .project-title {
+      margin:
+        0
+        0
+        25px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size:
+        clamp(
+          40px,
+          5vw,
+          78px
+        );
+
+      font-weight: 500;
+
+      line-height: 0.95;
+
+      text-transform: uppercase;
+    }
+
+
+    .project-description {
+      max-width: 650px;
+
+      margin: 0;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 20px;
+
+      line-height: 1.55;
+    }
+
+
+    .project-placeholder {
+      min-height: 430px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border:
+        1px
+        solid
+        rgba(7, 26, 24, 0.35);
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 17px;
+
+      font-style: italic;
+    }
+
+
+
+    /* =========================================
+       MOBILE
+       ========================================= */
+
+    @media (max-width: 800px) {
+
+      .header {
+        height: 68px;
+
+        padding:
+          0
+          18px;
+      }
+
+
+      .name {
+        font-size: 28px;
+      }
+
+
+      .hero {
+        width: 100%;
+        height: 55vh;
+        min-height: 400px;
+        margin: 0;
+      }
+
+
+      .hero-title {
+        font-size: 19vw;
+      }
+
+
+      .film-content {
+        padding:
+          80px
+          28px
+          120px;
+      }
+
+
+      .project {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+      }
+
+    }
+
+
+
+/* PHOTO / FILM PORTFOLIO */
+html{scroll-behavior:smooth} .film-content{padding:75px 5vw 140px}.choice-label{font:16px Impact,sans-serif;letter-spacing:3px;margin-bottom:25px}.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.choice{display:flex;align-items:end;min-height:250px;padding:24px;background:#0757e8;color:#e7e7e7;text-decoration:none;font:clamp(55px,8vw,150px)/.9 Impact,sans-serif;transition:transform .25s,background .25s}.choice:hover{transform:translateY(-5px);background:#003fba}.choice:nth-child(2){background:#d1d6e3;color:#0757e8}.choice:nth-child(2):hover{background:#c0cae2}.photo-layout{display:grid;grid-template-columns:180px minmax(0,1fr);gap:3vw;margin-top:125px}.photo-sidebar{position:sticky;top:20px;align-self:start;display:flex;flex-direction:column;gap:16px;font:15px Impact,sans-serif;letter-spacing:1px}.photo-sidebar a{color:#0757e8;text-decoration:none}.photo-sidebar a:hover{text-decoration:underline}.photo-sections{min-width:0}.photo-section{scroll-margin-top:28px;border-top:1px solid #0757e8;padding:28px 0 100px}.photo-section h2{font:clamp(54px,8vw,126px)/.95 Impact,sans-serif;margin:8px 0 26px;text-transform:uppercase;letter-spacing:1px}.photo-section .small{font:15px Impact,sans-serif;letter-spacing:2px}.photo-track{display:flex;gap:15px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:15px;scrollbar-color:#0757e8 transparent}.photo-track img{height:clamp(240px,33vw,490px);width:auto;max-width:none;display:block;scroll-snap-align:start;cursor:pointer;transition:filter .2s}.photo-track img:hover{filter:brightness(.9)}.photo-track .status{font:18px Georgia,serif;padding:30px 0}.photo-actions{display:flex;justify-content:space-between;align-items:center;margin-top:15px;gap:10px}.photo-actions a{font:19px Impact,sans-serif;color:#0757e8;text-decoration:none;letter-spacing:1px}.photo-actions button{border:1px solid #0757e8;background:transparent;color:#0757e8;padding:10px 16px;font:20px Impact,sans-serif;cursor:pointer}.film-anchor{border-top:1px solid #0757e8;padding-top:30px;scroll-margin-top:20px}.film-anchor h2{font:clamp(65px,12vw,180px)/.9 Impact,sans-serif;margin:12px 0 28px}.film-anchor p{font:clamp(20px,2.3vw,32px)/1.4 Georgia,serif;max-width:680px}.mode-switch{position:fixed;bottom:18px;right:18px;z-index:10;display:flex;gap:8px;background:#e7e7e7;border:1px solid #0757e8;padding:9px}.mode-switch a{color:#0757e8;font:16px Impact,sans-serif;text-decoration:none;padding:6px 9px}.mode-switch a:hover{background:#0757e8;color:#e7e7e7}
+@media(max-width:800px){.choice-grid{grid-template-columns:1fr}.choice{min-height:170px}.photo-layout{display:block;margin-top:75px}.photo-sidebar{position:sticky;top:0;background:#e7e7e7;z-index:8;flex-direction:row;flex-wrap:wrap;gap:8px 18px;padding:14px 0;border-bottom:1px solid #0757e8}.photo-section{scroll-margin-top:110px}.photo-track img{height:290px}.film-content{padding:65px 20px 110px}}
+
+  </style>
+
+</head>
+
+
+
+<body>
+
+
+  <!-- =======================================
+       HEADER
+       ======================================= -->
+
+  <header class="header">
+
+    <a
+      href="index.html"
+      class="name"
+    >
+      LINNEA RM
+    </a>
+
+  </header>
+
+
+
+  <!-- =======================================
+       INTERACTIVE HERO
+       ======================================= -->
+
+  <section class="hero">
+
+    <canvas id="twistCanvas"></canvas>
+
+    <h1 class="hero-title">
+      FILM & PHOTO
+    </h1>
+
+  </section>
+
+
+
+  <!-- =======================================
+       FILM CONTENT
+       ======================================= -->
+
+<main class="film-content">
+<section class="chooser" id="choose"><p class="choice-label">SELECTED WORK / CHOOSE A MEDIUM</p><div class="choice-grid"><a class="choice" href="#photography">PHOTO ↗</a><a class="choice" href="#film">FILM ↗</a></div></section>
+<div class="photo-layout" id="photography"><nav class="photo-sidebar" aria-label="Photography categories"><a href="#portfolio">01 / PORTFOLIO</a><a href="#modeling">02 / MODELING</a><a href="#creative_direction">03 / CREATIVE DIRECTION</a><a href="#wildlife">04 / WILDLIFE</a></nav><div class="photo-sections" id="photoSections"></div></div>
+<section class="film-anchor" id="film"><p class="choice-label">MOVING IMAGE / SELECTED WORK</p><h2>FILM</h2><p>Films and moving-image projects coming soon.</p></section>
+</main>
+<div class="mode-switch"><a href="#photography">PHOTO</a><a href="#film">FILM</a></div>
+
+
+
+  <script>
+
+  /* =========================================
+     WEBGL SETUP
+     ========================================= */
+
+  const canvas =
+    document.getElementById("twistCanvas");
+
+  const gl =
+    canvas.getContext("webgl");
+
+  if (!gl) {
+    alert("WebGL is not supported in this browser.");
+  }
+
+
+
+  /* =========================================
+     VERTEX SHADER
+     ========================================= */
+
+  const vertexShaderSource = `
+
+    attribute vec2 a_position;
+    attribute vec2 a_texCoord;
+
+    varying vec2 v_texCoord;
+
+    void main() {
+
+      gl_Position =
+        vec4(
+          a_position,
+          0.0,
+          1.0
+        );
+
+      v_texCoord =
+        a_texCoord;
+
+    }
+
+  `;
+
+
+
+  /* =========================================
+     FILM / PRISM FRAGMENT SHADER
+     ========================================= */
+
+  const fragmentShaderSource = `
+
+    precision mediump float;
+
+
+    uniform sampler2D u_image;
+
+    uniform vec2 u_mouse;
+
+    uniform float u_strength;
+    uniform float u_aspect;
+    uniform float u_imageAspect;
+    uniform float u_time;
+
+
+    /* ========================================
+       SIX LIGHT-TRAIL POSITIONS
+       ======================================== */
+
+    uniform vec2 u_trail0;
+    uniform vec2 u_trail1;
+    uniform vec2 u_trail2;
+    uniform vec2 u_trail3;
+    uniform vec2 u_trail4;
+    uniform vec2 u_trail5;
+
+    uniform float u_trailEnergy;
+
+
+    varying vec2 v_texCoord;
+
+
+
+    /* ========================================
+       OBJECT-FIT: COVER
+       ======================================== */
+
+    vec2 coverImage(
+      vec2 uv
+    ) {
+
+      vec2 result =
+        uv;
+
+
+      if (
+        u_aspect >
+        u_imageAspect
+      ) {
+
+        float scale =
+
+          u_imageAspect /
+
+          u_aspect;
+
+
+        result.y =
+
+          (uv.y - 0.5) *
+
+          scale +
+
+          0.5;
+
+      }
+
+
+      else {
+
+        float scale =
+
+          u_aspect /
+
+          u_imageAspect;
+
+
+        result.x =
+
+          (uv.x - 0.5) *
+
+          scale +
+
+          0.5;
+
+      }
+
+
+      return result;
+
+    }
+
+
+
+    /* ========================================
+       LIGHT TRAIL FUNCTION
+
+       IMPORTANT:
+
+       This creates LIGHT ONLY.
+
+       It does not move distortedUV,
+       so the underlying photograph does
+       not get dragged or smeared.
+       ======================================== */
+
+    vec3 trailLight(
+
+      vec2 uv,
+
+      vec2 trailPosition,
+
+      float age,
+
+      float energy,
+
+      float timeOffset
+
+    ) {
+
+
+      vec2 trailDelta =
+
+        uv -
+
+        trailPosition;
+
+
+      trailDelta.x *=
+        u_aspect;
+
+
+      float trailDist =
+        length(trailDelta);
+
+
+
+      /*
+        Each ghost is intentionally smaller
+        than the main prism.
+      */
+
+      float trailRadius =
+        0.34;
+
+
+      float trailInfluence =
+
+        smoothstep(
+          trailRadius,
+          0.0,
+          trailDist
+        );
+
+
+
+      /*
+        Remove the very center so each ghost
+        feels like refracted light rather than
+        a glowing circular blob.
+      */
+
+      float trailInnerFade =
+
+        smoothstep(
+          0.018,
+          0.075,
+          trailDist
+        );
+
+
+
+      /*
+        Seam-safe directional coordinates.
+
+        No raw atan() pattern is used here.
+      */
+
+      float safeTrailDist =
+
+        max(
+          trailDist,
+          0.0001
+        );
+
+
+      float trailX =
+
+        trailDelta.x /
+
+        safeTrailDist;
+
+
+      float trailY =
+
+        trailDelta.y /
+
+        safeTrailDist;
+
+
+
+      /* ========================================
+         FLOWING TRAIL SHAPE
+         ======================================== */
+
+      float trailFlow =
+
+        trailX * 1.4
+
+        +
+
+        trailY * 0.9
+
+        +
+
+        sin(
+          trailDist * 11.0 +
+          u_time * 0.72 +
+          timeOffset
+        ) * 0.75
+
+        +
+
+        sin(
+          trailX * 2.6 -
+          trailY * 1.8 +
+          trailDist * 8.0 -
+          u_time * 0.44
+        ) * 0.48;
+
+
+
+      float trailFacet =
+
+        0.5 +
+
+        0.5 *
+
+        sin(
+
+          trailFlow * 2.4
+
+          +
+
+          trailDist * 17.0
+
+          -
+
+          u_time * 0.38
+
+          +
+
+          timeOffset
+
+        );
+
+
+      trailFacet =
+
+        pow(
+          trailFacet,
+          4.0
+        );
+
+
+
+      /*
+        A second softer optical field keeps
+        the ghosts from looking like repeated
+        copies of the same circle.
+      */
+
+      float trailSoft =
+
+        0.5 +
+
+        0.5 *
+
+        sin(
+
+          trailDelta.x * 12.0
+
+          +
+
+          trailDelta.y * 7.0
+
+          +
+
+          trailDist * 9.0
+
+          +
+
+          u_time * 0.31
+
+          +
+
+          timeOffset * 1.7
+
+        );
+
+
+      trailSoft =
+
+        pow(
+          trailSoft,
+          2.8
+        );
+
+
+
+      float trailPattern =
+
+        (
+          trailFacet * 0.72
+
+          +
+
+          trailSoft * 0.28
+        )
+
+        *
+
+        trailInfluence
+
+        *
+
+        trailInnerFade;
+
+
+
+      /* ========================================
+         AGE / FADE
+
+         age = 1.0 for newest ghost
+         age gets smaller farther back.
+         ======================================== */
+
+      float trailFade =
+
+        age *
+
+        energy;
+
+
+
+      /*
+        Older ghosts are softer and dimmer.
+      */
+
+      trailPattern *=
+
+        trailFade;
+
+
+
+      /* ========================================
+         WHITE REFRACTION
+         ======================================== */
+
+      vec3 whiteTrail =
+
+        vec3(
+          1.0,
+          0.97,
+          0.91
+        )
+
+        *
+
+        trailPattern
+
+        *
+
+        0.18;
+
+
+
+      /* ========================================
+         RAINBOW REFRACTION
+         ======================================== */
+
+      float rainbowPosition =
+
+        trailFlow * 1.55
+
+        +
+
+        trailDist * 20.0
+
+        -
+
+        u_time * 0.40
+
+        +
+
+        timeOffset;
+
+
+
+      vec3 rainbow =
+
+        vec3(
+
+          0.5 +
+
+          0.5 *
+
+          sin(
+            rainbowPosition
+          ),
+
+
+          0.5 +
+
+          0.5 *
+
+          sin(
+            rainbowPosition +
+            2.094
+          ),
+
+
+          0.5 +
+
+          0.5 *
+
+          sin(
+            rainbowPosition +
+            4.188
+          )
+
+        );
+
+
+
+      vec3 rainbowTrail =
+
+        rainbow
+
+        *
+
+        trailPattern
+
+        *
+
+        0.24;
+
+
+
+      return
+
+        whiteTrail +
+
+        rainbowTrail;
+
+    }
+
+
+
+    void main() {
+
+
+      vec2 uv =
+        v_texCoord;
+
+
+
+      /* ========================================
+         CURRENT CURSOR POSITION
+         ======================================== */
+
+      vec2 delta =
+
+        uv -
+
+        u_mouse;
+
+
+      delta.x *=
+        u_aspect;
+
+
+      float dist =
+        length(delta);
+
+
+
+      /*
+        Size of main prism / lens.
+      */
+
+      float radius =
+        0.45;
+
+
+      float influence =
+
+        smoothstep(
+          radius,
+          0.0,
+          dist
+        );
+
+
+
+      /* ========================================
+         GLASS LENS DISTORTION
+
+         ONLY current cursor affects this.
+         Trails do not touch this section.
+         ======================================== */
+
+      vec2 lensDelta =
+
+        uv -
+
+        u_mouse;
+
+
+      float glassStrength =
+
+        influence *
+
+        (
+          0.11 +
+
+          abs(u_strength) *
+
+          0.025
+        );
+
+
+      vec2 distortedUV =
+
+        uv -
+
+        lensDelta *
+
+        glassStrength;
+
+
+
+      /* ========================================
+         SEAM-SAFE CIRCULAR COORDINATES
+         ======================================== */
+
+      float safeDist =
+
+        max(
+          dist,
+          0.0001
+        );
+
+
+      float angleX =
+
+        delta.x /
+
+        safeDist;
+
+
+      float angleY =
+
+        delta.y /
+
+        safeDist;
+
+
+
+      /* ========================================
+         CONTINUOUS TIME MOTION
+         ======================================== */
+
+      float timeFlow =
+
+        u_time *
+
+        0.85;
+
+
+      float slowDrift =
+
+        sin(
+          u_time *
+          0.55
+        )
+
+        *
+
+        0.42;
+
+
+
+      /* ========================================
+         FIRST FLOWING LIGHT FIELD
+         ======================================== */
+
+      float flowingAngle =
+
+        angleX * 1.35
+
+        +
+
+        angleY * 0.95
+
+        +
+
+        sin(
+          dist * 8.0 +
+          timeFlow
+        ) * 0.85
+
+        +
+
+        sin(
+          angleX * 2.8 +
+          angleY * 2.1 -
+          dist * 5.0 -
+          timeFlow * 0.7
+        ) * 0.62
+
+        +
+
+        sin(
+          delta.x * 8.0 +
+          delta.y * 5.0 +
+          u_time * 0.23
+        ) * 0.28
+
+        +
+
+        slowDrift;
+
+
+
+      float facetPhase =
+
+        flowingAngle * 2.15
+
+        +
+
+        dist * 12.0
+
+        +
+
+        sin(
+          flowingAngle * 1.55 +
+          dist * 6.0 -
+          u_time * 0.48
+        ) * 2.3
+
+        +
+
+        u_time * 0.36;
+
+
+
+      float facets =
+
+        0.5 +
+
+        0.5 *
+
+        sin(
+          facetPhase
+        );
+
+
+      facets =
+
+        pow(
+          facets,
+          3.0
+        );
+
+
+
+      /* ========================================
+         SOFT PRISM REGION
+         ======================================== */
+
+      float innerFade =
+
+        smoothstep(
+          0.015,
+          0.09,
+          dist
+        );
+
+
+      float outerFade =
+
+        1.0 -
+
+        smoothstep(
+          0.16,
+          radius,
+          dist
+        );
+
+
+      float prismRegion =
+
+        innerFade *
+
+        outerFade;
+
+
+
+      float organicMask =
+
+        0.78 +
+
+        0.22 *
+
+        sin(
+
+          angleX * 2.0 +
+
+          angleY * 2.6 +
+
+          dist * 15.0 -
+
+          u_time * 0.27
+
+        );
+
+
+
+      float prism =
+
+        facets *
+
+        prismRegion *
+
+        organicMask;
+
+
+
+      /* ========================================
+         SECOND FLOWING LIGHT FIELD
+         ======================================== */
+
+      float flowingAngleTwo =
+
+        angleX * 0.8
+
+        -
+
+        angleY * 1.15
+
+        -
+
+        sin(
+          dist * 6.5 -
+          u_time * 0.29
+        ) * 0.9
+
+        +
+
+        cos(
+
+          angleX * 2.4 -
+
+          angleY * 1.8 +
+
+          dist * 4.5 +
+
+          u_time * 0.21
+
+        ) * 0.72;
+
+
+
+      float facetPhaseTwo =
+
+        flowingAngleTwo * 2.75
+
+        +
+
+        dist * 15.0
+
+        +
+
+        sin(
+
+          flowingAngleTwo * 1.9 -
+
+          dist * 7.0 +
+
+          u_time * 0.33
+
+        ) * 1.9
+
+        -
+
+        u_time * 0.25;
+
+
+
+      float facetsTwo =
+
+        0.5 +
+
+        0.5 *
+
+        cos(
+          facetPhaseTwo
+        );
+
+
+      facetsTwo =
+
+        pow(
+          facetsTwo,
+          3.6
+        );
+
+
+
+      float prismTwo =
+
+        facetsTwo *
+
+        influence *
+
+        innerFade *
+
+        0.48;
+
+
+
+      /* ========================================
+         THIRD SOFT LIGHT FIELD
+         ======================================== */
+
+      float softField =
+
+        sin(
+
+          delta.x * 10.0 +
+
+          sin(
+            delta.y * 7.0 +
+            u_time * 0.22
+          ) * 1.8 +
+
+          dist * 9.0 -
+
+          u_time * 0.18
+
+        );
+
+
+      softField =
+
+        0.5 +
+
+        0.5 *
+
+        softField;
+
+
+      softField =
+
+        pow(
+          softField,
+          2.4
+        );
+
+
+      float prismThree =
+
+        softField *
+
+        influence *
+
+        0.26;
+
+
+
+      /* ========================================
+         COMBINE MAIN FRACTURED LIGHT
+         ======================================== */
+
+      float fracturedLight =
+
+        prism +
+
+        prismTwo +
+
+        prismThree;
+
+
+
+      /* ========================================
+         MAIN PRISMATIC COLOR SEPARATION
+         ======================================== */
+
+      vec2 direction =
+
+        delta /
+
+        max(
+          dist,
+          0.001
+        );
+
+
+      direction.x /=
+        u_aspect;
+
+
+
+      float separation =
+
+        influence *
+
+        (
+          0.002 +
+
+          abs(u_strength) *
+
+          0.0014
+        );
+
+
+      separation +=
+
+        fracturedLight *
+
+        0.0045;
+
+
+
+      vec2 redUV =
+
+        coverImage(
+
+          distortedUV +
+
+          direction *
+
+          separation
+
+        );
+
+
+      vec2 greenUV =
+
+        coverImage(
+          distortedUV
+        );
+
+
+      vec2 blueUV =
+
+        coverImage(
+
+          distortedUV -
+
+          direction *
+
+          separation
+
+        );
+
+
+
+      vec4 red =
+
+        texture2D(
+          u_image,
+          redUV
+        );
+
+
+      vec4 green =
+
+        texture2D(
+          u_image,
+          greenUV
+        );
+
+
+      vec4 blue =
+
+        texture2D(
+          u_image,
+          blueUV
+        );
+
+
+
+      vec3 color =
+
+        vec3(
+          red.r,
+          green.g,
+          blue.b
+        );
+
+
+
+      /* ========================================
+         MAIN LIGHT INTENSITY
+         ======================================== */
+
+      float movementEnergy =
+
+        min(
+
+          abs(u_strength) /
+
+          4.0,
+
+          1.0
+
+        );
+
+
+
+      float idleLight =
+
+        0.92 +
+
+        0.08 *
+
+        sin(
+          u_time * 0.55
+        );
+
+
+      float lightAmount =
+
+        fracturedLight *
+
+        idleLight *
+
+        (
+          0.16 +
+
+          movementEnergy *
+
+          0.32
+        );
+
+
+
+      /* ========================================
+         MAIN WHITE REFRACTED LIGHT
+         ======================================== */
+
+      color +=
+
+        vec3(
+          1.0,
+          0.97,
+          0.90
+        )
+
+        *
+
+        lightAmount;
+
+
+
+      /* ========================================
+         MAIN MOVING RAINBOW REFRACTION
+         ======================================== */
+
+      float rainbowPosition =
+
+        flowingAngle * 1.7
+
+        +
+
+        dist * 18.0
+
+        -
+
+        u_time * 0.32
+
+        +
+
+        sin(
+
+          flowingAngleTwo * 1.4 +
+
+          u_time * 0.21
+
+        ) * 1.2;
+
+
+
+      vec3 rainbow =
+
+        vec3(
+
+          0.5 +
+
+          0.5 *
+
+          sin(
+            rainbowPosition
+          ),
+
+
+          0.5 +
+
+          0.5 *
+
+          sin(
+            rainbowPosition +
+            2.094
+          ),
+
+
+          0.5 +
+
+          0.5 *
+
+          sin(
+            rainbowPosition +
+            4.188
+          )
+
+        );
+
+
+
+      color +=
+
+        rainbow *
+
+        fracturedLight *
+
+        (
+          0.11 +
+
+          movementEnergy *
+
+          0.24
+        );
+
+
+
+      /* ========================================
+         SIX LIGHT TRAILS
+
+         Newest trail = strongest.
+         Oldest trail = faintest.
+
+         These are additive light only.
+         ======================================== */
+
+      color +=
+
+        trailLight(
+          uv,
+          u_trail0,
+          0.85,
+          u_trailEnergy,
+          0.15
+        );
+
+
+      color +=
+
+        trailLight(
+          uv,
+          u_trail1,
+          0.67,
+          u_trailEnergy,
+          0.55
+        );
+
+
+      color +=
+
+        trailLight(
+          uv,
+          u_trail2,
+          0.51,
+          u_trailEnergy,
+          0.95
+        );
+
+
+      color +=
+
+        trailLight(
+          uv,
+          u_trail3,
+          0.37,
+          u_trailEnergy,
+          1.35
+        );
+
+
+      color +=
+
+        trailLight(
+          uv,
+          u_trail4,
+          0.24,
+          u_trailEnergy,
+          1.75
+        );
+
+
+      color +=
+
+        trailLight(
+          uv,
+          u_trail5,
+          0.13,
+          u_trailEnergy,
+          2.15
+        );
+
+
+
+      /* ========================================
+         CENTRAL GLASS GLOW
+         ======================================== */
+
+      float centerGlow =
+
+        pow(
+          influence,
+          3.0
+        )
+
+        *
+
+        0.035;
+
+
+      color +=
+
+        vec3(
+          1.0,
+          0.96,
+          0.88
+        )
+
+        *
+
+        centerGlow;
+
+
+
+      gl_FragColor =
+
+        vec4(
+          color,
+          1.0
+        );
+
+    }
+
+  `;
+
+
+
+  /* =========================================
+     CREATE SHADER
+     ========================================= */
+
+  function createShader(
+    type,
+    source
+  ) {
+
+    const shader =
+      gl.createShader(type);
+
+
+    gl.shaderSource(
+      shader,
+      source
+    );
+
+
+    gl.compileShader(
+      shader
+    );
+
+
+    if (
+      !gl.getShaderParameter(
+        shader,
+        gl.COMPILE_STATUS
+      )
+    ) {
+
+      console.error(
+        gl.getShaderInfoLog(
+          shader
+        )
+      );
+
+    }
+
+
+    return shader;
+
+  }
+
+
+
+  const vertexShader =
+
+    createShader(
+      gl.VERTEX_SHADER,
+      vertexShaderSource
+    );
+
+
+  const fragmentShader =
+
+    createShader(
+      gl.FRAGMENT_SHADER,
+      fragmentShaderSource
+    );
+
+
+
+  /* =========================================
+     PROGRAM
+     ========================================= */
+
+  const program =
+    gl.createProgram();
+
+
+  gl.attachShader(
+    program,
+    vertexShader
+  );
+
+
+  gl.attachShader(
+    program,
+    fragmentShader
+  );
+
+
+  gl.linkProgram(
+    program
+  );
+
+
+  if (
+    !gl.getProgramParameter(
+      program,
+      gl.LINK_STATUS
+    )
+  ) {
+
+    console.error(
+      gl.getProgramInfoLog(
+        program
+      )
+    );
+
+  }
+
+
+  gl.useProgram(
+    program
+  );
+
+
+
+  /* =========================================
+     RECTANGLE
+     ========================================= */
+
+  const positions =
+
+    new Float32Array([
+
+      -1, -1,
+       1, -1,
+      -1,  1,
+
+      -1,  1,
+       1, -1,
+       1,  1
+
+    ]);
+
+
+
+  const texCoords =
+
+    new Float32Array([
+
+      0, 1,
+      1, 1,
+      0, 0,
+
+      0, 0,
+      1, 1,
+      1, 0
+
+    ]);
+
+
+
+  /* =========================================
+     POSITION BUFFER
+     ========================================= */
+
+  const positionBuffer =
+    gl.createBuffer();
+
+
+  gl.bindBuffer(
+    gl.ARRAY_BUFFER,
+    positionBuffer
+  );
+
+
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    positions,
+    gl.STATIC_DRAW
+  );
+
+
+  const positionLocation =
+
+    gl.getAttribLocation(
+      program,
+      "a_position"
+    );
+
+
+  gl.enableVertexAttribArray(
+    positionLocation
+  );
+
+
+  gl.vertexAttribPointer(
+    positionLocation,
+    2,
+    gl.FLOAT,
+    false,
+    0,
+    0
+  );
+
+
+
+  /* =========================================
+     TEXTURE COORDINATE BUFFER
+     ========================================= */
+
+  const texCoordBuffer =
+    gl.createBuffer();
+
+
+  gl.bindBuffer(
+    gl.ARRAY_BUFFER,
+    texCoordBuffer
+  );
+
+
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    texCoords,
+    gl.STATIC_DRAW
+  );
+
+
+  const texCoordLocation =
+
+    gl.getAttribLocation(
+      program,
+      "a_texCoord"
+    );
+
+
+  gl.enableVertexAttribArray(
+    texCoordLocation
+  );
+
+
+  gl.vertexAttribPointer(
+    texCoordLocation,
+    2,
+    gl.FLOAT,
+    false,
+    0,
+    0
+  );
+
+
+
+  /* =========================================
+     UNIFORMS
+     ========================================= */
+
+  const mouseLocation =
+
+    gl.getUniformLocation(
+      program,
+      "u_mouse"
+    );
+
+
+  const strengthLocation =
+
+    gl.getUniformLocation(
+      program,
+      "u_strength"
+    );
+
+
+  const aspectLocation =
+
+    gl.getUniformLocation(
+      program,
+      "u_aspect"
+    );
+
+
+  const imageAspectLocation =
+
+    gl.getUniformLocation(
+      program,
+      "u_imageAspect"
+    );
+
+
+  const timeLocation =
+
+    gl.getUniformLocation(
+      program,
+      "u_time"
+    );
+
+
+
+  /* =========================================
+     LIGHT TRAIL UNIFORMS
+     ========================================= */
+
+  const trailLocations = [
+
+    gl.getUniformLocation(
+      program,
+      "u_trail0"
+    ),
+
+    gl.getUniformLocation(
+      program,
+      "u_trail1"
+    ),
+
+    gl.getUniformLocation(
+      program,
+      "u_trail2"
+    ),
+
+    gl.getUniformLocation(
+      program,
+      "u_trail3"
+    ),
+
+    gl.getUniformLocation(
+      program,
+      "u_trail4"
+    ),
+
+    gl.getUniformLocation(
+      program,
+      "u_trail5"
+    )
+
+  ];
+
+
+  const trailEnergyLocation =
+
+    gl.getUniformLocation(
+      program,
+      "u_trailEnergy"
+    );
+
+
+
+  /* =========================================
+     MASTER CLOCK
+     ========================================= */
+
+  const startTime =
+    performance.now();
+
+
+
+  /* =========================================
+     IMAGE
+     ========================================= */
+
+  const texture =
+    gl.createTexture();
+
+
+  gl.bindTexture(
+    gl.TEXTURE_2D,
+    texture
+  );
+
+
+  gl.texParameteri(
+    gl.TEXTURE_2D,
+    gl.TEXTURE_WRAP_S,
+    gl.CLAMP_TO_EDGE
+  );
+
+
+  gl.texParameteri(
+    gl.TEXTURE_2D,
+    gl.TEXTURE_WRAP_T,
+    gl.CLAMP_TO_EDGE
+  );
+
+
+  gl.texParameteri(
+    gl.TEXTURE_2D,
+    gl.TEXTURE_MIN_FILTER,
+    gl.LINEAR
+  );
+
+
+  gl.texParameteri(
+    gl.TEXTURE_2D,
+    gl.TEXTURE_MAG_FILTER,
+    gl.LINEAR
+  );
+
+
+
+  const image =
+    new Image();
+
+
+  image.src =
+    "./film-twist.jpeg";
+
+
+  let imageLoaded =
+    false;
+
+
+
+  image.onload =
+    () => {
+
+
+      gl.bindTexture(
+        gl.TEXTURE_2D,
+        texture
+      );
+
+
+      gl.pixelStorei(
+        gl.UNPACK_FLIP_Y_WEBGL,
+        false
+      );
+
+
+      gl.texImage2D(
+        gl.TEXTURE_2D,
+        0,
+        gl.RGBA,
+        gl.RGBA,
+        gl.UNSIGNED_BYTE,
+        image
+      );
+
+
+      imageLoaded =
+        true;
+
+
+      resize();
+
+    };
+
+
+
+  /* =========================================
+     MOUSE + MOMENTUM
+     ========================================= */
+
+  let mouseX =
+    0.5;
+
+
+  let mouseY =
+    0.5;
+
+
+  let targetX =
+    0.5;
+
+
+  let targetY =
+    0.5;
+
+
+  let previousX =
+    0.5;
+
+
+  let previousY =
+    0.5;
+
+
+  let strength =
+    0;
+
+
+  let targetStrength =
+    0;
+
+
+  let inside =
+    false;
+
+
+
+  /* =========================================
+     LIGHT TRAIL HISTORY
+
+     Six separate historical points.
+
+     They start in the middle so nothing
+     strange flashes when the page loads.
+     ========================================= */
+
+  const trails = [
+
+    { x: 0.5, y: 0.5 },
+    { x: 0.5, y: 0.5 },
+    { x: 0.5, y: 0.5 },
+    { x: 0.5, y: 0.5 },
+    { x: 0.5, y: 0.5 },
+    { x: 0.5, y: 0.5 }
+
+  ];
+
+
+  let trailEnergy =
+    0;
+
+
+  let targetTrailEnergy =
+    0;
+
+
+  let trailSampleCounter =
+    0;
+
+
+
+  /* =========================================
+     MOUSE MOVEMENT
+     ========================================= */
+
+  canvas.addEventListener(
+
+    "mousemove",
+
+    (event) => {
+
+
+      const rect =
+
+        canvas.getBoundingClientRect();
+
+
+
+      targetX =
+
+        (
+          event.clientX -
+          rect.left
+        )
+
+        /
+
+        rect.width;
+
+
+
+      targetY =
+
+        (
+          event.clientY -
+          rect.top
+        )
+
+        /
+
+        rect.height;
+
+
+
+      const dx =
+
+        targetX -
+
+        previousX;
+
+
+      const dy =
+
+        targetY -
+
+        previousY;
+
+
+
+      const speed =
+
+        Math.sqrt(
+
+          dx * dx +
+
+          dy * dy
+
+        );
+
+
+
+      /* =========================================
+         MAIN PRISM ENERGY
+         ========================================= */
+
+      targetStrength =
+
+        Math.min(
+
+          speed * 20,
+
+          6.0
+
+        );
+
+
+
+      /* =========================================
+         TRAIL ENERGY
+
+         Slow movement = subtle trail.
+         Fast movement = brighter trail.
+         ========================================= */
+
+      targetTrailEnergy =
+
+        Math.min(
+
+          speed * 15,
+
+          1.0
+
+        );
+
+
+
+      previousX =
+        targetX;
+
+
+      previousY =
+        targetY;
+
+
+      inside =
+        true;
+
+    }
+
+  );
+
+
+
+  canvas.addEventListener(
+
+    "mouseenter",
+
+    () => {
+
+      inside =
+        true;
+
+    }
+
+  );
+
+
+
+  canvas.addEventListener(
+
+    "mouseleave",
+
+    () => {
+
+      inside =
+        false;
+
+    }
+
+  );
+
+
+
+  /* =========================================
+     RESIZE
+     ========================================= */
+
+  function resize() {
+
+
+    const rect =
+
+      canvas.getBoundingClientRect();
+
+
+    const pixelRatio =
+
+      Math.min(
+
+        window.devicePixelRatio,
+
+        2
+
+      );
+
+
+    canvas.width =
+
+      Math.round(
+
+        rect.width *
+
+        pixelRatio
+
+      );
+
+
+    canvas.height =
+
+      Math.round(
+
+        rect.height *
+
+        pixelRatio
+
+      );
+
+
+    gl.viewport(
+
+      0,
+
+      0,
+
+      canvas.width,
+
+      canvas.height
+
+    );
+
+  }
+
+
+
+  window.addEventListener(
+    "resize",
+    resize
+  );
+
+
+
+  /* =========================================
+     UPDATE LIGHT TRAIL
+
+     Instead of adding a new point on every
+     mouse event, we sample the smoothly
+     interpolated cursor during animation.
+
+     This makes curved paths look much nicer.
+     ========================================= */
+
+  function updateTrails() {
+
+
+    trailSampleCounter++;
+
+
+
+    /*
+      A new historical point is stored
+      every 3 animation frames.
+
+      Increase 3 to make the trail longer.
+
+      Decrease 3 to make the ghosts sit
+      closer together.
+    */
+
+    if (
+      trailSampleCounter >= 3
+    ) {
+
+
+      trailSampleCounter =
+        0;
+
+
+
+      for (
+        let i = trails.length - 1;
+        i > 0;
+        i--
+      ) {
+
+        trails[i].x =
+          trails[i - 1].x;
+
+
+        trails[i].y =
+          trails[i - 1].y;
+
+      }
+
+
+
+      trails[0].x =
+        mouseX;
+
+
+      trails[0].y =
+        mouseY;
+
+    }
+
+  }
+
+
+
+  /* =========================================
+     ANIMATION
+     ========================================= */
+
+  function animate() {
+
+
+    requestAnimationFrame(
+      animate
+    );
+
+
+    if (!imageLoaded) {
+
+      return;
+
+    }
+
+
+
+    /* =========================================
+       SMOOTH CURRENT CURSOR
+       ========================================= */
+
+    mouseX +=
+
+      (
+        targetX -
+        mouseX
+      )
+
+      *
+
+      0.065;
+
+
+
+    mouseY +=
+
+      (
+        targetY -
+        mouseY
+      )
+
+      *
+
+      0.065;
+
+
+
+    /* =========================================
+       MAIN PRISM ENERGY
+       ========================================= */
+
+    strength +=
+
+      (
+        targetStrength -
+        strength
+      )
+
+      *
+
+      0.075;
+
+
+    targetStrength *=
+      0.965;
+
+
+
+    /* =========================================
+       TRAIL ENERGY
+       ========================================= */
+
+    trailEnergy +=
+
+      (
+        targetTrailEnergy -
+        trailEnergy
+      )
+
+      *
+
+      0.16;
+
+
+
+    /*
+      This decay is intentionally faster
+      than the main prism.
+
+      When you stop moving, the ghosts
+      disappear while the prism itself
+      keeps flowing.
+    */
+
+    targetTrailEnergy *=
+      0.90;
+
+
+    trailEnergy *=
+      0.975;
+
+
+
+    if (!inside) {
+
+      targetStrength *=
+        0.94;
+
+
+      strength *=
+        0.985;
+
+
+      targetTrailEnergy *=
+        0.82;
+
+
+      trailEnergy *=
+        0.94;
+
+    }
+
+
+
+    /* =========================================
+       RECORD CURVED MOUSE PATH
+       ========================================= */
+
+    updateTrails();
+
+
+
+    /* =========================================
+       CURRENT TIME
+       ========================================= */
+
+    const elapsedTime =
+
+      (
+        performance.now() -
+        startTime
+      )
+
+      /
+
+      1000;
+
+
+
+    /* =========================================
+       SEND MAIN VALUES TO SHADER
+       ========================================= */
+
+    gl.uniform2f(
+
+      mouseLocation,
+
+      mouseX,
+
+      mouseY
+
+    );
+
+
+    gl.uniform1f(
+
+      strengthLocation,
+
+      strength
+
+    );
+
+
+    gl.uniform1f(
+
+      timeLocation,
+
+      elapsedTime
+
+    );
+
+
+    gl.uniform1f(
+
+      aspectLocation,
+
+      canvas.width /
+
+      canvas.height
+
+    );
+
+
+    gl.uniform1f(
+
+      imageAspectLocation,
+
+      image.width /
+
+      image.height
+
+    );
+
+
+
+    /* =========================================
+       SEND TRAIL POSITIONS TO SHADER
+       ========================================= */
+
+    for (
+      let i = 0;
+      i < trails.length;
+      i++
+    ) {
+
+      gl.uniform2f(
+
+        trailLocations[i],
+
+        trails[i].x,
+
+        trails[i].y
+
+      );
+
+    }
+
+
+
+    gl.uniform1f(
+
+      trailEnergyLocation,
+
+      trailEnergy
+
+    );
+
+
+
+    /* =========================================
+       DRAW
+       ========================================= */
+
+    gl.drawArrays(
+
+      gl.TRIANGLES,
+
+      0,
+
+      6
+
+    );
+
+  }
+
+
+
+  animate();
+
+</script>
+
+<script>
+/* Load photo filenames directly from public GitHub folders. */
+const PHOTO_SECTIONS=[['portfolio','PORTFOLIO'],['modeling','MODELING'],['creative_direction','CREATIVE DIRECTION'],['wildlife','WILDLIFE']];
+const REPO='lrosemoe-coder/portfolio';
+async function getPhotos(section){
+ const response=await fetch(`https://api.github.com/repos/${REPO}/contents/assets/photo/${section}?ref=main`);
+ if(!response.ok)throw new Error(`GitHub returned ${response.status}`);
+ const files=await response.json();
+ return files.filter(f=>f.type==='file' && /\.(jpe?g|png|webp|gif|avif)$/i.test(f.name)).sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true})).map(f=>({name:f.name,url:`./assets/photo/${section}/${encodeURIComponent(f.name)}`}));
+}
+for(const [key,label] of PHOTO_SECTIONS){
+ const section=document.createElement('section');section.className='photo-section';section.id=key;
+ section.innerHTML=`<span class="small">${String(PHOTO_SECTIONS.findIndex(x=>x[0]===key)+1).padStart(2,'0')} / PHOTOGRAPHY</span><h2>${label}</h2><div class="photo-track" tabindex="0"><p class="status">Loading photographs…</p></div><div class="photo-actions"><div><button type="button" class="back" aria-label="Scroll left">←</button> <button type="button" class="forward" aria-label="Scroll right">→</button></div><a href="photo-gallery.html?section=${key}">VIEW ALL ↗</a></div>`;
+ document.getElementById('photoSections').append(section);
+ const track=section.querySelector('.photo-track');section.querySelector('.back').onclick=()=>track.scrollBy({left:-track.clientWidth*.7,behavior:'smooth'});section.querySelector('.forward').onclick=()=>track.scrollBy({left:track.clientWidth*.7,behavior:'smooth'});
+ getPhotos(key).then(photos=>{track.replaceChildren();if(!photos.length){track.innerHTML='<p class="status">No photographs found in this folder.</p>';return;}photos.forEach((photo,i)=>{const img=document.createElement('img');img.src=photo.url;img.alt=`${label} photograph ${i+1}`;img.loading='lazy';img.onclick=()=>location.href=`photo-gallery.html?section=${key}&image=${i}`;track.append(img);});}).catch(()=>track.innerHTML='<p class="status">Could not load photos. Check that the GitHub folder is public and try refreshing.</p>');
+}
+</script>
+</body>
+</html>
