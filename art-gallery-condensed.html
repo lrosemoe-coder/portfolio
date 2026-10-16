@@ -1,0 +1,2559 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Art — Linnea RM</title>
+<style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+
+    body {
+      background: #e7e7e7;
+      color: #0757e8;
+    }
+
+
+
+    /* =========================================
+       HEADER
+       ========================================= */
+
+    .header {
+      height: 78px;
+
+      display: flex;
+      align-items: center;
+
+      padding: 0 28px;
+
+      background: #e7e7e7;
+    }
+
+
+    .name {
+      margin: 0;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 38px;
+      font-weight: 500;
+
+      letter-spacing: 2px;
+
+      color: #0757e8;
+
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+
+
+    /* =========================================
+       HERO
+       ========================================= */
+
+    .hero {
+      position: relative;
+
+      width: 100%;
+      height: 62vh;
+      min-height: 480px;
+
+      margin: 0;
+
+      overflow: hidden;
+
+      background: #071a18;
+    }
+
+
+    #artCanvas {
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      z-index: 1;
+    }
+
+
+    .hero-title {
+      position: absolute;
+
+      top: 50%;
+      left: 50%;
+
+      transform:
+        translate(-50%, -50%);
+
+      margin: 0;
+
+      z-index: 2;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size:
+        clamp(
+          100px,
+          18vw,
+          280px
+        );
+
+      font-weight: 500;
+
+      line-height: 0.8;
+
+      letter-spacing: 5px;
+
+      color: #e7e7e7;
+
+      text-transform: uppercase;
+
+      pointer-events: none;
+    }
+
+
+
+    /* =========================================
+       CONTENT
+       ========================================= */
+
+    .art-content {
+      width: 100%;
+
+      padding:
+        120px
+        7vw
+        160px;
+
+      background: #e7e7e7;
+    }
+
+
+    .intro {
+      max-width: 900px;
+
+      margin-bottom: 120px;
+    }
+
+
+    .section-label {
+      margin:
+        0
+        0
+        22px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 18px;
+
+      letter-spacing: 2px;
+
+      text-transform: uppercase;
+    }
+
+
+    .intro-text {
+      margin: 0;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size:
+        clamp(
+          28px,
+          3.3vw,
+          54px
+        );
+
+      line-height: 1.15;
+    }
+
+
+
+    /* =========================================
+       PROJECTS
+       ========================================= */
+
+    .project {
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        1fr;
+
+      gap: 70px;
+
+      padding:
+        70px
+        0;
+
+      border-top:
+        1px
+        solid
+        rgba(7, 87, 232, 0.35);
+    }
+
+
+    .project-number {
+      margin:
+        0
+        0
+        20px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size: 17px;
+
+      letter-spacing: 2px;
+    }
+
+
+    .project-title {
+      margin:
+        0
+        0
+        25px;
+
+      font-family:
+        Impact,
+        "Arial Narrow",
+        sans-serif;
+
+      font-size:
+        clamp(
+          40px,
+          5vw,
+          78px
+        );
+
+      font-weight: 500;
+
+      line-height: 0.95;
+
+      text-transform: uppercase;
+    }
+
+
+    .project-description {
+      max-width: 650px;
+
+      margin: 0;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 20px;
+
+      line-height: 1.55;
+    }
+
+
+    .project-placeholder {
+      min-height: 430px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border:
+        1px
+        solid
+        rgba(7, 26, 24, 0.35);
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 17px;
+
+      font-style: italic;
+    }
+
+
+
+    /* =========================================
+       MOBILE
+       ========================================= */
+
+    @media (max-width: 800px) {
+
+      .header {
+        height: 68px;
+
+        padding:
+          0
+          18px;
+      }
+
+
+      .name {
+        font-size: 28px;
+      }
+
+
+      .hero {
+        height: 55vh;
+        min-height: 400px;
+      }
+
+
+      .hero-title {
+        font-size: 28vw;
+      }
+
+
+      .art-content {
+        padding:
+          80px
+          28px
+          120px;
+      }
+
+
+      .project {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+      }
+
+    }
+
+
+    /* VIRTUAL GALLERY — PHOTOGRAPHIC ENTRANCE */
+    .gallery-feature { border-top:1px solid rgba(7,87,232,.35); padding-top:20px; }
+    .gallery-meta,.gallery-caption { display:flex; justify-content:space-between; gap:24px; }
+    .gallery-meta { font:16px Impact,"Arial Narrow",sans-serif; letter-spacing:1.5px; margin-bottom:18px; }
+    .gallery-entrance { display:block; position:relative; overflow:hidden; min-height:clamp(380px,55vw,690px); background:#071a18; color:#fff; text-decoration:none; isolation:isolate; }
+    .entrance-photo { position:absolute; inset:0; background-image:url("./art-twist.jpeg"); background-size:cover; background-position:center 52%; transform:scale(1.01); transition:transform .8s cubic-bezier(.2,.8,.2,1),filter .8s ease; filter:saturate(.92); }
+    .gallery-entrance::after { content:""; position:absolute; inset:0; z-index:1; background:linear-gradient(180deg,rgba(0,0,0,.05) 20%,rgba(0,0,0,.18) 48%,rgba(0,0,0,.68) 100%); pointer-events:none; }
+    .entrance-top { position:absolute; z-index:2; top:28px; left:clamp(20px,4vw,55px); font:15px Impact,"Arial Narrow",sans-serif; letter-spacing:2px; }
+    .entrance-bottom { position:absolute; z-index:2; bottom:0; left:0; right:0; display:flex; justify-content:space-between; align-items:end; gap:16px; padding:24px clamp(20px,4vw,55px); font:clamp(42px,8vw,116px)/.9 Impact,"Arial Narrow",sans-serif; letter-spacing:1px; text-shadow:0 2px 20px rgba(0,0,0,.22); }
+    .entrance-arrow { font-family:Arial,sans-serif; font-weight:300; transition:transform .3s ease; }
+    .gallery-entrance:hover .entrance-photo,.gallery-entrance:focus-visible .entrance-photo { transform:scale(1.065); filter:saturate(1.08); }
+    .gallery-entrance:hover .entrance-arrow,.gallery-entrance:focus-visible .entrance-arrow { transform:translate(7px,-7px); }
+    .gallery-entrance:focus-visible { outline:4px solid #0757e8; outline-offset:4px; }
+    .gallery-caption { align-items:start; margin-top:24px; }
+    .gallery-caption p { margin:0; max-width:640px; font:clamp(18px,2vw,25px)/1.45 Georgia,serif; }
+    .gallery-caption span { flex-shrink:0; font:13px Impact,"Arial Narrow",sans-serif; letter-spacing:1px; }
+    @media(max-width:800px) { .gallery-meta,.gallery-caption {flex-direction:column;gap:12px;} .gallery-entrance {min-height:420px;} .entrance-bottom {font-size:clamp(39px,9vw,68px);} .gallery-caption span {font-size:12px;} }
+    @media(prefers-reduced-motion:reduce) { .entrance-photo,.entrance-arrow {transition:none;} }
+
+  
+/* Consistent portfolio header and hero */
+.header {height:58px;padding:0 18px;position:relative;z-index:30;}
+.name-menu {height:100%;display:flex;align-items:center;position:relative;}
+.name {font:500 clamp(22px,2.1vw,30px)/1 Impact,"Arial Narrow",sans-serif;letter-spacing:1px;}
+.dropdown {position:absolute;left:-10px;top:100%;display:flex;flex-direction:column;min-width:220px;background:#e7e7e7;border-bottom:2px solid #0757e8;box-shadow:0 12px 20px #0002;padding:8px 0;opacity:0;visibility:hidden;transform:translateY(-7px);transition:opacity .2s,transform .2s,visibility .2s;pointer-events:none;}
+.name-menu:hover .dropdown,.name-menu:focus-within .dropdown {opacity:1;visibility:visible;transform:none;pointer-events:auto;}
+.dropdown a {font:19px Impact,"Arial Narrow",sans-serif;padding:10px 20px;text-decoration:none;color:#0757e8;}
+.dropdown a:hover,.dropdown a:focus-visible {background:#0757e8;color:white;}
+.hero {height:clamp(195px,23vw,345px);min-height:0;}
+.hero-title {font-size:clamp(68px,12vw,178px);}
+.art-content {padding:clamp(80px,12vw,150px) 24px;min-height:340px;display:flex;justify-content:center;align-items:center;}
+.gallery-button-section {width:100%;display:flex;justify-content:center;align-items:center;}
+.gallery-button {display:inline-flex;align-items:center;justify-content:center;gap:22px;padding:24px clamp(28px,5vw,65px);border:2px solid #0757e8;background:#0757e8;color:#e7e7e7;text-decoration:none;text-align:center;font:500 clamp(30px,5.5vw,70px)/1 Impact,"Arial Narrow",sans-serif;letter-spacing:1px;transition:background .25s,color .25s,transform .25s;}
+.gallery-button span {font-size:.7em;transition:transform .25s;}
+.gallery-button:hover,.gallery-button:focus-visible {background:transparent;color:#0757e8;transform:translateY(-4px);}
+.gallery-button:hover span,.gallery-button:focus-visible span {transform:translate(4px,-4px);}
+@media(max-width:700px){.header{height:54px;padding:0 10px}.name{font-size:clamp(22px,2.1vw,30px)}.hero{height:clamp(170px,34vw,250px);min-height:0}.hero-title{font-size:clamp(58px,15vw,110px)}.art-content{padding:85px 18px;min-height:280px}.gallery-button{gap:12px;padding:20px 24px;font-size:clamp(27px,8vw,48px)}}
+@media(prefers-reduced-motion:reduce){.gallery-button,.gallery-button span,.dropdown{transition:none}}
+
+/* Gallery preview: immersive, clickable image */
+.art-content {display:block; min-height:0; padding:0 0 clamp(28px,4vw,52px);}
+.gallery-preview {display:block;position:relative;width:100%;margin:0;overflow:hidden;height:clamp(210px,26vw,390px);background:#d8dce1;text-decoration:none;isolation:isolate;}
+.gallery-preview img {display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .7s cubic-bezier(.2,.8,.2,1),filter .55s ease;}
+.gallery-preview-shade {position:absolute;inset:0;background:rgba(30,49,92,.26);transition:opacity .45s ease;pointer-events:none;}
+.gallery-preview-title {position:absolute;left:0;right:0;bottom:9%;z-index:2;text-align:center;color:white;font:500 clamp(35px,5vw,72px)/1 Impact,"Arial Narrow",sans-serif;letter-spacing:.3px;text-shadow:0 2px 14px #0005;transition:opacity .3s ease,transform .4s ease;pointer-events:none;}
+.gallery-preview:hover img,.gallery-preview:focus-visible img {transform:scale(1.025);filter:saturate(1.04);}
+.gallery-preview:hover .gallery-preview-shade,.gallery-preview:focus-visible .gallery-preview-shade {opacity:0;}
+.gallery-preview:hover .gallery-preview-title,.gallery-preview:focus-visible .gallery-preview-title {opacity:0;transform:translateY(6px);}
+.gallery-preview:focus-visible {outline:3px solid #0757e8;outline-offset:5px;}
+@media(max-width:700px){.art-content{padding:0 0 35px}.gallery-preview{height:clamp(190px,43vw,290px)}.gallery-preview-title{bottom:8%;font-size:clamp(33px,8vw,58px)}}
+@media(prefers-reduced-motion:reduce){.gallery-preview img,.gallery-preview-shade,.gallery-preview-title{transition:none}}
+
+/* Personal introduction: text + two original photographs */
+.art-introduction {
+  display:grid;
+  grid-template-columns:minmax(0, .9fr) minmax(0, 1.1fr);
+  gap:clamp(20px,3vw,48px);
+  align-items:center;
+  padding:clamp(28px,4vw,52px) 5vw;
+}
+.art-introduction-copy h2 {
+  margin:0 0 12px;
+  font:500 clamp(38px,5vw,68px)/.95 Impact,"Arial Narrow",sans-serif;
+  letter-spacing:1px;
+}
+.art-introduction-copy p {
+  max-width:570px;
+  margin:0;
+  font:clamp(16px,1.5vw,19px)/1.5 Georgia,"Times New Roman",serif;
+}
+.art-introduction-photos {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(8px,1vw,14px);
+  align-items:center;
+}
+.art-introduction-photos img {
+  width:100%;height:auto;display:block;
+}
+.art-introduction-photos img:nth-child(2) {transform:translateY(10px);}
+@media(max-width:800px) {
+  .art-introduction {grid-template-columns:1fr;padding:30px 6vw 38px;gap:20px;}
+  .art-introduction-copy p {max-width:680px;}
+  .art-introduction-photos img:nth-child(2) {transform:translateY(6px);}
+}
+</style>
+</head>
+<body>
+<!-- =========================================
+       HEADER
+       ========================================= -->
+<header class="header"><div class="name-menu"><a aria-haspopup="true" class="name" href="index.html">LINNEA RM</a><nav aria-label="Portfolio pages" class="dropdown"><a href="index.html">Home</a><a href="data-analytics.html">Data Analytics</a><a href="research.html">Research</a><a href="film-photo.html">Film &amp; Photo</a><a href="product-design.html">Product Design</a><a href="fashion.html">Fashion</a><a aria-current="page" href="art.html">Art</a></nav></div></header>
+<!-- =========================================
+       ART HERO
+       ========================================= -->
+<section class="hero">
+<canvas id="artCanvas"></canvas>
+<h1 class="hero-title">
+      ART
+    </h1>
+</section>
+<!-- =========================================
+       CONTENT
+       ========================================= -->
+<main class="art-content">
+  <section class="art-introduction" aria-labelledby="art-intro-heading">
+    <div class="art-introduction-copy">
+      <h2 id="art-intro-heading">ART</h2>
+      <p>Painting is one of many mediums I use to create. This gallery showcases some of my recent acrylic, oil pastel, and watercolor pieces.</p>
+    </div>
+    <div class="art-introduction-photos">
+      <img src="lmskyline3.webp" alt="Painting at an outdoor table overlooking a city skyline" loading="lazy">
+      <img src="lmskyline2.webp" alt="Working on a painting with watercolors on a balcony" loading="lazy">
+    </div>
+  </section>
+  <a class="gallery-preview" href="https://visit.virtualartgallery.com/linneamoe" target="_blank" rel="noopener noreferrer" aria-label="Enter Linnea's virtual art gallery (opens in a new tab)">
+    <img src="Gallery_preview.png" alt="Preview of Linnea's virtual art exhibition, with paintings displayed along white gallery walls" loading="lazy">
+    <span class="gallery-preview-shade" aria-hidden="true"></span>
+    <span class="gallery-preview-title" aria-hidden="true">Enter Gallery</span>
+  </a>
+</main>
+<script>
+
+    /* =========================================
+       WEBGL
+       ========================================= */
+
+    const canvas =
+      document.getElementById("artCanvas");
+
+
+    const gl =
+      canvas.getContext("webgl");
+
+
+    if (!gl) {
+
+      alert(
+        "WebGL is not supported in this browser."
+      );
+
+    }
+
+
+
+    /* =========================================
+       VERTEX SHADER
+       ========================================= */
+
+    const vertexShaderSource = `
+
+      attribute vec2 a_position;
+      attribute vec2 a_texCoord;
+
+      varying vec2 v_texCoord;
+
+
+      void main() {
+
+        gl_Position =
+          vec4(
+            a_position,
+            0.0,
+            1.0
+          );
+
+
+        v_texCoord =
+          a_texCoord;
+
+      }
+
+    `;
+
+
+
+    /* =========================================
+       ART / LIQUID MARBLE SHADER
+       ========================================= */
+
+    const fragmentShaderSource = `
+
+      precision highp float;
+
+
+      uniform sampler2D u_image;
+
+      uniform float u_aspect;
+      uniform float u_imageAspect;
+      uniform float u_time;
+
+      uniform vec2 u_points[24];
+      uniform vec2 u_velocities[24];
+
+      uniform float u_energy;
+
+
+      varying vec2 v_texCoord;
+
+
+
+      /* ========================================
+         IMAGE COVER
+         ======================================== */
+
+      vec2 coverImage(
+        vec2 uv
+      ) {
+
+        vec2 result =
+          uv;
+
+
+        if (
+          u_aspect >
+          u_imageAspect
+        ) {
+
+          float scale =
+            u_imageAspect /
+            u_aspect;
+
+
+          result.y =
+            (uv.y - 0.5) *
+            scale +
+            0.5;
+
+        }
+
+        else {
+
+          float scale =
+            u_aspect /
+            u_imageAspect;
+
+
+          result.x =
+            (uv.x - 0.5) *
+            scale +
+            0.5;
+
+        }
+
+
+        return result;
+
+      }
+
+
+
+      /* ========================================
+         DISTANCE TO LINE
+         ======================================== */
+
+      float segmentDistance(
+        vec2 p,
+        vec2 a,
+        vec2 b,
+        out float along
+      ) {
+
+        vec2 pa =
+          p - a;
+
+
+        vec2 ba =
+          b - a;
+
+
+        float denominator =
+          max(
+            dot(ba, ba),
+            0.000001
+          );
+
+
+        along =
+          clamp(
+            dot(pa, ba) /
+            denominator,
+            0.0,
+            1.0
+          );
+
+
+        return length(
+          pa -
+          ba * along
+        );
+
+      }
+
+
+
+      /* ========================================
+         MAIN
+         ======================================== */
+
+      void main() {
+
+        vec2 uv =
+          v_texCoord;
+
+
+        vec2 p =
+          uv;
+
+
+        p.x *=
+          u_aspect;
+
+
+
+        /*
+          MAIN IMAGE DISPLACEMENT
+        */
+
+        vec2 displacement =
+          vec2(0.0);
+
+
+        float totalInfluence =
+          0.0;
+
+
+        float ribbonInfluence =
+          0.0;
+
+
+
+        /* ========================================
+           FOLLOW THE 24-POINT MOUSE PATH
+           ======================================== */
+
+        for (
+          int i = 0;
+          i < 23;
+          i++
+        ) {
+
+          vec2 a =
+            u_points[i];
+
+
+          vec2 b =
+            u_points[i + 1];
+
+
+          a.x *=
+            u_aspect;
+
+
+          b.x *=
+            u_aspect;
+
+
+
+          /* ======================================
+             PATH DIRECTION
+             ====================================== */
+
+          vec2 pathVector =
+            b - a;
+
+
+          float pathLength =
+            length(
+              pathVector
+            );
+
+
+          vec2 tangent =
+            pathVector /
+            max(
+              pathLength,
+              0.0001
+            );
+
+
+          vec2 normal =
+            vec2(
+              -tangent.y,
+              tangent.x
+            );
+
+
+
+          /* ======================================
+             MAIN STREAK DISTANCE
+             ====================================== */
+
+          float along =
+            0.0;
+
+
+          float d =
+            segmentDistance(
+              p,
+              a,
+              b,
+              along
+            );
+
+
+
+          /*
+            Newest parts are strongest.
+          */
+
+          float age =
+            1.0 -
+            (
+              float(i) +
+              along
+            )
+            /
+            23.0;
+
+
+          age =
+            pow(
+              max(
+                age,
+                0.0
+              ),
+              0.72
+            );
+
+
+
+          /* ======================================
+             VELOCITY
+             ====================================== */
+
+          vec2 velocity =
+            u_velocities[i];
+
+
+          velocity.x *=
+            u_aspect;
+
+
+          float velocityLength =
+            length(
+              velocity
+            );
+
+
+          vec2 direction =
+            velocity /
+            max(
+              velocityLength,
+              0.0001
+            );
+
+
+          vec2 perpendicular =
+            vec2(
+              -direction.y,
+              direction.x
+            );
+
+
+
+          /* ======================================
+             MAIN THICK LIQUID STREAK
+             ====================================== */
+
+          /* ======================================
+   LARGE MARBLED CENTER STREAK
+   ====================================== */
+
+/*
+  Bigger center area.
+
+  OLD: 0.095
+  NEW: 0.145
+*/
+
+float mainInfluence =
+  1.0 -
+  smoothstep(
+    0.0,
+    0.145,
+    d
+  );
+
+
+mainInfluence *=
+  age;
+
+
+
+/* ======================================
+   INTERNAL MARBLE CORE
+
+   These create several thin flowing
+   channels INSIDE the large center stroke.
+   ====================================== */
+
+float coreWaveOne =
+  sin(
+    d * 115.0
+    +
+    along * 10.0
+    -
+    float(i) * 0.72
+    +
+    u_time * 0.42
+  );
+
+
+float coreWaveTwo =
+  sin(
+    d * 235.0
+    -
+    along * 16.0
+    +
+    float(i) * 1.15
+    -
+    u_time * 0.31
+  );
+
+
+float coreWaveThree =
+  cos(
+    d * 360.0
+    +
+    along * 21.0
+    -
+    float(i) * 0.91
+    +
+    u_time * 0.22
+  );
+
+
+float coreMarble =
+  0.52
+  +
+  coreWaveOne * 0.23
+  +
+  coreWaveTwo * 0.16
+  +
+  coreWaveThree * 0.09;
+
+
+/*
+  Keep it within a useful range.
+*/
+
+coreMarble =
+  clamp(
+    coreMarble,
+    0.08,
+    1.0
+  );
+
+
+
+/* ======================================
+   SIDE STREAKS
+
+   Push these FARTHER away from the
+   center so they are clearly visible.
+   ====================================== */
+
+float sideWobble =
+  sin(
+    float(i) * 0.73
+    +
+    along * 7.0
+    -
+    u_time * 0.48
+  )
+  *
+  0.012;
+
+
+/*
+  OLD: around 0.042
+  NEW: around 0.105
+
+  This is the big change that gets the
+  side streaks out from under the center.
+*/
+
+float sideOffset =
+  0.105
+  +
+  sideWobble;
+
+
+
+/* ======================================
+   LEFT SIDE STREAK
+   ====================================== */
+
+vec2 aLeft =
+  a
+  +
+  normal *
+  sideOffset;
+
+
+vec2 bLeft =
+  b
+  +
+  normal *
+  sideOffset;
+
+
+
+/* ======================================
+   RIGHT SIDE STREAK
+   ====================================== */
+
+vec2 aRight =
+  a
+  -
+  normal *
+  sideOffset;
+
+
+vec2 bRight =
+  b
+  -
+  normal *
+  sideOffset;
+
+
+
+float alongLeft =
+  0.0;
+
+
+float alongRight =
+  0.0;
+
+
+
+float dLeft =
+  segmentDistance(
+    p,
+    aLeft,
+    bLeft,
+    alongLeft
+  );
+
+
+float dRight =
+  segmentDistance(
+    p,
+    aRight,
+    bRight,
+    alongRight
+  );
+
+
+
+/*
+  Thin, defined side streaks.
+*/
+
+float leftRibbon =
+  1.0 -
+  smoothstep(
+    0.0,
+    0.031,
+    dLeft
+  );
+
+
+float rightRibbon =
+  1.0 -
+  smoothstep(
+    0.0,
+    0.027,
+    dRight
+  );
+
+
+
+/* ======================================
+   SECOND SET OF TINY STREAKS
+   ====================================== */
+
+float outerOffset =
+  0.155
+  +
+  sin(
+    float(i) * 1.18
+    -
+    along * 5.0
+    +
+    u_time * 0.36
+  )
+  *
+  0.012;
+
+
+
+vec2 aOuterLeft =
+  a
+  +
+  normal *
+  outerOffset;
+
+
+vec2 bOuterLeft =
+  b
+  +
+  normal *
+  outerOffset;
+
+
+
+vec2 aOuterRight =
+  a
+  -
+  normal *
+  outerOffset;
+
+
+vec2 bOuterRight =
+  b
+  -
+  normal *
+  outerOffset;
+
+
+
+float alongOuterLeft =
+  0.0;
+
+
+float alongOuterRight =
+  0.0;
+
+
+
+float dOuterLeft =
+  segmentDistance(
+    p,
+    aOuterLeft,
+    bOuterLeft,
+    alongOuterLeft
+  );
+
+
+float dOuterRight =
+  segmentDistance(
+    p,
+    aOuterRight,
+    bOuterRight,
+    alongOuterRight
+  );
+
+
+
+float outerLeft =
+  1.0 -
+  smoothstep(
+    0.0,
+    0.017,
+    dOuterLeft
+  );
+
+
+float outerRight =
+  1.0 -
+  smoothstep(
+    0.0,
+    0.014,
+    dOuterRight
+  );
+
+
+
+/* ======================================
+   BREAK UP THE SIDE STREAKS
+
+   Makes them look like little wisps
+   trailing beside the big liquid stroke.
+   ====================================== */
+
+float sideTexture =
+  0.70
+  +
+  0.30 *
+  sin(
+    along * 22.0
+    +
+    float(i) * 1.7
+    -
+    u_time * 0.8
+  );
+
+
+
+float sideInfluence =
+  (
+    leftRibbon * 1.10
+    +
+    rightRibbon * 0.95
+    +
+    outerLeft * 0.72
+    +
+    outerRight * 0.60
+  )
+  *
+  sideTexture
+  *
+  age;
+          /* ======================================
+             MARBLE VEINS
+             ====================================== */
+
+          float marbleOne =
+            sin(
+              d * 150.0
+              +
+              along * 8.0
+              -
+              float(i) * 0.82
+              +
+              u_time * 0.48
+            );
+
+
+          float marbleTwo =
+            sin(
+              d * 285.0
+              -
+              along * 13.0
+              +
+              float(i) * 1.27
+              -
+              u_time * 0.31
+            );
+
+
+          float marbleThree =
+            cos(
+              d * 72.0
+              +
+              along * 17.0
+              +
+              float(i) * 0.43
+              +
+              u_time * 0.22
+            );
+
+
+
+          float marble =
+            0.50
+            +
+            marbleOne * 0.24
+            +
+            marbleTwo * 0.15
+            +
+            marbleThree * 0.11;
+
+
+
+          /* ======================================
+             LIQUID EDDIES
+             ====================================== */
+
+          float eddy =
+            sin(
+              along * 10.0
+              +
+              float(i) * 0.65
+              -
+              u_time * 0.38
+            );
+
+
+          float crossEddy =
+            cos(
+              d * 58.0
+              -
+              float(i) * 0.51
+              +
+              u_time * 0.29
+            );
+
+
+
+          /* ======================================
+             MAIN DRAG
+             ====================================== */
+
+vec2 drag =
+  -direction
+  *
+  mainInfluence
+  *
+  (
+    0.018
+    +
+    velocityLength * 1.05
+  )
+  *
+  (
+    0.40
+    +
+    marble * 0.45
+    +
+    coreMarble * 0.95
+  );
+
+
+
+          /* ======================================
+             MAIN SWIRL
+             ====================================== */
+
+vec2 swirl =
+  perpendicular
+  *
+  mainInfluence
+  *
+  (
+    eddy * 0.017
+    +
+    crossEddy * 0.011
+    +
+    coreMarble * 0.010
+    +
+    velocityLength *
+    0.38 *
+    eddy
+  );
+
+
+
+          /* ======================================
+             SIDE-STREAK DRAG
+             ====================================== */
+
+          vec2 sideDrag =
+            -direction
+            *
+            sideInfluence
+            *
+            (
+              0.008
+              +
+              velocityLength * 0.58
+            );
+
+
+
+          /*
+            Give the little side strands
+            their own curl.
+          */
+
+          vec2 sideCurl =
+            perpendicular
+            *
+            sideInfluence
+            *
+            (
+              0.0045
+              *
+              sin(
+                along * 15.0
+                +
+                float(i)
+                -
+                u_time * 0.55
+              )
+            );
+
+
+
+          displacement +=
+            drag
+            +
+            swirl
+            +
+            sideDrag
+            +
+            sideCurl;
+
+
+
+          totalInfluence +=
+            mainInfluence;
+
+
+          ribbonInfluence +=
+            sideInfluence;
+
+        }
+
+
+
+        /* ========================================
+           LARGE LIQUID WARP
+
+           Prevents the streaks from feeling
+           perfectly mechanical.
+           ======================================== */
+
+        float liquidWarp =
+          sin(
+            uv.x * 24.0
+            +
+            uv.y * 17.0
+            +
+            u_time * 0.34
+          )
+          *
+          sin(
+            uv.y * 31.0
+            -
+            uv.x * 11.0
+            -
+            u_time * 0.27
+          );
+
+
+
+        vec2 liquidNormal =
+          vec2(
+            -displacement.y,
+            displacement.x
+          );
+
+
+
+        displacement +=
+          liquidNormal
+          *
+          liquidWarp
+          *
+          clamp(
+            totalInfluence *
+            0.0035,
+            0.0,
+            0.018
+          );
+
+
+
+        /* ========================================
+           LIMIT DISPLACEMENT
+           ======================================== */
+
+        displacement =
+          clamp(
+            displacement,
+            vec2(-0.15),
+            vec2(0.15)
+          );
+
+
+        displacement.x /=
+          u_aspect;
+
+
+
+        /* ========================================
+           PRIMARY LIQUID IMAGE
+           ======================================== */
+
+        vec2 distortedUV =
+          uv
+          +
+          displacement *
+          u_energy;
+
+
+
+        vec4 base =
+          texture2D(
+            u_image,
+            coverImage(
+              distortedUV
+            )
+          );
+
+
+
+        /* ========================================
+           MULTIPLE MARBLE SAMPLES
+
+           These stretch the actual colors
+           from your photograph into the streak.
+           ======================================== */
+
+        vec3 sampleNear =
+          texture2D(
+            u_image,
+            coverImage(
+              uv
+              +
+              displacement *
+              0.46 *
+              u_energy
+            )
+          ).rgb;
+
+
+
+        vec3 sampleMid =
+          texture2D(
+            u_image,
+            coverImage(
+              uv
+              +
+              displacement *
+              0.92 *
+              u_energy
+            )
+          ).rgb;
+
+
+
+        vec3 sampleFar =
+          texture2D(
+            u_image,
+            coverImage(
+              uv
+              +
+              displacement *
+              1.55 *
+              u_energy
+            )
+          ).rgb;
+
+
+
+        vec3 sampleReverse =
+          texture2D(
+            u_image,
+            coverImage(
+              uv
+              -
+              displacement *
+              0.48 *
+              u_energy
+            )
+          ).rgb;
+
+
+
+        float marbleAmount =
+          clamp(
+            (
+              totalInfluence * 0.085
+              +
+              ribbonInfluence * 0.075
+            )
+            *
+            u_energy,
+            0.0,
+            0.78
+          );
+
+
+
+        vec3 color =
+          base.rgb;
+
+
+
+        color =
+          mix(
+            color,
+            sampleNear,
+            marbleAmount * 0.30
+          );
+
+
+        color =
+          mix(
+            color,
+            sampleMid,
+            marbleAmount * 0.28
+          );
+
+
+        color =
+          mix(
+            color,
+            sampleFar,
+            marbleAmount * 0.22
+          );
+
+
+        color =
+          mix(
+            color,
+            sampleReverse,
+            marbleAmount * 0.16
+          );
+
+
+
+        /* ========================================
+           SUBTLE WET COLOR SEPARATION
+
+           Much smaller than Film + Photo.
+           ======================================== */
+
+        vec2 shiftDirection =
+          normalize(
+            displacement
+            +
+            vec2(
+              0.00001,
+              0.0
+            )
+          );
+
+
+
+        float edgeShift =
+          clamp(
+            (
+              totalInfluence
+              +
+              ribbonInfluence
+            )
+            *
+            0.00042
+            *
+            u_energy,
+            0.0,
+            0.0045
+          );
+
+
+
+        float red =
+          texture2D(
+            u_image,
+            coverImage(
+              distortedUV
+              +
+              shiftDirection *
+              edgeShift
+            )
+          ).r;
+
+
+
+        float blue =
+          texture2D(
+            u_image,
+            coverImage(
+              distortedUV
+              -
+              shiftDirection *
+              edgeShift
+            )
+          ).b;
+
+
+
+        color.r =
+          mix(
+            color.r,
+            red,
+            marbleAmount * 0.28
+          );
+
+
+        color.b =
+          mix(
+            color.b,
+            blue,
+            marbleAmount * 0.28
+          );
+
+
+
+        gl_FragColor =
+          vec4(
+            color,
+            1.0
+          );
+
+      }
+
+    `;
+
+
+
+    /* =========================================
+       CREATE SHADER
+       ========================================= */
+
+    function createShader(
+      type,
+      source
+    ) {
+
+      const shader =
+        gl.createShader(type);
+
+
+      gl.shaderSource(
+        shader,
+        source
+      );
+
+
+      gl.compileShader(
+        shader
+      );
+
+
+      if (
+        !gl.getShaderParameter(
+          shader,
+          gl.COMPILE_STATUS
+        )
+      ) {
+
+        console.error(
+          gl.getShaderInfoLog(
+            shader
+          )
+        );
+
+      }
+
+
+      return shader;
+
+    }
+
+
+
+    const vertexShader =
+      createShader(
+        gl.VERTEX_SHADER,
+        vertexShaderSource
+      );
+
+
+    const fragmentShader =
+      createShader(
+        gl.FRAGMENT_SHADER,
+        fragmentShaderSource
+      );
+
+
+
+    /* =========================================
+       PROGRAM
+       ========================================= */
+
+    const program =
+      gl.createProgram();
+
+
+    gl.attachShader(
+      program,
+      vertexShader
+    );
+
+
+    gl.attachShader(
+      program,
+      fragmentShader
+    );
+
+
+    gl.linkProgram(
+      program
+    );
+
+
+    if (
+      !gl.getProgramParameter(
+        program,
+        gl.LINK_STATUS
+      )
+    ) {
+
+      console.error(
+        gl.getProgramInfoLog(
+          program
+        )
+      );
+
+    }
+
+
+    gl.useProgram(
+      program
+    );
+
+
+
+    /* =========================================
+       RECTANGLE
+       ========================================= */
+
+    const positions =
+      new Float32Array([
+
+        -1, -1,
+         1, -1,
+        -1,  1,
+
+        -1,  1,
+         1, -1,
+         1,  1
+
+      ]);
+
+
+
+    const texCoords =
+      new Float32Array([
+
+        0, 1,
+        1, 1,
+        0, 0,
+
+        0, 0,
+        1, 1,
+        1, 0
+
+      ]);
+
+
+
+    /* =========================================
+       POSITION BUFFER
+       ========================================= */
+
+    const positionBuffer =
+      gl.createBuffer();
+
+
+    gl.bindBuffer(
+      gl.ARRAY_BUFFER,
+      positionBuffer
+    );
+
+
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      positions,
+      gl.STATIC_DRAW
+    );
+
+
+    const positionLocation =
+      gl.getAttribLocation(
+        program,
+        "a_position"
+      );
+
+
+    gl.enableVertexAttribArray(
+      positionLocation
+    );
+
+
+    gl.vertexAttribPointer(
+      positionLocation,
+      2,
+      gl.FLOAT,
+      false,
+      0,
+      0
+    );
+
+
+
+    /* =========================================
+       TEXTURE COORDINATES
+       ========================================= */
+
+    const texCoordBuffer =
+      gl.createBuffer();
+
+
+    gl.bindBuffer(
+      gl.ARRAY_BUFFER,
+      texCoordBuffer
+    );
+
+
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      texCoords,
+      gl.STATIC_DRAW
+    );
+
+
+    const texCoordLocation =
+      gl.getAttribLocation(
+        program,
+        "a_texCoord"
+      );
+
+
+    gl.enableVertexAttribArray(
+      texCoordLocation
+    );
+
+
+    gl.vertexAttribPointer(
+      texCoordLocation,
+      2,
+      gl.FLOAT,
+      false,
+      0,
+      0
+    );
+
+
+
+    /* =========================================
+       UNIFORMS
+       ========================================= */
+
+    const aspectLocation =
+      gl.getUniformLocation(
+        program,
+        "u_aspect"
+      );
+
+
+    const imageAspectLocation =
+      gl.getUniformLocation(
+        program,
+        "u_imageAspect"
+      );
+
+
+    const timeLocation =
+      gl.getUniformLocation(
+        program,
+        "u_time"
+      );
+
+
+    const pointsLocation =
+      gl.getUniformLocation(
+        program,
+        "u_points[0]"
+      );
+
+
+    const velocitiesLocation =
+      gl.getUniformLocation(
+        program,
+        "u_velocities[0]"
+      );
+
+
+    const energyLocation =
+      gl.getUniformLocation(
+        program,
+        "u_energy"
+      );
+
+
+
+    /* =========================================
+       IMAGE
+       ========================================= */
+
+    const texture =
+      gl.createTexture();
+
+
+    gl.bindTexture(
+      gl.TEXTURE_2D,
+      texture
+    );
+
+
+    gl.texParameteri(
+      gl.TEXTURE_2D,
+      gl.TEXTURE_WRAP_S,
+      gl.CLAMP_TO_EDGE
+    );
+
+
+    gl.texParameteri(
+      gl.TEXTURE_2D,
+      gl.TEXTURE_WRAP_T,
+      gl.CLAMP_TO_EDGE
+    );
+
+
+    gl.texParameteri(
+      gl.TEXTURE_2D,
+      gl.TEXTURE_MIN_FILTER,
+      gl.LINEAR
+    );
+
+
+    gl.texParameteri(
+      gl.TEXTURE_2D,
+      gl.TEXTURE_MAG_FILTER,
+      gl.LINEAR
+    );
+
+
+
+    const image =
+      new Image();
+
+
+    image.src =
+      "./art-twist.jpeg";
+
+
+    let imageLoaded =
+      false;
+
+
+
+    image.onload =
+      () => {
+
+
+        gl.bindTexture(
+          gl.TEXTURE_2D,
+          texture
+        );
+
+
+        gl.pixelStorei(
+          gl.UNPACK_FLIP_Y_WEBGL,
+          false
+        );
+
+
+        gl.texImage2D(
+          gl.TEXTURE_2D,
+          0,
+          gl.RGBA,
+          gl.RGBA,
+          gl.UNSIGNED_BYTE,
+          image
+        );
+
+
+        imageLoaded =
+          true;
+
+
+        resize();
+
+      };
+
+
+
+    /* =========================================
+       MOUSE TRAIL
+       ========================================= */
+
+    const POINT_COUNT =
+      24;
+
+
+
+    const points =
+      Array.from(
+        {
+          length:
+            POINT_COUNT
+        },
+        () => ({
+          x: 0.5,
+          y: 0.5
+        })
+      );
+
+
+
+    const velocities =
+      Array.from(
+        {
+          length:
+            POINT_COUNT
+        },
+        () => ({
+          x: 0.0,
+          y: 0.0
+        })
+      );
+
+
+
+    const pointData =
+      new Float32Array(
+        POINT_COUNT * 2
+      );
+
+
+    const velocityData =
+      new Float32Array(
+        POINT_COUNT * 2
+      );
+
+
+
+    let targetX =
+      0.5;
+
+
+    let targetY =
+      0.5;
+
+
+    let mouseX =
+      0.5;
+
+
+    let mouseY =
+      0.5;
+
+
+    let lastStoredX =
+      0.5;
+
+
+    let lastStoredY =
+      0.5;
+
+
+    let energy =
+      0;
+
+
+    let targetEnergy =
+      0;
+
+
+    let inside =
+      false;
+
+
+
+    /* =========================================
+       MOUSE MOVE
+       ========================================= */
+
+    canvas.addEventListener(
+
+      "mousemove",
+
+      (event) => {
+
+
+        const rect =
+          canvas.getBoundingClientRect();
+
+
+
+        targetX =
+          (
+            event.clientX -
+            rect.left
+          )
+          /
+          rect.width;
+
+
+
+        targetY =
+          (
+            event.clientY -
+            rect.top
+          )
+          /
+          rect.height;
+
+
+
+        inside =
+          true;
+
+      }
+
+    );
+
+
+
+    canvas.addEventListener(
+
+      "mouseenter",
+
+      () => {
+
+        inside =
+          true;
+
+      }
+
+    );
+
+
+
+    canvas.addEventListener(
+
+      "mouseleave",
+
+      () => {
+
+        inside =
+          false;
+
+      }
+
+    );
+
+
+
+    /* =========================================
+       STORE MOUSE PATH
+       ========================================= */
+
+    function updateTrail() {
+
+
+      const dx =
+        mouseX -
+        lastStoredX;
+
+
+      const dy =
+        mouseY -
+        lastStoredY;
+
+
+
+      const distance =
+        Math.sqrt(
+          dx * dx +
+          dy * dy
+        );
+
+
+
+      /*
+        Only add a point once the mouse
+        has moved enough.
+
+        Smaller number =
+        denser/smoother trail.
+      */
+
+      if (
+        distance >
+        0.005
+      ) {
+
+
+        for (
+          let i =
+            POINT_COUNT - 1;
+          i > 0;
+          i--
+        ) {
+
+
+          points[i].x =
+            points[i - 1].x;
+
+
+          points[i].y =
+            points[i - 1].y;
+
+
+
+          velocities[i].x =
+            velocities[i - 1].x;
+
+
+          velocities[i].y =
+            velocities[i - 1].y;
+
+        }
+
+
+
+        points[0].x =
+          mouseX;
+
+
+        points[0].y =
+          mouseY;
+
+
+
+        velocities[0].x =
+          dx;
+
+
+        velocities[0].y =
+          dy;
+
+
+
+        lastStoredX =
+          mouseX;
+
+
+        lastStoredY =
+          mouseY;
+
+
+
+        /*
+          Moving builds liquid energy.
+        */
+
+        targetEnergy =
+          Math.min(
+            targetEnergy
+            +
+            distance * 8.5,
+            1.0
+          );
+
+      }
+
+    }
+
+
+
+    /* =========================================
+       RESIZE
+       ========================================= */
+
+    function resize() {
+
+
+      const rect =
+        canvas.getBoundingClientRect();
+
+
+
+      const pixelRatio =
+        Math.min(
+          window.devicePixelRatio,
+          2
+        );
+
+
+
+      canvas.width =
+        Math.round(
+          rect.width *
+          pixelRatio
+        );
+
+
+      canvas.height =
+        Math.round(
+          rect.height *
+          pixelRatio
+        );
+
+
+
+      gl.viewport(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+    }
+
+
+
+    window.addEventListener(
+      "resize",
+      resize
+    );
+
+
+
+    /* =========================================
+       ANIMATION
+       ========================================= */
+
+    const startTime =
+      performance.now();
+
+
+
+    function animate() {
+
+
+      requestAnimationFrame(
+        animate
+      );
+
+
+      if (!imageLoaded) {
+
+        return;
+
+      }
+
+
+
+      /* =========================================
+         SMOOTH MOUSE
+         ========================================= */
+
+      mouseX +=
+        (
+          targetX -
+          mouseX
+        )
+        *
+        0.11;
+
+
+      mouseY +=
+        (
+          targetY -
+          mouseY
+        )
+        *
+        0.11;
+
+
+
+      updateTrail();
+
+
+
+      /* =========================================
+         LIQUID ENERGY
+         ========================================= */
+
+      energy +=
+        (
+          targetEnergy -
+          energy
+        )
+        *
+        0.11;
+
+
+
+      /*
+        Slow fade gives the streaks time
+        to remain visible behind you.
+      */
+
+      targetEnergy *=
+        0.988;
+
+
+
+      if (!inside) {
+
+        targetEnergy *=
+          0.97;
+
+      }
+
+
+
+      /* =========================================
+         RELAX OLD VELOCITY
+         ========================================= */
+
+      for (
+        let i = 0;
+        i < POINT_COUNT;
+        i++
+      ) {
+
+
+        velocities[i].x *=
+          0.996;
+
+
+        velocities[i].y *=
+          0.996;
+
+
+
+        pointData[
+          i * 2
+        ] =
+          points[i].x;
+
+
+        pointData[
+          i * 2 + 1
+        ] =
+          points[i].y;
+
+
+
+        velocityData[
+          i * 2
+        ] =
+          velocities[i].x;
+
+
+        velocityData[
+          i * 2 + 1
+        ] =
+          velocities[i].y;
+
+      }
+
+
+
+      /* =========================================
+         TIME
+         ========================================= */
+
+      const elapsedTime =
+        (
+          performance.now() -
+          startTime
+        )
+        /
+        1000;
+
+
+
+      /* =========================================
+         SEND VALUES TO SHADER
+         ========================================= */
+
+      gl.uniform1f(
+        timeLocation,
+        elapsedTime
+      );
+
+
+      gl.uniform1f(
+        aspectLocation,
+        canvas.width /
+        canvas.height
+      );
+
+
+      gl.uniform1f(
+        imageAspectLocation,
+        image.width /
+        image.height
+      );
+
+
+      gl.uniform2fv(
+        pointsLocation,
+        pointData
+      );
+
+
+      gl.uniform2fv(
+        velocitiesLocation,
+        velocityData
+      );
+
+
+      gl.uniform1f(
+        energyLocation,
+        energy
+      );
+
+
+
+      /* =========================================
+         DRAW
+         ========================================= */
+
+      gl.drawArrays(
+        gl.TRIANGLES,
+        0,
+        6
+      );
+
+    }
+
+
+
+    animate();
+
+  </script>
+</body>
+</html>
